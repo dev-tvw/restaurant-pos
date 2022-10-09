@@ -1,6 +1,8 @@
 <?php
 
 // Controllers
+
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
@@ -40,6 +42,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
 
     // Dashboard Routes
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::resource('categories', CategoryController::class);
 
     // Users Module
     Route::resource('users', UserController::class);
