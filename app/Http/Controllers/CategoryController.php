@@ -27,7 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::where('category_id', 0)->get();
+        return view('categories.create', compact('categories'));
     }
 
     /**
@@ -38,7 +39,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image' => 'required'
+        ]);
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('uploads/categories'), $filename);
+            $data['image']= $filename;
+        }
+        Category::create([
+            'name' => $request->name,
+            'image' => $filename,
+            'category_id' => $request->parent_id ? $request->parent_id : 0
+        ]);
+        return redirect()->route('categories.index')->with('success', 'Category added successfully');
     }
 
     /**

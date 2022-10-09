@@ -28,4 +28,12 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get the products for the category.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

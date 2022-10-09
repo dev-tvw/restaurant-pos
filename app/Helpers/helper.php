@@ -1,4 +1,8 @@
 <?php
+function dateformat($date)
+{
+    return date('d-m-Y', strtotime($date));
+}
 function removeSession($session){
     if(\Session::has($session)){
         \Session::forget($session);
