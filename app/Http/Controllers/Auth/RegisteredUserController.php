@@ -41,8 +41,7 @@ class RegisteredUserController extends Controller
             ->mixedCase()
             ->letters()
             ->numbers()
-            ->symbols()
-            ->uncompromised()],
+            ->symbols()],
         ]);
 
         Auth::login($user = User::create([
@@ -52,7 +51,7 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => 'user'
+            'user_type' => 'admin'
         ]));
 
         $user->assignRole('user');
