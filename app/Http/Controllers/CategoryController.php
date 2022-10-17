@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Language;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -27,8 +28,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $languages = Language::all();
         $categories = Category::where('category_id', 0)->get();
-        return view('categories.create', compact('categories'));
+        return view('categories.create', compact('categories', 'languages'));
     }
 
     /**
@@ -43,11 +45,11 @@ class CategoryController extends Controller
             'name' => 'required',
             'image' => 'required'
         ]);
-        if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
             $file->move(public_path('uploads/categories'), $filename);
-            $data['image']= $filename;
+            $data['image'] = $filename;
         }
         Category::create([
             'name' => $request->name,
