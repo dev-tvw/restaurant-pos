@@ -42,6 +42,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'name_ar' => 'required',
             'category_id' => 'required',
             'image' => 'required'
         ]);
@@ -53,7 +54,9 @@ class ProductController extends Controller
         }
         Product::create([
             'name' => $request->name,
+            'name_ar' => $request->name_ar,
             'description' => $request->description,
+            'description_ar' => $request->description_ar,
             'image' => $filename,
             'category_id' => $request->category_id
         ]);
@@ -79,7 +82,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -91,7 +95,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'name_ar' => 'required',
+            'category_id' => 'required',
+        ]);
+        $filename = $product->image;
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('uploads/products'), $filename);
+            $data['image']= $filename;
+        }
+        $product->update([
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
+            'description' => $request->description,
+            'description_ar' => $request->description_ar,
+            'image' => $filename,
+            'category_id' => $request->category_id
+        ]);
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     /**
@@ -103,5 +127,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function pos()
+    {
+        return view('pos.index');
     }
 }

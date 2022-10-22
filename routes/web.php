@@ -44,6 +44,8 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
 
     // Dashboard Routes
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
+
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('languages', LanguageController::class);

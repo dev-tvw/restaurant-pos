@@ -43,6 +43,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'name_ar' => 'required',
             'image' => 'required'
         ]);
         if ($request->file('image')) {
@@ -53,8 +54,9 @@ class CategoryController extends Controller
         }
         Category::create([
             'name' => $request->name,
+            'name_ar' => $request->name_ar,
             'image' => $filename,
-            'category_id' => $request->parent_id ? $request->parent_id : 0
+            'category_id' => $request->parent_category ? $request->parent_category : 0
         ]);
         return redirect()->route('categories.index')->with('success', 'Category added successfully');
     }
@@ -78,7 +80,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $languages = Language::all();
+        $categories = Category::where('id', '!=', $category->id)->get();
+        return view('categories.edit', compact('categories', 'category', 'languages'));
     }
 
     /**
@@ -90,7 +94,24 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'name_ar' => 'required',
+        ]);
+        $filename = $category->image;
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('uploads/categories'), $filename);
+            $data['image'] = $filename;
+        }
+        $category->update([
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
+            'image' => $filename,
+            'category_id' => $request->parent_category ? $request->parent_category : 0
+        ]);
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully');
     }
 
     /**

@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'image', 'category_id', 'created_at', 'updated_at'
+        'name', 'name_ar', 'image', 'category_id', 'created_at', 'updated_at'
     ];
 
     /**
@@ -18,7 +18,7 @@ class Category extends Model
      */
     public function sub_categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class, 'category_id', 'id');
     }
 
     /**
@@ -26,7 +26,7 @@ class Category extends Model
      */
     public function parent_category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     /**
