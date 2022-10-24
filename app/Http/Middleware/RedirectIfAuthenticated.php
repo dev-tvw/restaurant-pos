@@ -23,7 +23,19 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $role = Auth::user()->user_type;
+                switch ($role) {
+                    case 'kitchen':
+                        return redirect('/pos');
+                        break;
+                    case 'cashier':
+                        return redirect('/pos');
+                        break;
+                    default:
+                        return redirect('/');
+                        break;
+                }
+                // return redirect(RouteServiceProvider::HOME);
             }
         }
 

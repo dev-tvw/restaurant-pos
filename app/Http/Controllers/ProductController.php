@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\View;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -131,6 +135,163 @@ class ProductController extends Controller
 
     public function pos()
     {
-        return view('pos.index');
+        $customers = Customer::orderby('created_at', 'asc')->get();
+        $cart = Cart::where('status', '!=', 0)->where('customer_id', 1)->first();
+        $products = Product::paginate(20);
+        $categories = Category::all();
+        return view('pos.index', compact('customers', 'cart', 'categories', 'products'));
+    }
+
+    public function kitchen()
+    {
+        return view('kitchen.index');
+    }
+
+    public function submitCart($cutomer_id, $product_id)
+    {
+        $product = Product::where('id', $product_id)->first();
+        $cart = Cart::where('customer_id', $cutomer_id)->where('status', '!=', 0)->first();
+        if (!$cart) {
+            $cart = Cart::create([
+                'customer_id' => $cutomer_id,
+                'status' => 1
+            ]);
+        }
+        $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product_id)->first();
+        if ($cartItem) {
+            $cartItem->quantity += 1;
+            $cartItem->save();
+        } else {
+            $cartItem = CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $product_id,
+                'quantity' => 1,
+                'price' => $product->price
+            ]);
+        }
+        return View::make('pos/cartAjax')->with('cart', $cart);
+        // return response()->json([
+        //     'success' => true,
+        //     'status' => 200,
+        //     'message' => 'Cart submitted successfully',
+        // ]);
+    }
+
+    public function getCart($customer_id)
+    {
+        $cart = Cart::where('customer_id', $customer_id)->where('status', '!=', 0)->whereHas('cartItems')->first();
+        if ($cart) {
+            return View::make('pos/cartAjax')->with('cart', $cart);
+        } else {
+            return View::make('pos/cartAjax')->with('cart', []);
+        }
+    }
+
+    public function updateCartItem(Request $request)
+    {
+        $cartItem = CartItem::where('id', $request->cart_item_id)->first();
+        if ($cartItem) {
+            $cartItem->update([
+                'quantity' => $request->quantity
+            ]);
+            return response()->json([
+                'success' => true,
+                'status' => 200,
+                'message' => 'Cart updated successfully',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'status' => 500,
+                'message' => 'Cart Item not found',
+            ]);
+        }
+    }
+
+    public function removeCartItem(Request $request)
+    {
+        $cartItem = CartItem::where('id', $request->cart_item_id)->first();
+        if ($cartItem) {
+            $cart = $cartItem->cart;
+            if (count($cart->cartItems) < 2) {
+                $cart->delete();
+            }
+            $cartItem->delete();
+            return response()->json([
+                'success' => true,
+                'status' => 200,
+                'message' => 'Cart Item deleted successfully',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'status' => 500,
+                'message' => 'Cart Item not found',
+            ]);
+        }
+    }
+
+    public function submitOrder(Request $request)
+    {
+        $cart = Cart::where('id', $request->cart_id)->where('status', '!=', 0)->first();
+        if ($cart) {
+            if (count($cart->cartItems)) {
+                $order_code = $this->generateKey();
+                $new_order = Order::create([
+                    'cart_id' => $cart->id,
+                    'order_code' => $order_code,
+                    'customer_id' => $cart->customer_id,
+                    'item_count' => count($cart->cartItems),
+                    'grand_total' => 0,
+                    'status' => 1
+                ]);
+                $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
+                    $grand = 0;
+                    $grand += $cartItem->product->price * $cartItem->quantity;
+                    $new_order->grand_total = $grand;
+                    $new_order->save();
+                });
+                $cart->status = 0;
+                $cart->save();
+                return response()->json([
+                    'success' => true,
+                    'status' => 200,
+                    'message' => 'Order submitted successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'status' => 500,
+                    'message' => 'Cart has no Items',
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => true,
+                'status' => 500,
+                'message' => 'Cart not found',
+            ]);
+        }
+    }
+
+    function generateKey()
+    {
+        $rand = strtoupper(substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6));
+        // $rand = random_int(100000, 999999);
+        if (!$this->validOrder($rand)) {
+            $this->generateKey();
+        } else {
+            return $rand;
+        }
+    }
+
+    function validOrder($key)
+    {
+        $rand = Order::where('order_code', $key)->first();
+        if ($rand) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

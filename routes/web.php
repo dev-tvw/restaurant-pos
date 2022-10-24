@@ -10,6 +10,8 @@ use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\UserController;
+use App\Models\Customer;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 // Packages
 use Illuminate\Support\Facades\Route;
@@ -43,9 +45,23 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::resource('role', RoleController::class);
 
     // Dashboard Routes
+    Route::get('/change-lang/{locale}', function ($locale) {
+        if (! in_array($locale, ['en', 'ar'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+        return redirect()->back();
+     
+        //
+    })->name('changeLang');
+    
+    Route::get('/add-to-customer-cart/{customer_id}/{product_id}', [ProductController::class, 'submitCart'])->name('submitCart');
+    Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
+    Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
 
+    Route::resource('customers', Customer::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('languages', LanguageController::class);

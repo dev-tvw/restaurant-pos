@@ -12,4 +12,12 @@ class Customer extends Model
     protected $fillable = [
         'name', 'mobile', 'email', 'state', 'city', 'zip_code', 'address', 'created_at', 'updated_at'
     ];
+
+    /**
+     * Get the Orders for the category.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
