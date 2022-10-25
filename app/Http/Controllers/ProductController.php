@@ -50,11 +50,11 @@ class ProductController extends Controller
             'category_id' => 'required',
             'image' => 'required'
         ]);
-        if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
             $file->move(public_path('uploads/products'), $filename);
-            $data['image']= $filename;
+            $data['image'] = $filename;
         }
         Product::create([
             'name' => $request->name,
@@ -105,11 +105,11 @@ class ProductController extends Controller
             'category_id' => 'required',
         ]);
         $filename = $product->image;
-        if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
             $file->move(public_path('uploads/products'), $filename);
-            $data['image']= $filename;
+            $data['image'] = $filename;
         }
         $product->update([
             'name' => $request->name,
@@ -147,7 +147,7 @@ class ProductController extends Controller
         return view('kitchen.index');
     }
 
-    public function submitCart($cutomer_id, $product_id)
+    public function submitCart($cutomer_id, $product_id, $quantity, $type)
     {
         $product = Product::where('id', $product_id)->first();
         $cart = Cart::where('customer_id', $cutomer_id)->where('status', '!=', 0)->first();
@@ -159,13 +159,16 @@ class ProductController extends Controller
         }
         $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product_id)->first();
         if ($cartItem) {
-            $cartItem->quantity += 1;
+            if ($type == 'add')
+                $cartItem->quantity += $quantity;
+            else
+                $cartItem->quantity = $quantity;
             $cartItem->save();
         } else {
             $cartItem = CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $product_id,
-                'quantity' => 1,
+                'quantity' => $quantity,
                 'price' => $product->price
             ]);
         }
@@ -208,27 +211,33 @@ class ProductController extends Controller
         }
     }
 
-    public function removeCartItem(Request $request)
+    public function removeCartItem($cart_item_id)
     {
-        $cartItem = CartItem::where('id', $request->cart_item_id)->first();
+        $cartItem = CartItem::where('id', $cart_item_id)->first();
         if ($cartItem) {
             $cart = $cartItem->cart;
             if (count($cart->cartItems) < 2) {
                 $cart->delete();
+                $cartItem->delete();
+                return View::make('pos/cartAjax')->with('cart', []);
+            } else {
+                $cartItem->delete();
+                $cart = Cart::where('id', $cart->id)->first();
+                return View::make('pos/cartAjax')->with('cart', $cart);
             }
-            $cartItem->delete();
-            return response()->json([
-                'success' => true,
-                'status' => 200,
-                'message' => 'Cart Item deleted successfully',
-            ]);
         } else {
-            return response()->json([
-                'success' => true,
-                'status' => 500,
-                'message' => 'Cart Item not found',
-            ]);
+            return View::make('pos/cartAjax')->with('cart', []);
         }
+    }
+
+    public function removeCart($cart_id)
+    {
+        $cart = Cart::where('id', $cart_id)->first();
+        if ($cart) {
+            CartItem::where('cart_id', $cart->id)->delete();
+            $cart->delete();
+        }
+        return View::make('pos/cartAjax')->with('cart', []);
     }
 
     public function submitOrder(Request $request)

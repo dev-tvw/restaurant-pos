@@ -21,13 +21,17 @@
             <h6 class="text-hover-primary mb-0" style="padding-left: 7px; padding-top: 5px;">{{$item->product->name}}</h6>
         </div>
         <div class="col-md-3">
-            <input type="number" data-key="0" class="style-two-cart qty-width w-100" value="{{$item->quantity}}" min="1">
+            <input type="number" product-id="{{$item->product->id}}" id="quantity" data-key="0" class="quantity style-two-cart qty-width w-100" value="{{$item->quantity}}" min="1">
         </div>
         <div class="col-md-3">
             {{$item->quantity * $item->price}} IQD
         </div>
         <div class="col-md-3">
-            <a class="btn btn-sm btn-outline-danger" onclick="deleteItem('{{$item->id}}')"> <i class="tio-delete-outlined"></i></a>
+            <a class="btn btn-sm btn-outline-danger" onclick="removeCartItem('{{$item->id}}')"><svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+                    <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg></a>
         </div>
     </div>
     @endforeach
@@ -61,15 +65,17 @@
             IQD
         </dd>
     </dl>
+    @if(isset($cart) && isset($cart->id))
     <div class="row">
         <div class="col-6 mt-2">
-            <a href="#" class="btn w-100 btn-danger btn-sm btn-block" onclick="emptyCart()"><i class="fa fa-times-circle "></i> Cancel </a>
+            <a class="btn w-100 btn-danger btn-sm btn-block" onclick="removeCart('{{$cart->id}}')"><i class="fa fa-times-circle "></i> Cancel </a>
         </div>
         <div class="col-6 mt-2">
             <button onclick="submit_order();" type="button" class="btn w-100 btn-primary btn-sm btn-block"><i class="fa fa-shopping-bag"></i>
                 Order </button>
         </div>
     </div>
+    @endif
 </div>
 
 <div class="modal fade" id="add-customer" tabindex="-1">
@@ -144,3 +150,22 @@
     </div>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $(".quantity").bind('keyup mouseup', function() {
+            if ($(this).val() > 0) {
+                addToCart($(this).attr('product-id'), $(this).val(), 'update');
+            }
+        });
+        // $(".quantity").on('keyup', function() {
+        //     alert('here');
+        //     if ($(this).val() > 0) {
+        //         alert('here' + $(this).val());
+        //     }
+        // });
+        // ajaxRequest($('#customer-id').val(), $(this).attr('product-id'));
+
+    });
+</script>

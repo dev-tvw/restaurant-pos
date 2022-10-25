@@ -55,8 +55,10 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
         //
     })->name('changeLang');
     
-    Route::get('/add-to-customer-cart/{customer_id}/{product_id}', [ProductController::class, 'submitCart'])->name('submitCart');
+    Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
+    Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
+    Route::get('/remove-cart-item/{cart_item_id}', [ProductController::class, 'removeCartItem'])->name('removeCartItem');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');

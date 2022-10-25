@@ -5,11 +5,11 @@
         <section class="section-content padding-y-sm bg-default mt-1">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8 padding-y-sm mt-2">
+                    <div class="col-lg-8 padding-y-sm mt-2">
                         <div class="card pr-1 pl-1">
                             <div class="card-header pr-0 pl-0">
                                 <div class="row w-100">
-                                    <!-- <div class="col-md-6 col-12 mt-2">
+                                    <!-- <div class="col-lg-6 col-12 mt-2">
                                         <form class="header-item">
 
                                             <div class="input-group-overlay input-group-merge input-group-flush w-i3">
@@ -26,7 +26,7 @@
 
                                         </form>
                                     </div> -->
-                                    <div class="col-md-6 col-12 mt-2">
+                                    <div class="col-lg-6 col-12 mt-2">
                                         <div class="input-group form-group header-item w-100">
                                             <select name="category" id="category" class="form-control js-select2-custom mx-1 select2-hidden-accessible" title="select category" onchange="set_category_filter(this.value)" data-select2-id="category" tabindex="-1" aria-hidden="true">
                                                 <option value="all">All categories</option>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 padding-y-sm mt-2">
+                    <div class="col-lg-4 padding-y-sm mt-2">
                         <div class="card p-3">
                             <div class="row mt-2">
                                 <div class="form-group mt-1 col-12 w-i6">
@@ -114,7 +114,7 @@
                             </div>
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-12 mb-3">
+                                    <div class="col-lg-12 mb-3">
                                         <center>
                                             <div id="cartloader" class="d-none">
                                                 <img width="50" src="https://6pos.6amtech.com/public/assets/admin/img/loader.gif">
@@ -161,10 +161,55 @@
             });
         }
 
-        function addToCart(product_id) {
+        function addToCart(product_id, quantity = 1, type="add") {
             $('#loading-image').show();
             $.ajax({
-                url: "add-to-customer-cart/" + $('#customer-id').val() + "/" + product_id,
+                url: "add-to-customer-cart/" + $('#customer-id').val() + "/" + product_id + "/" + quantity + "/" + type,
+                type: "GET",
+                success: function(response) {
+                    if (response) {
+                        // $('.success').text(response.success);
+                        $("#common-div" + " .content").html(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+                complete: function() {
+                    $('#loading-image').hide();
+                }
+            });
+        }
+
+        function removeCartItem(cart_item_id)
+        {
+            console.log(cart_item_id);
+            $('#loading-image').show();
+            $.ajax({
+                url: "remove-cart-item/" + cart_item_id,
+                type: "GET",
+                success: function(response) {
+                    if (response) {
+                        // $('.success').text(response.success);
+                        $("#common-div" + " .content").html(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+                complete: function() {
+                    $('#loading-image').hide();
+                }
+            });
+            
+        }
+
+        function removeCart(cart_id)
+        {
+            console.log(cart_id);
+            $('#loading-image').show();
+            $.ajax({
+                url: "remove-cart/" + cart_id,
                 type: "GET",
                 success: function(response) {
                     if (response) {
