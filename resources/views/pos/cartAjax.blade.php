@@ -71,7 +71,7 @@
             <a class="btn w-100 btn-danger btn-sm btn-block" onclick="removeCart('{{$cart->id}}')"><i class="fa fa-times-circle "></i> Cancel </a>
         </div>
         <div class="col-6 mt-2">
-            <button onclick="submit_order();" type="button" class="btn w-100 btn-primary btn-sm btn-block"><i class="fa fa-shopping-bag"></i>
+            <button onclick="submitOrder('{{$cart->id}}');" type="button" class="btn w-100 btn-primary btn-sm btn-block"><i class="fa fa-shopping-bag"></i>
                 Order </button>
         </div>
     </div>

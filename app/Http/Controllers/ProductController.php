@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -144,7 +145,8 @@ class ProductController extends Controller
 
     public function kitchen()
     {
-        return view('kitchen.index');
+        $orders = Order::orderby('created_at', 'desc')->paginate(20);
+        return view('kitchen.index', compact('orders'));
     }
 
     public function submitCart($cutomer_id, $product_id, $quantity, $type)
@@ -240,9 +242,9 @@ class ProductController extends Controller
         return View::make('pos/cartAjax')->with('cart', []);
     }
 
-    public function submitOrder(Request $request)
+    public function submitOrder($cart_id)
     {
-        $cart = Cart::where('id', $request->cart_id)->where('status', '!=', 0)->first();
+        $cart = Cart::where('id', $cart_id)->where('status', '!=', 0)->first();
         if ($cart) {
             if (count($cart->cartItems)) {
                 $order_code = $this->generateKey();
@@ -262,25 +264,20 @@ class ProductController extends Controller
                 });
                 $cart->status = 0;
                 $cart->save();
-                return response()->json([
-                    'success' => true,
-                    'status' => 200,
-                    'message' => 'Order submitted successfully',
-                ]);
+                return View::make('pos/cartAjax')->with('cart', []);
             } else {
-                return response()->json([
-                    'success' => true,
-                    'status' => 500,
-                    'message' => 'Cart has no Items',
-                ]);
+                return View::make('pos/cartAjax')->with('cart', []);
             }
         } else {
-            return response()->json([
-                'success' => true,
-                'status' => 500,
-                'message' => 'Cart not found',
-            ]);
+            return View::make('pos/cartAjax')->with('cart', []);
         }
+    }
+
+    public function changeStatus(Order $order, $status)
+    {
+        $order->status = $status;
+        $order->save();
+        return redirect()->back()->with('success', 'Status has been updated successfully');
     }
 
     function generateKey()

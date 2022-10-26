@@ -89,11 +89,11 @@
                                         <i class="tio-add-circle-outlined"></i> Customer
                                     </button>
                                 </div>
-                                <div class="form-group mt-1 col-12 col-lg-6 mb-0">
+                                <!-- <div class="form-group mt-1 col-12 col-lg-6 mb-0">
                                     <a class="w-100 d-inline-block btn btn-warning rounded" href="https://6pos.6amtech.com/admin/pos/new-cart-id">
                                         New order
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row mt-2">
                                 <div class="form-group col-12 mb-0">
@@ -210,6 +210,27 @@
             $('#loading-image').show();
             $.ajax({
                 url: "remove-cart/" + cart_id,
+                type: "GET",
+                success: function(response) {
+                    if (response) {
+                        // $('.success').text(response.success);
+                        $("#common-div" + " .content").html(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+                complete: function() {
+                    $('#loading-image').hide();
+                }
+            });
+        }
+        function submitOrder(cart_id)
+        {
+            console.log(cart_id);
+            $('#loading-image').show();
+            $.ajax({
+                url: "submit-order/" + cart_id,
                 type: "GET",
                 success: function(response) {
                     if (response) {

@@ -1,5 +1,6 @@
 <!-- Backend Bundle JavaScript -->
 <script src="{{ asset('js/libs.min.js')}}"></script>
+<script src="{{ asset('js/all.min.js')}}"></script>
 
 @if(in_array('data-table',$assets ?? []))
 <script src="{{ asset('vendor/datatables/buttons.server-side.js')}}"></script>

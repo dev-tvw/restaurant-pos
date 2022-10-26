@@ -11,6 +11,7 @@ use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 // Packages
@@ -58,10 +59,12 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
+    Route::get('/submit-order/{cart_id}', [ProductController::class, 'submitOrder'])->name('submitOrder');
     Route::get('/remove-cart-item/{cart_item_id}', [ProductController::class, 'removeCartItem'])->name('removeCartItem');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
+    Route::get('/change-status/{order}/{status}', [ProductController::class, 'changeStatus'])->name('changeStatus');
 
     Route::resource('customers', Customer::class);
     Route::resource('categories', CategoryController::class);
