@@ -47,6 +47,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'price' => 'required',
             'name_ar' => 'required',
             'category_id' => 'required',
             'image' => 'required'
@@ -59,6 +60,7 @@ class ProductController extends Controller
         }
         Product::create([
             'name' => $request->name,
+            'price' => $request->price,
             'name_ar' => $request->name_ar,
             'description' => $request->description,
             'description_ar' => $request->description_ar,
@@ -101,6 +103,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
+            'price' => 'required',
             'name' => 'required',
             'name_ar' => 'required',
             'category_id' => 'required',
@@ -114,6 +117,7 @@ class ProductController extends Controller
         }
         $product->update([
             'name' => $request->name,
+            'price' => $request->price,
             'name_ar' => $request->name_ar,
             'description' => $request->description,
             'description_ar' => $request->description_ar,

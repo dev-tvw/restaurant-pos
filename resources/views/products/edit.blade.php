@@ -31,6 +31,10 @@
                            <input class="form-control" placeholder="Product Name (Arabic)" required="" name="name_ar" type="text" value="{{$product->name_ar}}" dir="rtl">
                         </div>
                         <div class="form-group col-md-6">
+                           <label class="form-label" for="fname">Price:<span class="text-danger">*</span></label>
+                           <input class="form-control" placeholder="Product Price" required="" name="price" type="text" value="{{$product->price}}">
+                        </div>
+                        <div class="form-group col-md-6">
                            <label class="form-label" for="fname">Description:</label>
                            <input class="form-control" placeholder="Description" required="" name="description" type="text" value="{{$product->description}}">
                         </div>
