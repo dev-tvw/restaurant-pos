@@ -14,10 +14,18 @@ class Customer extends Model
     ];
 
     /**
-     * Get the Orders for the category.
+     * Get the Orders for the customer.
      */
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the carts for the customer.
+     */
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 }

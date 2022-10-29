@@ -14,7 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::where('id', '>', 1)->orderby('created_at', 'desc')->aginate(20);
+        return view('customers.index', compact('customers'));
     }
 
     /**
@@ -24,7 +25,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -35,7 +36,25 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required',
+            'address' => 'required'
+        ]);
+        Customer::create([
+            'name' => $request->name,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'state' => $request->state,
+            'city' => $request->city,
+            'zip_code' => $request->zip_code,
+            'address' => $request->address
+        ]);
+        return redirect()->route('pos')->with('success', 'Customer added successfully');
     }
 
     /**
@@ -57,7 +76,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -69,7 +88,25 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required',
+            'address' => 'required'
+        ]);
+        $customer->update([
+            'name' => $request->name,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'state' => $request->state,
+            'city' => $request->city,
+            'zip_code' => $request->zip_code,
+            'address' => $request->address
+        ]);
+        return redirect()->route('pos')->with('success', 'Customer updated successfully');
     }
 
     /**
@@ -80,6 +117,6 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        return redirect()->back();
     }
 }

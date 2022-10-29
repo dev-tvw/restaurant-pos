@@ -78,7 +78,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product'));
+    }
+
+    public function showOrder(Order $order)
+    {
+        return view('kitchen.show', compact('order'));
     }
 
     /**
@@ -138,13 +143,19 @@ class ProductController extends Controller
         //
     }
 
+    public function printInvoice(Order $order)
+    {
+        return view('kitchen.print', ['order' => $order]);
+    }
+
     public function pos()
     {
-        $customers = Customer::orderby('created_at', 'asc')->get();
+        $customers = Customer::where('id', '>', 1)->orderby('created_at', 'desc')->get();
+        $walking_customer = Customer::where('id', 1)->first();
         $cart = Cart::where('status', '!=', 0)->where('customer_id', 1)->first();
         $products = Product::paginate(20);
         $categories = Category::all();
-        return view('pos.index', compact('customers', 'cart', 'categories', 'products'));
+        return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
     }
 
     public function kitchen()
@@ -178,7 +189,7 @@ class ProductController extends Controller
                 'price' => $product->price
             ]);
         }
-        return View::make('pos/cartAjax')->with('cart', $cart);
+        return View::make('pos/cartAjax')->with('cart', $cart)->with('customer', $cart->customer->name);
         // return response()->json([
         //     'success' => true,
         //     'status' => 200,
@@ -186,13 +197,13 @@ class ProductController extends Controller
         // ]);
     }
 
-    public function getCart($customer_id)
+    public function getCart(Customer $customer_id)
     {
-        $cart = Cart::where('customer_id', $customer_id)->where('status', '!=', 0)->whereHas('cartItems')->first();
+        $cart = Cart::where('customer_id', $customer_id->id)->where('status', '!=', 0)->whereHas('cartItems')->first();
         if ($cart) {
-            return View::make('pos/cartAjax')->with('cart', $cart);
+            return View::make('pos/cartAjax')->with('cart', $cart)->with('customer', $customer_id->name);
         } else {
-            return View::make('pos/cartAjax')->with('cart', []);
+            return View::make('pos/cartAjax')->with('cart', [])->with('customer', $customer_id->name);
         }
     }
 
@@ -225,25 +236,27 @@ class ProductController extends Controller
             if (count($cart->cartItems) < 2) {
                 $cart->delete();
                 $cartItem->delete();
-                return View::make('pos/cartAjax')->with('cart', []);
+                return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {
                 $cartItem->delete();
                 $cart = Cart::where('id', $cart->id)->first();
-                return View::make('pos/cartAjax')->with('cart', $cart);
+                return View::make('pos/cartAjax')->with('cart', $cart)->with('customer', $cart->customer->name);
             }
         } else {
-            return View::make('pos/cartAjax')->with('cart', []);
+            return View::make('pos/cartAjax')->with('cart', [])->with('customer', '');
         }
     }
 
     public function removeCart($cart_id)
     {
+        $customer = '';
         $cart = Cart::where('id', $cart_id)->first();
         if ($cart) {
+            $customer = $cart->customer->name;
             CartItem::where('cart_id', $cart->id)->delete();
             $cart->delete();
         }
-        return View::make('pos/cartAjax')->with('cart', []);
+        return View::make('pos/cartAjax')->with('cart', [])->with('customer', $customer);
     }
 
     public function submitOrder($cart_id)
@@ -268,12 +281,12 @@ class ProductController extends Controller
                 });
                 $cart->status = 0;
                 $cart->save();
-                return View::make('pos/cartAjax')->with('cart', []);
+                return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {
-                return View::make('pos/cartAjax')->with('cart', []);
+                return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             }
         } else {
-            return View::make('pos/cartAjax')->with('cart', []);
+            return View::make('pos/cartAjax')->with('cart', [])->with('customer', '');
         }
     }
 

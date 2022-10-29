@@ -1,3 +1,8 @@
+<div class="row mt-2">
+    <div class="form-group col-12 mb-0">
+        <label class="input-label text-capitalize border p-1">Current customer : <span class="style-i4 mb-0 p-1" id="current_customer">{{$customer}}</span></label>
+    </div>
+</div>
 <div class="w-100" id="cart">
     <div class="row mb-3">
         <div class="col-md-3">Item</div>

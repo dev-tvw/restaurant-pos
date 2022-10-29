@@ -76,17 +76,18 @@
                         <div class="card p-3">
                             <div class="row mt-2">
                                 <div class="form-group mt-1 col-12 w-i6">
-                                    <select id="customer-id" name="customer_id" class="form-control js-data-example-ajax select2-hidden-accessible" onchange="customer_change(this.value);" data-select2-id="customer" tabindex="-1" aria-hidden="true">
+                                    <select id="customer-id" name="customer_id" class="form-control js-data-example-ajax select2-hidden-accessible" data-select2-id="customer" tabindex="-1" aria-hidden="true">
+                                        <option value="{{$walking_customer->id}}" selected>{{$walking_customer->name}}</option>
                                         @foreach($customers as $customer)
-                                        <option value="{{$customer->id}}" {{$loop->iteration == 1 ? 'selected' : ''}} data-select2-id="15">{{$customer->name}}</option>
+                                        <option value="{{$customer->id}}">{{$customer->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group mt-1 col-12 col-lg-6 mb-0">
-                                    <button style="width: 100%;" class="w-i00 d-inline-block btn btn-success rounded" id="add_new_customer" type="button" data-toggle="modal" data-target="#add-customer" title="Add Customer">
-                                        <i class="tio-add-circle-outlined"></i> Customer
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomer">
+                                        Customer
                                     </button>
                                 </div>
                                 <!-- <div class="form-group mt-1 col-12 col-lg-6 mb-0">
@@ -95,11 +96,7 @@
                                     </a>
                                 </div> -->
                             </div>
-                            <div class="row mt-2">
-                                <div class="form-group col-12 mb-0">
-                                    <label class="input-label text-capitalize border p-1">Current customer : <span class="style-i4 mb-0 p-1" id="current_customer">{{$customers[0]->name}}</span></label>
-                                </div>
-                            </div>
+
                             <!-- <div class="row">
                                 <div class="form-group mt-1 col-12 col-lg-6 mt-2 mb-0">
                                     <select id="cart_id" name="cart_id" class="form-control js-select2-custom select2-hidden-accessible" onchange="cart_change(this.value);" data-select2-id="cart_id" tabindex="-1" aria-hidden="true">
@@ -138,6 +135,69 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="addCustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCustomerLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{route('customers.store')}}" enctype="multipart/form-data" method="post" name="add-customer">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <div class="header-title">
+                                                <h4 class="card-title">Add New Customer</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="new-user-info">
+                                                <div class="row">
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">Name: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="Customer Name" required="" name="name" type="text" value="{{old('name')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">Email: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="Customer Email" required="" name="email" type="text" value="{{old('email')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">Mobiile: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="Customer Mobile" required="" name="mobile" type="text" value="{{old('mobile')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">State: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="State" required="" name="state" type="text" value="{{old('state')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">City: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="State" required="" name="city" type="text" value="{{old('city')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">Zip Code: <span class="text-danger">*</span></label>
+                                                        <input class="form-control" placeholder="Zip Code" required="" name="zip_code" type="text" value="{{old('zip_code')}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label" for="fname">Zip Code: <span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" placeholder="Address" required="" name="address" rows="3">{{old('address')}}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script type="text/javascript">
@@ -161,7 +221,7 @@
             });
         }
 
-        function addToCart(product_id, quantity = 1, type="add") {
+        function addToCart(product_id, quantity = 1, type = "add") {
             $('#loading-image').show();
             $.ajax({
                 url: "add-to-customer-cart/" + $('#customer-id').val() + "/" + product_id + "/" + quantity + "/" + type,
@@ -171,6 +231,16 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
+                    var message = 'Cart Item added to Cart';
+                    if (type != 'add') {
+                        message = 'Cart updated successfully';
+                    }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Done',
+                        text: message,
+                        confirmButtonColor: "#3a57e8"
+                    });
                 },
                 error: function(error) {
                     console.log(error);
@@ -181,8 +251,7 @@
             });
         }
 
-        function removeCartItem(cart_item_id)
-        {
+        function removeCartItem(cart_item_id) {
             console.log(cart_item_id);
             $('#loading-image').show();
             $.ajax({
@@ -193,6 +262,13 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
+                    var message = 'Cart Item removed successfully';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Done',
+                        text: message,
+                        confirmButtonColor: "#3a57e8"
+                    });
                 },
                 error: function(error) {
                     console.log(error);
@@ -201,11 +277,10 @@
                     $('#loading-image').hide();
                 }
             });
-            
+
         }
 
-        function removeCart(cart_id)
-        {
+        function removeCart(cart_id) {
             console.log(cart_id);
             $('#loading-image').show();
             $.ajax({
@@ -216,6 +291,13 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
+                    var message = 'Cart removed successfully';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Done',
+                        text: message,
+                        confirmButtonColor: "#3a57e8"
+                    });
                 },
                 error: function(error) {
                     console.log(error);
@@ -225,8 +307,8 @@
                 }
             });
         }
-        function submitOrder(cart_id)
-        {
+
+        function submitOrder(cart_id) {
             console.log(cart_id);
             $('#loading-image').show();
             $.ajax({
@@ -237,6 +319,13 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
+                    var message = 'Order submitted successfully';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Done',
+                        text: message,
+                        confirmButtonColor: "#3a57e8"
+                    });
                 },
                 error: function(error) {
                     console.log(error);
@@ -248,6 +337,9 @@
         }
         $(document).ready(function() {
             $("#common-div" + " .content").html('');
+            $('#customer-id').on('change', function() {
+                getCart($(this).val());
+            });
             getCart(1);
             // ajaxRequest($('#customer-id').val(), $(this).attr('product-id'));
 

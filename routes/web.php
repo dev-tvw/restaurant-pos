@@ -3,6 +3,7 @@
 // Controllers
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProductController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\UserController;
-use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -64,9 +64,11 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
+    Route::get('/order-detail/{order}', [ProductController::class, 'showOrder'])->name('orders.show');
     Route::get('/change-status/{order}/{status}', [ProductController::class, 'changeStatus'])->name('changeStatus');
+    Route::get('orders/print/{order}', [ProductController::class, 'printInvoice'])->name('orders.print');
 
-    Route::resource('customers', Customer::class);
+    Route::resource('customers', CustomerController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('languages', LanguageController::class);
