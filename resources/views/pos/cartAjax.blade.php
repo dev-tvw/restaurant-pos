@@ -155,8 +155,7 @@
     </div>
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-
+<script src="{{asset('js/jquery.js')}}"></script>
 <script>
     $(document).ready(function() {
         $(".quantity").bind('keyup mouseup', function() {
@@ -164,13 +163,5 @@
                 addToCart($(this).attr('product-id'), $(this).val(), 'update');
             }
         });
-        // $(".quantity").on('keyup', function() {
-        //     alert('here');
-        //     if ($(this).val() > 0) {
-        //         alert('here' + $(this).val());
-        //     }
-        // });
-        // ajaxRequest($('#customer-id').val(), $(this).attr('product-id'));
-
     });
 </script>

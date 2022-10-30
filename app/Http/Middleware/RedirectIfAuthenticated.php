@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
                 $role = Auth::user()->user_type;
                 switch ($role) {
                     case 'kitchen':
-                        return redirect('/pos');
+                        return redirect('/kitchen');
                         break;
                     case 'cashier':
                         return redirect('/pos');

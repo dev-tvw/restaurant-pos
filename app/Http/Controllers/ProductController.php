@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -160,7 +161,9 @@ class ProductController extends Controller
 
     public function kitchen()
     {
-        $orders = Order::orderby('created_at', 'desc')->paginate(20);
+        $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
+            $query->where('created_by', Auth::user()->id);
+        })->orderby('created_at', 'desc')->paginate(20);
         return view('kitchen.index', compact('orders'));
     }
 
@@ -171,7 +174,8 @@ class ProductController extends Controller
         if (!$cart) {
             $cart = Cart::create([
                 'customer_id' => $cutomer_id,
-                'status' => 1
+                'status' => 1,
+                'created_by' => Auth::user()->id
             ]);
         }
         $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product_id)->first();
@@ -270,6 +274,7 @@ class ProductController extends Controller
                     'order_code' => $order_code,
                     'customer_id' => $cart->customer_id,
                     'item_count' => count($cart->cartItems),
+                    'created_by' => Auth::user()->id,
                     'grand_total' => 0,
                     'status' => 1
                 ]);

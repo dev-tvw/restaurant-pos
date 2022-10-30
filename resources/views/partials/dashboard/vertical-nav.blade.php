@@ -5,6 +5,7 @@
             <span class="mini-icon">-</span>
         </a>
     </li>
+    @if(Auth::user()->user_type == 'admin')
     <li class="nav-item">
         <a class="nav-link {{activeRoute(route('dashboard'))}}" aria-current="page" href="{{route('dashboard')}}">
             <i class="icon">
@@ -108,6 +109,7 @@
             </li>
         </ul>
     </li>
+    @endif
 
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#orders-menu" role="button" aria-expanded="false" aria-controls="orders-menu">
@@ -142,7 +144,7 @@
             </li>
         </ul>
     </li>
-    
+   @if(Auth::user()->user_type != 'kitchen') 
     <li class="nav-item">
         <a class="nav-link {{activeRoute(route('pos'))}}" aria-current="page" href="{{route('pos')}}">
             <i class="icon">
@@ -154,6 +156,7 @@
             <span class="item-name">POS</span>
         </a>
     </li>
+    @endif
 
     {{-- <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#horizontal-menu" role="button" aria-expanded="false" aria-controls="horizontal-menu">

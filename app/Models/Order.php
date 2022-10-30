@@ -16,6 +16,7 @@ class Order extends Model
         'item_count',
         'grand_total',
         'status',
+        'created_by',
         'created_at',
         'updated_at'
     ];
@@ -34,6 +35,11 @@ class Order extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function createdby()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
 }

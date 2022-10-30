@@ -10,7 +10,7 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id', 'status'
+        'customer_id', 'status', 'created_by'
     ];
 
     /**
@@ -27,5 +27,10 @@ class Cart extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function createdby()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }
