@@ -1,4 +1,5 @@
 <x-app-layout :assets="$assets ?? []">
+
     <main id="content" role="main" class="main pointer-event">
 
 

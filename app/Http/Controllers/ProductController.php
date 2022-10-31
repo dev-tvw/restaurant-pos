@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\NewOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -286,6 +288,8 @@ class ProductController extends Controller
                 });
                 $cart->status = 0;
                 $cart->save();
+                $kitchen_user = User::where('user_type', 'kitchen')->first();
+                $kitchen_user->notify(new NewOrder($new_order));
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);

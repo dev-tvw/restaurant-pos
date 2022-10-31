@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,11 +16,21 @@ class HomeController extends Controller
         if (Auth::user()->user_type == 'kitchen') {
             return redirect()->route('kitchen');
         } elseif (Auth::user()->user_type == 'cashier') {
-            return redirect()->route('cashier');
+            return redirect()->route('pos');
         } else {
             $assets = ['chart', 'animation'];
             return view('dashboards.dashboard', compact('assets'));
         }
+    }
+
+    public function changeLanguage($local)
+    {
+        if (!in_array($local, ['en', 'ar'])) {
+            abort(400);
+        }
+        App::setLocale($local);
+        session()->put('lang', $local);
+        return redirect()->route('index');
     }
 
     /*

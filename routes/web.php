@@ -46,15 +46,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::resource('role', RoleController::class);
 
     // Dashboard Routes
-    Route::get('/change-lang/{locale}', function ($locale) {
-        if (! in_array($locale, ['en', 'ar'])) {
-            abort(400);
-        }
-        App::setLocale($locale);
-        return redirect()->back();
-     
-        //
-    })->name('changeLang');
+    Route::get('/change-lang/{locale}', [HomeController::class, 'changeLanguage'])->name('changeLang');
     
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
