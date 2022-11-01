@@ -12,7 +12,7 @@
                         </div>
                         <p></p>
                     </div>
-                    <h4 class="card-title mb-0">Today's Orders</h4>
+                    <h4 class="card-title mb-0">Listing of all Orders</h4>
                 </div><!-- end card header -->
 
                 <div class="card-body">
@@ -104,8 +104,6 @@
         });
         var channel = pusher.subscribe('my-channel');
         channel.bind('new-order', function(data) {
-            var order = JSON.parse(data.order);
-            console.log(data, order);
             // var obj_res = JSON.stringify(data);
             // $("<tr><td>prependTo</td><td>prependTo</td><td>prependTo</td></tr>").prependTo("#sortTable > tbody");
             // console.log('here', obj_res);

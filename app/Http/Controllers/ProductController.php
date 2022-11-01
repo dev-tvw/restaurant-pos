@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NerOrderEvent;
+use App\Events\OrderStatus as EventsOrderStatus;
 use Illuminate\Support\Facades\View;
 use App\Models\Cart;
 use App\Models\CartItem;
@@ -11,6 +13,8 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Notifications\NewOrder;
+use App\Notifications\OrderStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -151,7 +155,7 @@ class ProductController extends Controller
         return view('kitchen.print', ['order' => $order]);
     }
 
-    public function pos()
+    public function pos(Request $request)
     {
         $customers = Customer::where('id', '>', 1)->orderby('created_at', 'desc')->get();
         $walking_customer = Customer::where('id', 1)->first();
@@ -161,12 +165,22 @@ class ProductController extends Controller
         return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
     }
 
-    public function kitchen()
+    public function kitchen(Request $request)
+    {
+        $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {
+            $query->where('created_by', Auth::user()->id);
+        })->orderby('created_at', 'desc')->paginate(20);
+        Auth::user()->unreadNotifications->markAsRead();
+        return view('kitchen.index', compact('orders'));
+    }
+
+    public function allOrders(Request $request)
     {
         $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
             $query->where('created_by', Auth::user()->id);
         })->orderby('created_at', 'desc')->paginate(20);
-        return view('kitchen.index', compact('orders'));
+        Auth::user()->unreadNotifications->markAsRead();
+        return view('kitchen.all', compact('orders'));
     }
 
     public function submitCart($cutomer_id, $product_id, $quantity, $type)
@@ -290,6 +304,8 @@ class ProductController extends Controller
                 $cart->save();
                 $kitchen_user = User::where('user_type', 'kitchen')->first();
                 $kitchen_user->notify(new NewOrder($new_order));
+                $data = ['message' => 'You have new Order', 'order' => $new_order];
+                event(new NerOrderEvent(json_encode($data)));
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
@@ -303,6 +319,13 @@ class ProductController extends Controller
     {
         $order->status = $status;
         $order->save();
+        if ($status == 0 || $status == 3) {
+            $end_point = $status == 3 ? 'cancelled' : 'ready';
+            $user = User::where('id', $order->created_by)->first();
+            $user->notify(new OrderStatus($order));
+            $data = ['message' => 'Order Number ' . $order->order_code . ' is ' . $end_point, 'order' => $order];
+            event(new EventsOrderStatus($data));
+        }
         return redirect()->back()->with('success', 'Status has been updated successfully');
     }
 

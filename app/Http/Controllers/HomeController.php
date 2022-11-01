@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
+
 
 class HomeController extends Controller
 {
@@ -23,14 +30,37 @@ class HomeController extends Controller
         }
     }
 
+    public function notificationsAjax(Request $request, $user_id)
+    {
+        $notifications = [];
+        $user = User::where('id', $user_id)->first();
+        if (count($user->unreadNotifications)) {
+            foreach ($user->unreadNotifications as $notif) {
+                $date = Carbon::parse($notif->created_at);
+                $is_today = $date->isToday() ? 1 : 0;
+                if ($is_today) {
+                    $notifications[] = $notif;
+                }
+            }
+        }
+        return View::make('notifications/dropdown-ajax')->with('notifications', $notifications);
+    }
+
     public function changeLanguage($local)
     {
-        if (!in_array($local, ['en', 'ar'])) {
-            abort(400);
+        if (array_key_exists($local, [
+            'en' => 'English',
+            'ar' => 'Arabic'
+        ])) {
+            // Config::set([
+            //     'app.locale' => $local,
+            //     'app.fallback_locale' => $local,
+            // ]);
+            // Config::set('locale', $local);
+            // Config::set('fallback_locale', $local);
+            Session::put('applocale', $local);
         }
-        App::setLocale($local);
-        session()->put('lang', $local);
-        return redirect()->route('index');
+        return Redirect::back();
     }
 
     /*

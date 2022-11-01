@@ -56,9 +56,12 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
+    Route::get('/all-orders', [ProductController::class, 'allOrders'])->name('orders.all');
     Route::get('/order-detail/{order}', [ProductController::class, 'showOrder'])->name('orders.show');
     Route::get('/change-status/{order}/{status}', [ProductController::class, 'changeStatus'])->name('changeStatus');
     Route::get('orders/print/{order}', [ProductController::class, 'printInvoice'])->name('orders.print');
+    Route::get('cashier/notifications/{user_id}', [HomeController::class, 'notificationsAjax'])->name('cashier.tNotifications');
+    
 
     Route::resource('customers', CustomerController::class);
     Route::resource('categories', CategoryController::class);

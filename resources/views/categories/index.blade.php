@@ -1,4 +1,7 @@
 <x-app-layout :assets="$assets ?? []">
+   @php
+   $lang = App::getLocale();
+   @endphp
 <div class="row">
    <div class="col-sm-12">
       <div class="card">
