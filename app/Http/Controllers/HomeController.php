@@ -32,7 +32,7 @@ class HomeController extends Controller
         } elseif (Auth::user()->user_type == 'cashier') {
             return redirect()->route('pos');
         } else {
-            $latest_products = Product::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);
+            $latest_products = Product::whereDate('created_at', '>=', Carbon::now()->subDays(7))->orderby('id', 'desc')->paginate(10);
             $latest_orders = Order::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);
             $total_orders = Order::where('status', 0)->count();
             $total_earning = Order::where('status', 0)->sum('grand_total');
