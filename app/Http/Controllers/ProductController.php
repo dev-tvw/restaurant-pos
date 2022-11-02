@@ -183,6 +183,14 @@ class ProductController extends Controller
         return view('kitchen.all', compact('orders'));
     }
 
+    public function getCategoryProducts($category_id)
+    {
+        $products = Product::when($category_id, function($q) use ($category_id){
+            $q->where('category_id', $category_id);
+        })->orderby('created_at', 'desc')->paginate(20);
+        return View::make('pos.productsAjax')->with('products', $products);
+    }
+
     public function submitCart($cutomer_id, $product_id, $quantity, $type)
     {
         $product = Product::where('id', $product_id)->first();
@@ -291,6 +299,7 @@ class ProductController extends Controller
                     'customer_id' => $cart->customer_id,
                     'item_count' => count($cart->cartItems),
                     'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'grand_total' => 0,
                     'status' => 1
                 ]);
@@ -318,8 +327,9 @@ class ProductController extends Controller
     public function changeStatus(Order $order, $status)
     {
         $order->status = $status;
+        $order->updated_by = Auth::user()->id;
         $order->save();
-        if ($status == 0 || $status == 3) {
+        if ($status == 4 || $status == 3) {
             $end_point = $status == 3 ? 'cancelled' : 'ready';
             $user = User::where('id', $order->created_by)->first();
             $user->notify(new OrderStatus($order));

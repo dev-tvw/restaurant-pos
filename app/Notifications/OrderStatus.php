@@ -66,7 +66,7 @@ class OrderStatus extends Notification implements ShouldQueue
         return [
             'order_code' => $this->order->order_code,
             'id' => $this->order->id,
-            'type' => $this->order->status == 0 ? 'ready' : 'cancelled',
+            'type' => $this->order->status == 4 ? 'ready' : 'cancelled',
         ];
     }
 }

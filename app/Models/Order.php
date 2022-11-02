@@ -17,6 +17,7 @@ class Order extends Model
         'grand_total',
         'status',
         'created_by',
+        'updated_by',
         'created_at',
         'updated_at'
     ];

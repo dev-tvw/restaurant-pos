@@ -3,7 +3,7 @@
       <div class="col-md-12 col-lg-12">
          <div class="row row-cols-1">
             <div class="d-slider1 overflow-hidden ">
-               <ul  class="swiper-wrapper list-inline m-0 p-0 mb-2">
+               <ul class="swiper-wrapper list-inline m-0 p-0 mb-2">
                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
                      <div class="card-body">
                         <div class="progress-widget">
@@ -13,8 +13,8 @@
                               </svg>
                            </div>
                            <div class="progress-detail">
-                              <p  class="mb-2">Total Sales</p>
-                              <h4 class="counter" style="visibility: visible;">$560K</h4>
+                              <p class="mb-2">Total Sales</p>
+                              <h4 class="counter" style="visibility: visible;">{{$total_earning}} IQD</h4>
                            </div>
                         </div>
                      </div>
@@ -28,83 +28,38 @@
                               </svg>
                            </div>
                            <div class="progress-detail">
-                              <p  class="mb-2">Total Profit</p>
-                              <h4 class="counter">$185K</h4>
+                              <p class="mb-2">Total Orders</p>
+                              <h4 class="counter">{{$total_orders}}</h4>
                            </div>
                         </div>
                      </div>
                   </li>
-                  <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="900">
+                  <li class="swiper-slide card card-slide aos-init aos-animate" data-aos="fade-up" data-aos-delay="900" role="group" aria-label="3 / 7" style="width: 248px; margin-right: 32px;">
                      <div class="card-body">
                         <div class="progress-widget">
-                           <div id="circle-progress-03" class="circle-progress-01 circle-progress circle-progress-primary text-center" data-min-value="0" data-max-value="100" data-value="70" data-type="percent">
-                              <svg class="card-slie-arrow " width="24" viewBox="0 0 24 24">
-                                 <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                              </svg>
-                           </div>
+                        <div id="circle-progress-02" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="100" data-value="80" data-type="percent" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+                           <svg class="card-slie-arrow " width="24" height="24" viewBox="0 0 24 24">
+                              <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z"></path>
+                           </svg>
+                        <svg version="1.1" width="100" height="100" viewBox="0 0 100 100" class="circle-progress"><circle class="circle-progress-circle" cx="50" cy="50" r="46" fill="none" stroke="#ddd" stroke-width="8"></circle><path d="M 50 4 A 46 46 0 1 1 6.25140025042294 35.78521825875241" class="circle-progress-value" fill="none" stroke="#00E699" stroke-width="8"></path><text class="circle-progress-text" x="50" y="50" font="16px Arial, sans-serif" text-anchor="middle" fill="#999" dy="0.4em">80%</text></svg></div>
                            <div class="progress-detail">
-                              <p  class="mb-2">Total Cost</p>
-                              <h4 class="counter">$375K</h4>
+                              <p class="mb-2">Customers</p>
+                              <h4 class="counter" style="visibility: visible;">{{$total_customers}}</h4>
                            </div>
                         </div>
                      </div>
                   </li>
-                  <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1000">
+                  <li class="swiper-slide card card-slide aos-init aos-animate" data-aos="fade-up" data-aos-delay="1200" role="group" aria-label="6 / 7" style="width: 248px; margin-right: 32px;">
                      <div class="card-body">
                         <div class="progress-widget">
-                           <div id="circle-progress-04" class="circle-progress-01 circle-progress circle-progress-info text-center" data-min-value="0" data-max-value="100" data-value="60" data-type="percent">
-                              <svg class="card-slie-arrow " width="24px" height="24px" viewBox="0 0 24 24">
-                                 <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                              </svg>
-                           </div>
+                        <div id="circle-progress-02" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="100" data-value="80" data-type="percent" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+                           <svg class="card-slie-arrow " width="24" height="24" viewBox="0 0 24 24">
+                              <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z"></path>
+                           </svg>
+                        <svg version="1.1" width="100" height="100" viewBox="0 0 100 100" class="circle-progress"><circle class="circle-progress-circle" cx="50" cy="50" r="46" fill="none" stroke="#ddd" stroke-width="8"></circle><path d="M 50 4 A 46 46 0 1 1 6.25140025042294 35.78521825875241" class="circle-progress-value" fill="none" stroke="#00E699" stroke-width="8"></path><text class="circle-progress-text" x="50" y="50" font="16px Arial, sans-serif" text-anchor="middle" fill="#999" dy="0.4em">80%</text></svg></div>
                            <div class="progress-detail">
-                              <p  class="mb-2">Revenue</p>
-                              <h4 class="counter">$742K</h4>
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1100">
-                     <div class="card-body">
-                        <div class="progress-widget">
-                           <div id="circle-progress-05" class="circle-progress-01 circle-progress circle-progress-primary text-center" data-min-value="0" data-max-value="100" data-value="50" data-type="percent">
-                              <svg class="card-slie-arrow " width="24px" height="24px" viewBox="0 0 24 24">
-                                 <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                              </svg>
-                           </div>
-                           <div class="progress-detail">
-                              <p  class="mb-2">Net Income</p>
-                              <h4 class="counter">$150K</h4>
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1200">
-                     <div class="card-body">
-                        <div class="progress-widget">
-                           <div id="circle-progress-06" class="circle-progress-01 circle-progress circle-progress-info text-center" data-min-value="0" data-max-value="100" data-value="40" data-type="percent">
-                              <svg class="card-slie-arrow " width="24" viewBox="0 0 24 24">
-                                 <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                              </svg>
-                           </div>
-                           <div class="progress-detail">
-                              <p  class="mb-2">Today</p>
-                              <h4 class="counter">$4600</h4>
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
-                     <div class="card-body">
-                        <div class="progress-widget">
-                           <div id="circle-progress-07" class="circle-progress-01 circle-progress circle-progress-primary text-center" data-min-value="0" data-max-value="100" data-value="30" data-type="percent">
-                              <svg class="card-slie-arrow " width="24" viewBox="0 0 24 24">
-                                 <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                              </svg>
-                           </div>
-                           <div class="progress-detail">
-                              <p  class="mb-2">Members</p>
-                              <h4 class="counter">11.2M</h4>
+                              <p class="mb-2">Products</p>
+                              <h4 class="counter" style="visibility: visible;">{{$total_products}}</h4>
                            </div>
                         </div>
                      </div>
@@ -148,7 +103,7 @@
                      </div>
                      <div class="dropdown">
                         <a href="#" class="text-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        This Week
+                           This Week
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
                            <li><a class="dropdown-item" href="#">This Week</a></li>
@@ -238,7 +193,7 @@
                      <div class="header-title">
                         <h4 class="card-title mb-2">Enterprise Clients</h4>
                         <p class="mb-0">
-                           <svg class ="me-2" width="24" height="24" viewBox="0 0 24 24">
+                           <svg class="me-2" width="24" height="24" viewBox="0 0 24 24">
                               <path fill="#3a57e8" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
                            </svg>
                            15 new acquired this month
@@ -459,7 +414,7 @@
                            <div>
                               <div class="p-3 mb-2 rounded bg-soft-primary">
                                  <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9303 7C16.9621 6.92913 16.977 6.85189 16.9739 6.77432H17C16.8882 4.10591 14.6849 2 12.0049 2C9.325 2 7.12172 4.10591 7.00989 6.77432C6.9967 6.84898 6.9967 6.92535 7.00989 7H6.93171C5.65022 7 4.28034 7.84597 3.88264 10.1201L3.1049 16.3147C2.46858 20.8629 4.81062 22 7.86853 22H16.1585C19.2075 22 21.4789 20.3535 20.9133 16.3147L20.1444 10.1201C19.676 7.90964 18.3503 7 17.0865 7H16.9303ZM15.4932 7C15.4654 6.92794 15.4506 6.85153 15.4497 6.77432C15.4497 4.85682 13.8899 3.30238 11.9657 3.30238C10.0416 3.30238 8.48184 4.85682 8.48184 6.77432C8.49502 6.84898 8.49502 6.92535 8.48184 7H15.4932ZM9.097 12.1486C8.60889 12.1486 8.21321 11.7413 8.21321 11.2389C8.21321 10.7366 8.60889 10.3293 9.097 10.3293C9.5851 10.3293 9.98079 10.7366 9.98079 11.2389C9.98079 11.7413 9.5851 12.1486 9.097 12.1486ZM14.002 11.2389C14.002 11.7413 14.3977 12.1486 14.8858 12.1486C15.3739 12.1486 15.7696 11.7413 15.7696 11.2389C15.7696 10.7366 15.3739 10.3293 14.8858 10.3293C14.3977 10.3293 14.002 10.7366 14.002 11.2389Z" fill="currentColor"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9303 7C16.9621 6.92913 16.977 6.85189 16.9739 6.77432H17C16.8882 4.10591 14.6849 2 12.0049 2C9.325 2 7.12172 4.10591 7.00989 6.77432C6.9967 6.84898 6.9967 6.92535 7.00989 7H6.93171C5.65022 7 4.28034 7.84597 3.88264 10.1201L3.1049 16.3147C2.46858 20.8629 4.81062 22 7.86853 22H16.1585C19.2075 22 21.4789 20.3535 20.9133 16.3147L20.1444 10.1201C19.676 7.90964 18.3503 7 17.0865 7H16.9303ZM15.4932 7C15.4654 6.92794 15.4506 6.85153 15.4497 6.77432C15.4497 4.85682 13.8899 3.30238 11.9657 3.30238C10.0416 3.30238 8.48184 4.85682 8.48184 6.77432C8.49502 6.84898 8.49502 6.92535 8.48184 7H15.4932ZM9.097 12.1486C8.60889 12.1486 8.21321 11.7413 8.21321 11.2389C8.21321 10.7366 8.60889 10.3293 9.097 10.3293C9.5851 10.3293 9.98079 10.7366 9.98079 11.2389C9.98079 11.7413 9.5851 12.1486 9.097 12.1486ZM14.002 11.2389C14.002 11.7413 14.3977 12.1486 14.8858 12.1486C15.3739 12.1486 15.7696 11.7413 15.7696 11.2389C15.7696 10.7366 15.3739 10.3293 14.8858 10.3293C14.3977 10.3293 14.002 10.7366 14.002 11.2389Z" fill="currentColor"></path>
                                  </svg>
                               </div>
                            </div>
@@ -517,7 +472,7 @@
                      <div class="header-title">
                         <h4 class="card-title mb-2">Activity overview</h4>
                         <p class="mb-0">
-                           <svg class ="me-2" width="24" height="24" viewBox="0 0 24 24">
+                           <svg class="me-2" width="24" height="24" viewBox="0 0 24 24">
                               <path fill="#17904b" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
                            </svg>
                            16% this month

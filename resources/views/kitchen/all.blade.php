@@ -40,15 +40,15 @@
                                         <td class="code">{{$order->customer->name}}</td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
-                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-success' : ($order->status == 2 ? 'bg-warning' : ($order->status == 3 ? 'bg-danger' : 'bg-primary'))}} text-uppercase">{{$order->status == 1 ? 'Active' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : 'Completed'))}}</span></td>
+                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-success' : 'bg-secondary')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Delivered' : 'Ready')))}}</span></td>
                                         <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
                                         <td class="createdby">{{$order->createdby->first_name}}</td>
                                         <td>
-                                            @if(Auth::user()->user_type == 'kitchen')
-                                            <div class="d-flex gap-2">
+                                        <div class="d-flex gap-2">
+                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
                                                 @if($order->status == 2)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
                                                 </div>
                                                 @endif
                                                 @if($order->status == 1)
@@ -56,15 +56,22 @@
                                                     <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
                                                 </div>
                                                 @endif
+                                                @endif
+                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
                                                 @if($order->status == 1)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?""><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
+                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                                                 </div>
                                                 @endif
-                                                @if($order->status == 0)
-                                                -
                                                 @endif
-                                                @else
+                                                @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
+                                                @if($order->status == 4)
+                                                <div class="edit">
+                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
+                                                </div>
+                                                @endif
+                                                @endif
+                                                @if($order->status == 0)
                                                 -
                                                 @endif
                                             </div>

@@ -29,8 +29,8 @@
                                     </div> -->
                                     <div class="col-lg-6 col-12 mt-2">
                                         <div class="input-group form-group header-item w-100">
-                                            <select name="category" id="category" class="form-control js-select2-custom mx-1 select2-hidden-accessible" title="select category" onchange="set_category_filter(this.value)" data-select2-id="category" tabindex="-1" aria-hidden="true">
-                                                <option value="all">All categories</option>
+                                            <select name="category" id="category" class="form-control js-select2-custom mx-1 select2-hidden-accessible" title="select category" data-select2-id="category" tabindex="-1" aria-hidden="true">
+                                                <option value="0">All categories</option>
                                                 @foreach($categories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                                 @endforeach
@@ -39,38 +39,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body" id="items">
-                                <div class="row mt-2 mb-3 style-i3">
-                                    @foreach($products as $product)
-                                    <div class="col-12 col-sm-6 col-lg-4">
-                                        <a style="cursor: pointer;" onclick="addToCart('{{$product->id}}')" class="c-one-sp">
-                                            <div class="row style-one-sp">
-                                                <div class="col-2 p-3">
-                                                    <img width="45" src="{{asset('uploads/products/'.$product->image)}}" class="style-two-sp">
-                                                </div>
-                                                <div class="col-8 m-2">
-                                                    <div class="w-one-sp">
-                                                        <span>{{$product->name}}</span>
-                                                    </div>
-                                                    <div class="w-one-sp">
-                                                        <span>Code: {{$product->id}}</span>
-                                                    </div>
-                                                    <div class="w-one-sp">
-                                                        {{$product->price}} IQD
-                                                        <!-- <strike class="style-three-sp">
-                                                            1900 $
-                                                        </strike><br> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    @endforeach
-                                </div>
+                            <div id="products-section">
+
                             </div>
-                            <div class="card-footer">
-                                {{ $products->links() }}
-                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-4 padding-y-sm mt-2">
@@ -202,6 +174,26 @@
     </main>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script type="text/javascript">
+        function getProducts(category_id) {
+            $('#loading-image').show();
+            $.ajax({
+                url: "get-category-products/" + category_id,
+                type: "GET",
+                success: function(response) {
+                    if (response) {
+                        // $('.success').text(response.success);
+                        $("#products-section").html(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+                complete: function() {
+                    $('#loading-image').hide();
+                }
+            });
+        }
+
         function getCart(customer_id) {
             $('#loading-image').show();
             $.ajax({
@@ -341,6 +333,10 @@
             $('#customer-id').on('change', function() {
                 getCart($(this).val());
             });
+            $('#category').on('change', function() {
+                getProducts($(this).val());
+            });
+            getProducts(0);
             getCart(1);
             // ajaxRequest($('#customer-id').val(), $(this).attr('product-id'));
 

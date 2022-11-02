@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
@@ -20,13 +23,23 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $total_earning = 0;
+        $total_orders = 0;
+        $total_products = 0;
+        $total_customers = 0;
         if (Auth::user()->user_type == 'kitchen') {
             return redirect()->route('kitchen');
         } elseif (Auth::user()->user_type == 'cashier') {
             return redirect()->route('pos');
         } else {
+            $latest_products = Product::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);
+            $latest_orders = Order::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);
+            $total_orders = Order::where('status', 0)->count();
+            $total_earning = Order::where('status', 0)->sum('grand_total');
+            $total_customers = Customer::count();
+            $total_products = Product::count();
             $assets = ['chart', 'animation'];
-            return view('dashboards.dashboard', compact('assets'));
+            return view('dashboards.dashboard', compact('assets', 'latest_products', 'latest_orders', 'total_orders', 'total_earning', 'total_customers', 'total_products'));
         }
     }
 
