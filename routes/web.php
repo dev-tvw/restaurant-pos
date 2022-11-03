@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProductController;
@@ -64,6 +65,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('get-category-products/{category_id}', [ProductController::class, 'getCategoryProducts'])->name('getCategoryProducts');
     
 
+    Route::resource('feedbacks', FeedbackController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);

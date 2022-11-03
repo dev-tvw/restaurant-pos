@@ -17,8 +17,8 @@
 
                 <div class="card-body">
                     <div id="customerList">
-                        <div class="table-responsive table-card mt-3 mb-1">
-                            <table class="table align-middle table-nowrap" id="sortTable">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="datatable" data-toggle="data-table">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="sort" data-sort="name">Order Code</th>
@@ -38,7 +38,7 @@
 
                                         <td class="name"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
                                         <td class="code">
-                                        @if($order->customer->email != 'walking@graffiti')    
+                                        @if($order->customer->email != 'walking@graffiti.com')    
                                         <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}</a>
                                         @else
                                         {{$order->customer->name}}
@@ -48,7 +48,7 @@
                                         <td class="updated_by">{{$order->grand_total}}</td>
                                         <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 0 ? 'bg-success' : 'bg-secondary')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 0 ? 'Delivered' : 'Ready')))}}</span></td>
                                         <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
-                                        <td class="createdby">{{$order->createdby->first_name}}</td>
+                                        <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                                         <td>
                                             <div class="d-flex gap-2">
                                                 @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
@@ -112,7 +112,7 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('29c322a78b7a8bebb75a', {
+        var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
             cluster: 'mt1'
         });
         var channel = pusher.subscribe('my-channel');

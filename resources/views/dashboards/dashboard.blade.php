@@ -122,7 +122,7 @@
                                  <td class="updated_by">{{$order->grand_total}}</td>
                                  <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-success' : 'bg-secondary')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Delivered' : 'Ready')))}}</span></td>
                                  <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
-                                 <td class="createdby">{{$order->createdby->first_name}}</td>
+                                 <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                               </tr>
                               @endforeach
                            </tbody>

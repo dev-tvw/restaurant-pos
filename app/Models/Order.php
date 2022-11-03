@@ -43,5 +43,9 @@ class Order extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
+    public function feedback() {
+        return $this->hasOne(Feedback::class, 'order_id', 'id');
+    }
+
 }
 
