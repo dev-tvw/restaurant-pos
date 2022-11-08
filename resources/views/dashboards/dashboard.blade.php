@@ -17,7 +17,7 @@
                            </div>
                            <div class="progress-detail">
                               <p class="mb-2">Total Sales</p>
-                              <h4 class="counter" style="visibility: visible;">{{$total_earning}} IQD</h4>
+                              <h4 class="counter" style="visibility: visible;">{{priceformat($total_earning)}} IQD</h4>
                            </div>
                         </div>
                      </div>

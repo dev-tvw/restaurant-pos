@@ -16,7 +16,7 @@
                             <span>Code: {{$product->id}}</span>
                         </div>
                         <div class="w-one-sp">
-                            {{$product->price}} IQD
+                            {{priceformat($product->price)}} IQD
                             <!-- <strike class="style-three-sp">
                                                             1900 $
                                                         </strike><br> -->

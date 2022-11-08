@@ -10,23 +10,12 @@
                         <div class="card pr-1 pl-1">
                             <div class="card-header pr-0 pl-0">
                                 <div class="row w-100">
-                                    <!-- <div class="col-lg-6 col-12 mt-2">
-                                        <form class="header-item">
-
-                                            <div class="input-group-overlay input-group-merge input-group-flush w-i3">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="tio-search"></i>
-                                                    </div>
-                                                </div>
-                                                <input id="search" autocomplete="off" type="text" name="search" class="form-control search-bar-input" placeholder="Search by code or name" aria-label="Search here">
-                                                <div class="card search-card w-i4 d-none">
-                                                    <div id="search-box" class="card-body search-result-box style-i2"></div>
-                                                </div>
-                                            </div>
-
+                                    <div class="col-lg-6 col-12 mt-2">
+                                        <div class="input-group-overlay input-group-merge input-group-flush w-i3">
+                                            <input onchange="searchProducts(this.value);" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" id="search" autocomplete="off" type="text" name="search" class="form-control search-bar-input" placeholder="Search by code or name" aria-label="Search here">
+                                        </div>
                                         </form>
-                                    </div> -->
+                                    </div>
                                     <div class="col-lg-6 col-12 mt-2">
                                         <div class="input-group form-group header-item w-100">
                                             <select name="category" id="category" class="form-control js-select2-custom mx-1 select2-hidden-accessible" title="select category" data-select2-id="category" tabindex="-1" aria-hidden="true">
@@ -174,11 +163,14 @@
     </main>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script type="text/javascript">
-        function getProducts(category_id) {
+        function getProducts(category_id, search = '') {
             $('#loading-image').show();
             $.ajax({
                 url: "get-category-products/" + category_id,
                 type: "GET",
+                data: {
+                    search: search,
+                },
                 success: function(response) {
                     if (response) {
                         // $('.success').text(response.success);
@@ -327,6 +319,11 @@
                     $('#loading-image').hide();
                 }
             });
+        }
+
+        function searchProducts(search) {
+            console.log(search);
+            getProducts(0, search);
         }
         $(document).ready(function() {
             $("#common-div" + " .content").html('');

@@ -29,7 +29,7 @@
             <input type="number" product-id="{{$item->product->id}}" id="quantity" data-key="0" class="quantity style-two-cart qty-width w-100" value="{{$item->quantity}}" min="1">
         </div>
         <div class="col-md-3">
-            {{$item->quantity * $item->price}} IQD
+            {{priceformat($item->quantity * $item->price)}} IQD
         </div>
         <div class="col-md-3">
             <a class="btn btn-sm btn-outline-danger" onclick="removeCartItem('{{$item->id}}')"><svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
@@ -66,7 +66,7 @@
 
         <dt class="col-6">Total :</dt>
         <dd class="col-6 text-right h4 b">
-            <span id="total_price">{{$total}}</span>
+            <span id="total_price">{{priceformat($total)}}</span>
             IQD
         </dd>
     </dl>

@@ -22,6 +22,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th class="sort" data-sort="name">Order Code</th>
+                                        <th class="sort" data-sort="qr_code">Qr Code</th>
                                         <th class="sort" data-sort="code">Customer</th>
                                         <th class="sort" data-sort="created_by">Total Items</th>
                                         <th class="sort" data-sort="updated_by">Grand Total</th>
@@ -37,6 +38,7 @@
                                     <tr>
 
                                         <td class="name"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
+                                        <td class="qr_code"><img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70"></td>
                                         <td class="code">
                                         @if($order->customer->email != 'walking@graffiti.com')    
                                         <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}</a>

@@ -3,6 +3,10 @@ function dateformat($date)
 {
     return date('d-m-Y', strtotime($date));
 }
+function priceformat($price)
+{
+    return number_format($price);
+}
 function removeSession($session){
     if(\Session::has($session)){
         \Session::forget($session);

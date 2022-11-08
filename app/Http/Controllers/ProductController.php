@@ -17,6 +17,7 @@ use App\Notifications\OrderStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use File;
 
 class ProductController extends Controller
 {
@@ -183,10 +184,12 @@ class ProductController extends Controller
         return view('kitchen.all', compact('orders'));
     }
 
-    public function getCategoryProducts($category_id)
+    public function getCategoryProducts(Request $request, $category_id)
     {
-        $products = Product::when($category_id, function($q) use ($category_id){
+        $products = Product::when($category_id, function ($q) use ($category_id) {
             $q->where('category_id', $category_id);
+        })->when($request->search, function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->search . '%')->orWhere('price', $request->search);
         })->orderby('created_at', 'desc')->paginate(20);
         return View::make('pos.productsAjax')->with('products', $products);
     }
@@ -293,11 +296,16 @@ class ProductController extends Controller
         if ($cart) {
             if (count($cart->cartItems)) {
                 $order_code = $this->generateKey();
+                $path_qrcode = public_path('/uploads/qrcodes/orders');
+                File::isDirectory($path_qrcode) or File::makeDirectory($path_qrcode, 0777, true, true);
+                file_put_contents($path_qrcode . '/' . $order_code . '.png', base64_decode(\DNS2D::getBarcodePNG($order_code, 'QRCODE', 10, 10)));
+
                 $new_order = Order::create([
                     'cart_id' => $cart->id,
                     'order_code' => $order_code,
                     'customer_id' => $cart->customer_id,
                     'item_count' => count($cart->cartItems),
+                    'qr_code' => $order_code . '.png',
                     'created_by' => Auth::user()->id,
                     'updated_by' => Auth::user()->id,
                     'grand_total' => 0,

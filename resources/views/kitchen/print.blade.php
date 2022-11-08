@@ -92,7 +92,7 @@
                                                     <hr>
                                                 </div>
                                                 <div class="d-none d-sm-block col-2">{{$item->quantity}}</div>
-                                                <div class="d-none d-sm-block col-2 text-95">IQD {{$item->price}}</div>
+                                                <div class="d-none d-sm-block col-2 text-95">IQD {{priceformat($item->price)}}</div>
                                                 <div class="col-2 text-secondary-d2">{{$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
                                                         SubTotal
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-120 text-secondary-d1">IQD {{$total_price}}</span>
+                                                        <span class="text-120 text-secondary-d1">IQD {{priceformat($total_price)}}</span>
                                                     </div>
                                                 </div>
 
@@ -134,7 +134,7 @@
                                                         Total Amount
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-150 text-success-d3 opacity-2">IQD {{$total_price}}</span>
+                                                        <span class="text-150 text-success-d3 opacity-2">IQD {{priceformat($total_price)}}</span>
                                                     </div>
                                                 </div>
                                             </div>

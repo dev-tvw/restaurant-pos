@@ -139,7 +139,7 @@
                         </svg>
                     </i>
                   <i class="sidenav-mini-icon"> H </i>
-                  <span class="item-name"> Today's Listing </span>
+                  <span class="item-name"> Today Orders </span>
                 </a>
             </li>
             <li class="nav-item ">
@@ -152,7 +152,7 @@
                         </svg>
                     </i>
                   <i class="sidenav-mini-icon"> H </i>
-                  <span class="item-name"> All Listing</span>
+                  <span class="item-name"> All Orders</span>
                 </a>
             </li>
         </ul>
