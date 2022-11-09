@@ -123,28 +123,20 @@
                                                         <input class="form-control" placeholder="Customer Name" required="" name="name" type="text" value="{{old('name')}}">
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">Email: <span class="text-danger">*</span></label>
-                                                        <input class="form-control" placeholder="Customer Email" required="" name="email" type="text" value="{{old('email')}}">
-                                                    </div>
-                                                    <div class="form-group col-md-12">
                                                         <label class="form-label" for="fname">Mobiile: <span class="text-danger">*</span></label>
                                                         <input class="form-control" placeholder="Customer Mobile" required="" name="mobile" type="text" value="{{old('mobile')}}">
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">State: <span class="text-danger">*</span></label>
-                                                        <input class="form-control" placeholder="State" required="" name="state" type="text" value="{{old('state')}}">
+                                                        <label class="form-label" for="fname">Email: </label>
+                                                        <input class="form-control" placeholder="Customer Email" name="email" type="text" value="{{old('email')}}">
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">City: <span class="text-danger">*</span></label>
-                                                        <input class="form-control" placeholder="State" required="" name="city" type="text" value="{{old('city')}}">
+                                                        <label class="form-label" for="fname">City: </label>
+                                                        <input class="form-control" placeholder="State" name="city" type="text" value="{{old('city')}}">
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">Zip Code: <span class="text-danger">*</span></label>
-                                                        <input class="form-control" placeholder="Zip Code" required="" name="zip_code" type="text" value="{{old('zip_code')}}">
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">Zip Code: <span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" placeholder="Address" required="" name="address" rows="3">{{old('address')}}</textarea>
+                                                        <label class="form-label" for="fname">Address: </label>
+                                                        <textarea class="form-control" placeholder="Address" name="address" rows="3">{{old('address')}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
