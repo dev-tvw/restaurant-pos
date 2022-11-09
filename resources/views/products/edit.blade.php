@@ -35,17 +35,18 @@
                            <input class="form-control" placeholder="Product Price" required="" name="price" type="text" value="{{$product->price}}">
                         </div>
                         <div class="form-group col-md-6">
-                           <label class="form-label" for="fname">Description:</label>
-                           <input class="form-control" placeholder="Description" required="" name="description" type="text" value="{{$product->description}}">
-                        </div>
-                        <div class="form-group col-md-6">
-                           <label class="form-label" for="fname">Description (Arabic):</label>
-                           <input class="form-control" placeholder="Description (Arabic)" required="" name="description_ar" type="text" value="{{$product->description_ar}}" dir="rtl">
-                        </div>
-                        <div class="form-group col-md-6">
                            <label class="form-label" for="lname">Image:</label>
                            <input class="form-control" name="image" type="file">
                         </div>
+                        <div class="form-group col-md-6">
+                           <label class="form-label" for="fname">Description (Max: 250):</label>
+                           <input class="form-control" placeholder="Description" required="" name="description" type="text" value="{{$product->description}}">
+                        </div>
+                        <div class="form-group col-md-6">
+                           <label class="form-label" for="fname">Description (Arabic) (Max: 250):</label>
+                           <input class="form-control" placeholder="Description (Arabic)" required="" name="description_ar" type="text" value="{{$product->description_ar}}" dir="rtl">
+                        </div>
+                        
                      <button type="submit" class="btn btn-primary">Update Product</button>
                   </div>
                </div>

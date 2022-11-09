@@ -57,6 +57,8 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'name_ar' => 'required',
+            'description' => 'string|max:250',
+            'description_ar' => 'string|max:250',
             'category_id' => 'required',
             'image' => 'required'
         ]);
@@ -119,6 +121,8 @@ class ProductController extends Controller
             'price' => 'required',
             'name' => 'required',
             'name_ar' => 'required',
+            'description' => 'string|max:250',
+            'description_ar' => 'string|max:250',
             'category_id' => 'required',
         ]);
         $filename = $product->image;

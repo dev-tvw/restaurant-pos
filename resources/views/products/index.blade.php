@@ -9,6 +9,7 @@
                <div class="header-title">
                   <h4 class="card-title">Products Listing</h4>
                </div>
+               <a href="{{route('products.create')}}" class="btn btn-info" style="float: right;"><i class="fa fa-plus"></i> Add New Product</a>
             </div>
             <div class="card-body">
                <div class="table-responsive">
@@ -18,6 +19,7 @@
                            <th>Product</th>
                            <th>Category</th>
                            <th>Product Name</th>
+                           <th>Price (IQD)</th>
                            <th>Created At</th>
                            <th>Action</th>
                         </tr>
@@ -28,6 +30,7 @@
                            <td><img src="{{asset('uploads/products/'.$product->image)}}" height="40" /></td>
                            <td>{{$lang == 'en' ? $product->category->name : $product->category->name_ar}}</td>
                            <td>{{$lang == 'en' ? $product->name : $product->name_ar}}</td>
+                           <td>{{priceformat($product->price)}}</td>
                            <td>{{dateformat($product->created_at)}}</td>
                            <td><a href="{{route('products.edit', ['product' => $product->id])}}"><svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
