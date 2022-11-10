@@ -2,29 +2,30 @@
     <div class="row mt-2 mb-3 style-i3">
         @if(count($products))
         @foreach($products as $product)
-        <div class="col-12 col-sm-6 col-lg-4">
-            <a style="cursor: pointer;" onclick="addToCart('{{$product->id}}')" class="c-one-sp">
-                <div class="row style-one-sp">
-                    <div class="col-2 p-3">
-                        <img width="45" src="{{asset('uploads/products/'.$product->image)}}" class="style-two-sp">
-                    </div>
-                    <div class="col-8 m-2">
-                        <div class="w-one-sp">
-                            <span>{{$product->name}}</span>
-                        </div>
-                        <div class="w-one-sp">
-                            <span>Code: {{$product->id}}</span>
-                        </div>
-                        <div class="w-one-sp">
+        <div class="col-lg-3">
+
+            <div class="card">
+                <a href="{{ asset('uploads/products/'.$product->image) }}" data-lightbox="myImg<?php echo $product->id; ?>" data-title="{{$product->name}}">
+                    <img src="{{ asset('uploads/products/'.$product->image) }}" width="200" height="200" data-lightbox="myImg<?php echo $product->id; ?>" />
+                </a>
+                <!-- <img src="{{asset('uploads/products/'.$product->image)}}" class="card-img-top" alt="Waterfall" /> -->
+                <a style="cursor: pointer;" onclick="addToCart('{{$product->id}}')" class="c-one-sp">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{$product->name}}</h5>
+                        <p class="card-text">
+
+                            Code: {{$product->id}}
+
+                        </p>
+                        <p class="card-text">
                             {{priceformat($product->price)}} IQD
-                            <!-- <strike class="style-three-sp">
-                                                            1900 $
-                                                        </strike><br> -->
-                        </div>
+                        </p>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
+
         </div>
+
         @endforeach
         @else
         <h4>No Product Found against selected category</h4>

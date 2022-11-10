@@ -11,12 +11,14 @@
 
                 <div class="card-body">
                     <div class="row gx-lg-5">
-                        <div class="col-xl-4 col-md-8 mx-auto">
+                        <div class="col-xl-3 mx-auto">
                             <div class="product-img-slider sticky-side-div">
                                 <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="{{ URL::asset('uploads/products/'.$product->image) }}" alt="" class="img-fluid d-block" style="height: 300px !important;" />
+                                        <div class="swiper-slide text-center">
+                                            <a href="{{ asset('uploads/products/'.$product->image) }}" data-lightbox="myImg<?php echo $product->id; ?>" data-title="{{$product->name}}">
+                                                <img src="{{ asset('uploads/products/'.$product->image) }}" width="300" height="300" data-lightbox="myImg<?php echo $product->id; ?>" />
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -25,7 +27,7 @@
                         </div>
                         <!-- end col -->
 
-                        <div class="col-xl-8">
+                        <div class="col-xl-9">
                             <div class="mt-xl-0 mt-5">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">

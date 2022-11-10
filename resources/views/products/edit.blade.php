@@ -35,16 +35,20 @@
                            <input class="form-control" placeholder="Product Price" required="" name="price" type="text" value="{{$product->price}}">
                         </div>
                         <div class="form-group col-md-6">
-                           <label class="form-label" for="lname">Image:</label>
+                           <label class="form-label" for="fname">Cost:<span class="text-danger">*</span></label>
+                           <input class="form-control" placeholder="Product Cost" required="" name="cost" type="text" value="{{$product->cost}}">
+                        </div>
+                        <div class="form-group col-md-6">
+                           <label class="form-label" for="lname">Image (300 X 300):</label>
                            <input class="form-control" name="image" type="file">
                         </div>
                         <div class="form-group col-md-6">
                            <label class="form-label" for="fname">Description (Max: 250):</label>
-                           <input class="form-control" placeholder="Description" required="" name="description" type="text" value="{{$product->description}}">
+                           <input class="form-control" placeholder="Description" name="description" type="text" value="{{$product->description}}">
                         </div>
                         <div class="form-group col-md-6">
                            <label class="form-label" for="fname">Description (Arabic) (Max: 250):</label>
-                           <input class="form-control" placeholder="Description (Arabic)" required="" name="description_ar" type="text" value="{{$product->description_ar}}" dir="rtl">
+                           <input class="form-control" placeholder="Description (Arabic)" name="description_ar" type="text" value="{{$product->description_ar}}" dir="rtl">
                         </div>
                         
                      <button type="submit" class="btn btn-primary">Update Product</button>

@@ -27,7 +27,11 @@
                      <tbody>
                         @foreach($products as $product)
                         <tr>
-                           <td><img src="{{asset('uploads/products/'.$product->image)}}" height="40" /></td>
+                           <td>
+                              <a href="{{ asset('uploads/products/'.$product->image) }}" data-lightbox="myImg<?php echo $product->id; ?>" data-title="{{$product->name}}">
+                                 <img src="{{ asset('uploads/products/'.$product->image) }}" width="40" height="40" data-lightbox="myImg<?php echo $product->id; ?>" />
+                              </a>
+                           </td>
                            <td>{{$lang == 'en' ? $product->category->name : $product->category->name_ar}}</td>
                            <td>{{$lang == 'en' ? $product->name : $product->name_ar}}</td>
                            <td>{{priceformat($product->price)}}</td>

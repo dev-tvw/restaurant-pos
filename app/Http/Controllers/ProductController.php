@@ -56,9 +56,10 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
+            'cost' => 'required',
             'name_ar' => 'required',
-            'description' => 'string|max:250',
-            'description_ar' => 'string|max:250',
+            'description' => 'nullable|string|max:250',
+            'description_ar' => 'nullable|string|max:250',
             'category_id' => 'required',
             'image' => 'required'
         ]);
@@ -71,6 +72,7 @@ class ProductController extends Controller
         Product::create([
             'name' => $request->name,
             'price' => $request->price,
+            'cost' => $request->cost,
             'name_ar' => $request->name_ar,
             'description' => $request->description,
             'description_ar' => $request->description_ar,
@@ -119,10 +121,11 @@ class ProductController extends Controller
     {
         $request->validate([
             'price' => 'required',
+            'cost' => 'required',
             'name' => 'required',
             'name_ar' => 'required',
-            'description' => 'string|max:250',
-            'description_ar' => 'string|max:250',
+            'description' => 'nullable|string|max:250',
+            'description_ar' => 'nullable|string|max:250',
             'category_id' => 'required',
         ]);
         $filename = $product->image;
@@ -135,6 +138,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $request->name,
             'price' => $request->price,
+            'cost' => $request->cost,
             'name_ar' => $request->name_ar,
             'description' => $request->description,
             'description_ar' => $request->description_ar,
@@ -221,7 +225,8 @@ class ProductController extends Controller
                 'cart_id' => $cart->id,
                 'product_id' => $product_id,
                 'quantity' => $quantity,
-                'price' => $product->price
+                'price' => $product->price,
+                'cost' => $product->cost
             ]);
         }
         return View::make('pos/cartAjax')->with('cart', $cart)->with('customer', $cart->customer->name);
@@ -317,14 +322,43 @@ class ProductController extends Controller
                 ]);
                 $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
                     $grand = 0;
+                    $profit = 0;
                     $grand += $cartItem->product->price * $cartItem->quantity;
-                    $new_order->grand_total = $grand;
+                    $profit += $cartItem->product->cost * $cartItem->quantity;
+                    $new_order->grand_total += $grand;
+                    $new_order->profit += ($grand - $profit);
                     $new_order->save();
                 });
                 $cart->status = 0;
                 $cart->save();
                 $kitchen_user = User::where('user_type', 'kitchen')->first();
                 $kitchen_user->notify(new NewOrder($new_order));
+                $html = '<tr class="odd">
+
+                <td class="name sorting_1"><a href="http://127.0.0.1:8000/order-detail/49">6KBXXL</a></td>
+                <td class="qr_code"><img src="http://127.0.0.1:8000/uploads/qrcodes/orders/6KBXXL.png" width="70"></td>
+                <td class="code">
+                                                        Walking Customer
+                                                        </td>
+                <td class="created_by">2</td>
+                <td class="updated_by">210000</td>
+                <td class="created_at"><span class="badge rounded-pill bg-warning text-uppercase">Pending</span></td>
+                <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">10-11-2022</span></td>
+                <td class="createdby">Cashier 2</td>
+                <td>
+                    <div class="d-flex gap-2"><div class="edit">
+                            <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="http://127.0.0.1:8000/change-status/49/3" data-title="Are you sure to cancel this order?"><svg class="svg-inline--fa fa-xmark" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"></path></svg><!-- <i class="fa fa-times" aria-hidden="true"></i> Font Awesome fontawesome.com --> </a>
+                        </div>
+                                                                                                                                                                                                                        <div class="edit">
+                            <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="http://127.0.0.1:8000/change-status/49/2" data-title="Are you sure to cook this order?"><svg class="svg-inline--fa fa-kitchen-set" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="kitchen-set" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M240 144c0-53-43-96-96-96s-96 43-96 96s43 96 96 96s96-43 96-96zm44.4 32C269.9 240.1 212.5 288 144 288C64.5 288 0 223.5 0 144S64.5 0 144 0c68.5 0 125.9 47.9 140.4 112h71.8c8.8-9.8 21.6-16 35.8-16H496c26.5 0 48 21.5 48 48s-21.5 48-48 48H392c-14.2 0-27-6.2-35.8-16H284.4zM144 208c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64zm256 32c13.3 0 24 10.7 24 24v8h96c13.3 0 24 10.7 24 24s-10.7 24-24 24H280c-13.3 0-24-10.7-24-24s10.7-24 24-24h96v-8c0-13.3 10.7-24 24-24zM288 464V352H512V464c0 26.5-21.5 48-48 48H336c-26.5 0-48-21.5-48-48zM48 320h80 16 32c26.5 0 48 21.5 48 48s-21.5 48-48 48H160c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V336c0-8.8 7.2-16 16-16zm128 64c8.8 0 16-7.2 16-16s-7.2-16-16-16H160v32h16zM24 464H200c13.3 0 24 10.7 24 24s-10.7 24-24 24H24c-13.3 0-24-10.7-24-24s10.7-24 24-24z"></path></svg><!-- <i class=" fa fa-kitchen-set" aria-hidden="true"></i> Font Awesome fontawesome.com --> </a>
+                        </div>
+                                                                                                                                                                                                                    </div>
+                </td>
+                <td>
+                                                                -
+                                                            </td>
+            </tr>';
+
                 $data = ['message' => 'You have new Order', 'order' => $new_order];
                 event(new NerOrderEvent(json_encode($data)));
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);

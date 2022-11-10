@@ -18,7 +18,7 @@
                                     <th scope="col">Item Price</th>
                                     <th scope="col">Quantity</th>
                                     <!-- <th scope="col">Rating</th> -->
-                                    <th scope="col" class="text-end">Total Amount</th>
+                                    <th scope="col" class="text-end">Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,9 @@
                                     <td>
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-md bg-light rounded p-1">
-                                                <img src="{{ asset('uploads/products/'.$item->product->image) }}" width="45" alt="" class="img-fluid d-block">
+                                                <a href="{{ asset('uploads/products/'.$item->product->image) }}" data-lightbox="myImg<?php echo $item->product->id; ?>" data-title="{{$item->product->name}}">
+                                                    <img src="{{ asset('uploads/products/'.$item->product->image) }}" width="45" height="45" data-lightbox="myImg<?php echo $item->product->id; ?>" />
+                                                </a>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h5 class="fs-15"><a href="{{route('products.show', ['product' => $item->product])}}" class="link-primary">{{$lang == 'en' ? $item->product->name : $item->product->name_ar}} ({{$lang == 'en' ? $item->product->category->name : $item->product->category->name_ar}})</a></h5>
@@ -48,7 +50,7 @@
                                     </div>
                                 </td> -->
                                     <td class="fw-medium text-end">
-                                        {{$total_price}}
+                                        {{$item->price * $item->quantity}}
                                     </td>
                                 </tr>
                                 @endforeach
