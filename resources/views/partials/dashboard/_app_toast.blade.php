@@ -1,12 +1,13 @@
 <script type="text/javascript">
     {{-- Success Message --}}
     @if (Session::has('success'))
-    Swal.fire({
-    icon: 'success',
-    title: 'Done',
-    text: '{{ Session::get("success") }}',
-    confirmButtonColor: "#3a57e8"
-    });
+    toastr.success("{{ Session::get("success") }}")
+    // Swal.fire({
+    // icon: 'success',
+    // title: 'Done',
+    // text: '{{ Session::get("success") }}',
+    // confirmButtonColor: "#3a57e8"
+    // });
     @endif
     {{-- Errors Message --}}
     @if (Session::has('error'))
