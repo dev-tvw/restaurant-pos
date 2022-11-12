@@ -115,7 +115,7 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
+        var pusher = new Pusher('29c322a78b7a8bebb75a', {
             cluster: 'mt1'
         });
         var channel = pusher.subscribe('my-channel');

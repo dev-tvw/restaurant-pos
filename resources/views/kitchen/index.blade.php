@@ -40,11 +40,11 @@
                                         <td class="name"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
                                         <td class="qr_code"><img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70"></td>
                                         <td class="code">
-                                        @if($order->customer->email != 'walking@graffiti.com')    
-                                        <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}</a>
-                                        @else
-                                        {{$order->customer->name}}
-                                        @endif
+                                            @if($order->customer->email != 'walking@graffiti.com')
+                                            <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}</a>
+                                            @else
+                                            {{$order->customer->name}}
+                                            @endif
                                         </td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
@@ -56,57 +56,57 @@
                                                 @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
                                                 @if($order->status == 2)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    <a class="btn btn-sm btn-info edit-item-btn change-status" href="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
                                                 </div>
                                                 @endif
-                                                @if($order->status == 1)
+                                                {{-- @if($order->status == 1)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif
-                                                @endif
-                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 1)
-                                                <div class="edit">
-                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif
-                                                @endif
-                                                @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 4)
-                                                <div class="edit">
-                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif
-                                                @endif
-                                                @if($order->status == 0)
-                                                -
-                                                @endif
+                                                    <a class="btn btn-sm btn-danger edit-item-btn change-status" href="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
                                             </div>
-                                        </td>
-                                        <td>
-                                            @if($order->status == 4 || $order->status == 0)
+                                            @endif --}}
+                                            @endif
+                                            @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                            @if($order->status == 1)
                                             <div class="edit">
-                                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                                <a class="btn btn-sm btn-warning edit-item-btn change-status" href="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                                             </div>
-                                            @else
+                                            @endif
+                                            @endif
+                                            @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
+                                            @if($order->status == 4)
+                                            <div class="edit">
+                                                <a class="btn btn-sm btn-success edit-item-btn change-status" href="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
+                                            </div>
+                                            @endif
+                                            @endif
+                                            @if($order->status == 0)
                                             -
                                             @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div id="pagination">
-                                {{ $orders->links() }}
+                        </div>
+                        </td>
+                        <td>
+                            @if($order->status == 4 || $order->status == 0)
+                            <div class="edit">
+                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
                             </div>
+                            @else
+                            -
+                            @endif
+                        </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                        </table>
+                        <div id="pagination">
+                            {{ $orders->links() }}
                         </div>
                     </div>
-                </div><!-- end card -->
-            </div>
-            <!-- end col -->
+                </div>
+            </div><!-- end card -->
         </div>
         <!-- end col -->
+    </div>
+    <!-- end col -->
     </div>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/pusher.js')}}"></script>
@@ -114,35 +114,40 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
+        var pusher = new Pusher('29c322a78b7a8bebb75a', {
             cluster: 'mt1'
         });
         var channel = pusher.subscribe('my-channel');
         channel.bind('new-order', function(data) {
+            var user_id = {{Auth::user()->id}};
             var order = JSON.parse(data.order);
-            console.log(data, order);
+            console.log(data, order, user_id);
             // var obj_res = JSON.stringify(data);
-            // $("<tr><td>prependTo</td><td>prependTo</td><td>prependTo</td></tr>").prependTo("#sortTable > tbody");
+            if(user_id == order.notifiable_id)
+            {
+                $(order.html).prependTo("#datatable > tbody");
+                toastr.info("You have new Order");
+            }
             // console.log('here', obj_res);
-            $('.new_order_section').css('display', 'block');
+            // $('.new_order_section').css('display', 'block');
         });
 
-        $('.change-status').click(function(event) {
-            var hreference = $(this).attr('data-url');
-            var title = $(this).attr('data-title');
-            event.preventDefault();
-            swal({
-                    title: title,
-                    text: "If you change status, it will be forever",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location.href = hreference;
-                    }
-                });
-        });
+        // $('.change-status').on('click', function() {
+        //     var hreference = $(this).attr('data-url');
+        //     var title = $(this).attr('data-title');
+        //     event.preventDefault();
+        //     swal({
+        //             title: title,
+        //             text: "If you change status, it will be forever",
+        //             icon: "warning",
+        //             buttons: true,
+        //             dangerMode: true,
+        //         })
+        //         .then((willDelete) => {
+        //             if (willDelete) {
+        //                 window.location.href = hreference;
+        //             }
+        //         });
+        // });
     </script>
 </x-app-layout>
