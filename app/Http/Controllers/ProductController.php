@@ -157,7 +157,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->active = $product->active ? 0 : 1;
+        $product->save();
+        return redirect()->back()->with('success', 'Status changed successfully');
     }
 
     public function printInvoice(Order $order)
@@ -170,7 +172,7 @@ class ProductController extends Controller
         $customers = Customer::where('id', '>', 1)->orderby('created_at', 'desc')->get();
         $walking_customer = Customer::where('id', 1)->first();
         $cart = Cart::where('status', '!=', 0)->where('customer_id', 1)->first();
-        $products = Product::paginate(20);
+        $products = Product::orderby('created_at', 'desc')->where('active', 1)->paginate(20);
         $categories = Category::all();
         return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
     }
@@ -199,7 +201,7 @@ class ProductController extends Controller
             $q->where('category_id', $category_id);
         })->when($request->search, function ($query) use ($request) {
             $query->where('name', 'like', '%' . $request->search . '%')->orWhere('price', $request->search);
-        })->orderby('created_at', 'desc')->paginate(20);
+        })->where('active', 1)->orderby('created_at', 'desc')->paginate(20);
         return View::make('pos.productsAjax')->with('products', $products);
     }
 
