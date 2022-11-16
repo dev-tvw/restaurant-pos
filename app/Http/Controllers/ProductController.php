@@ -30,7 +30,8 @@ class ProductController extends Controller
     {
         $assets = ['data-table'];
         $limit = $request->has('limit') && $request->limit ? $request->limit : 10;
-        $products = Product::paginate($limit);
+        // $products = Product::paginate($limit);
+        $products = Product::orderby('created_at', 'desc')->get();
         return view('products.index', compact('products', 'assets'));
     }
 
