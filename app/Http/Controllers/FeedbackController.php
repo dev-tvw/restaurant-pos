@@ -46,7 +46,7 @@ class FeedbackController extends Controller
             'order_id' => 'required',
             'feedback' => 'required'
         ]);
-        Order::create([
+        Feedback::create([
             'order_id' => $request->order_id,
             'feedback' => $request->feedback
         ]);

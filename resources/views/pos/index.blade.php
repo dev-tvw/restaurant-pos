@@ -212,12 +212,13 @@
                     if (type != 'add') {
                         message = 'Cart updated successfully';
                     }
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Done',
-                        text: message,
-                        confirmButtonColor: "#3a57e8"
-                    });
+                    toastr.info(message);
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Done',
+                    //     text: message,
+                    //     confirmButtonColor: "#3a57e8"
+                    // });
                 },
                 error: function(error) {
                     console.log(error);
@@ -240,12 +241,13 @@
                         $("#common-div" + " .content").html(response);
                     }
                     var message = 'Cart Item removed successfully';
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Done',
-                        text: message,
-                        confirmButtonColor: "#3a57e8"
-                    });
+                    toastr.warning(message);
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Done',
+                    //     text: message,
+                    //     confirmButtonColor: "#3a57e8"
+                    // });
                 },
                 error: function(error) {
                     console.log(error);
@@ -269,12 +271,13 @@
                         $("#common-div" + " .content").html(response);
                     }
                     var message = 'Cart removed successfully';
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Done',
-                        text: message,
-                        confirmButtonColor: "#3a57e8"
-                    });
+                    toastr.error(message);
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Done',
+                    //     text: message,
+                    //     confirmButtonColor: "#3a57e8"
+                    // });
                 },
                 error: function(error) {
                     console.log(error);
@@ -297,12 +300,13 @@
                         $("#common-div" + " .content").html(response);
                     }
                     var message = 'Order submitted successfully';
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Done',
-                        text: message,
-                        confirmButtonColor: "#3a57e8"
-                    });
+                    toastr.success(message);
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Done',
+                    //     text: message,
+                    //     confirmButtonColor: "#3a57e8"
+                    // });
                 },
                 error: function(error) {
                     console.log(error);

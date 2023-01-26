@@ -48,7 +48,7 @@
                                         </td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
-                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-secondary' : 'bg-success')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Delivered' : 'Ready')))}}</span></td>
+                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-secondary' : 'bg-success')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Ready' : 'Delivered')))}}</span></td>
                                         <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
                                         <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                                         <td>
@@ -114,7 +114,7 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('29c322a78b7a8bebb75a', {
+        var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
             cluster: 'mt1'
         });
         var channel = pusher.subscribe('my-channel');

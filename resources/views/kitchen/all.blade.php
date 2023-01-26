@@ -49,7 +49,7 @@
                                         </td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
-                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-secondary' : 'bg-success')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Delivered' : 'Ready')))}}</span></td>
+                                        <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-secondary' : 'bg-success')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Ready' : 'Delivered')))}}</span></td>
                                         <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
                                         <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                                         <td>
@@ -60,11 +60,11 @@
                                                     <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
                                                 </div>
                                                 @endif
-                                                @if($order->status == 1)
+                                                {{-- @if($order->status == 1)
                                                 <div class="edit">
                                                     <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
                                                 </div>
-                                                @endif
+                                                @endif --}}
                                                 @endif
                                                 @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
                                                 @if($order->status == 1)
@@ -115,7 +115,7 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('29c322a78b7a8bebb75a', {
+        var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
             cluster: 'mt1'
         });
         var channel = pusher.subscribe('my-channel');
