@@ -85,7 +85,7 @@
                         </div>
                         </td>
                         <td>
-                            @if($order->status == 4 || $order->status == 0)
+                            @if(($order->status == 4 || $order->status == 0) && Auth::user()->user_type != 'kitchen')
                             <div class="edit">
                                 <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
                             </div>
@@ -119,7 +119,7 @@
         });
         var channel = pusher.subscribe('my-channel');
         channel.bind('new-order', function(data) {
-            var user_id = {{Auth::user()->id}};
+            var user_id = '{{Auth::user()->id}}';
             var order = JSON.parse(data.order);
             console.log(data, order, user_id);
             // var obj_res = JSON.stringify(data);

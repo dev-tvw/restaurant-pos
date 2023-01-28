@@ -6,7 +6,10 @@
 
             <div class="card">
                 <a href="{{ asset('uploads/products/'.$product->image) }}" data-lightbox="myImg<?php echo $product->id; ?>" data-title="{{$product->name}}">
-                    <img src="{{ asset('uploads/products/'.$product->image) }}" width="200" height="200" data-lightbox="myImg<?php echo $product->id; ?>" />
+                @php
+                $image_url = asset('uploads/products/'.$product->image);
+                @endphp
+                <div class="product-image" style="background-image: url('{{$image_url}}'); background-size:cover; background-position: center;background-repeat: no-repeat; height: 150px;border-radius: 10px;"></div>
                 </a>
                 <!-- <img src="{{asset('uploads/products/'.$product->image)}}" class="card-img-top" alt="Waterfall" /> -->
                 <a style="cursor: pointer;" onclick="addToCart('{{$product->id}}')" class="c-one-sp">

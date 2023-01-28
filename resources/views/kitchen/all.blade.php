@@ -86,7 +86,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @if($order->status == 0)
+                                            @if($order->status == 0 && Auth::user()->user_type != 'kitchen')
                                             <div class="edit">
                                                 <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
                                             </div>

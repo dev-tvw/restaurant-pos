@@ -43,11 +43,13 @@
                            <td style="display:flex;"><a style="margin-right: 10px;" class="btn btn-sm btn-primary" href="{{route('products.edit', ['product' => $product->id])}}">
                                  <i class="fa fa-pencil"></i>
                               </a>
+                              @if((!$product->active) || (!$product->cart_items_count && $product->active))
                               <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                  @csrf
                                  @method('DELETE')
                                  <button type="submit" class="btn btn-sm btn-{{$product->active ? 'danger' : 'success'}}" onclick="return confirm('Are you sure?')"><i class="fa {{$product->active ? 'fa-times' : 'fa-check'}}"></i></button>
                               </form>
+                              @endif
                            </td>
                         </tr>
                         @endforeach

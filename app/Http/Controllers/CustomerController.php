@@ -38,14 +38,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'mobile' => 'required',
         ]);
         Customer::create([
             'name' => $request->name,
             'mobile' => $request->mobile,
-            'email' => $request->email,
-            'city' => $request->city,
-            'address' => $request->address
         ]);
         return redirect()->route('pos')->with('success', 'Customer added successfully');
     }
@@ -83,14 +79,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'mobile' => 'required',
         ]);
         $customer->update([
             'name' => $request->name,
             'mobile' => $request->mobile,
-            'email' => $request->email,
-            'city' => $request->city,
-            'address' => $request->address
         ]);
         return redirect()->route('pos')->with('success', 'Customer updated successfully');
     }
