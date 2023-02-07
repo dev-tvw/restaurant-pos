@@ -21,7 +21,8 @@
                             <table class="table align-middle table-nowrap" id="sortTable">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="sort" data-sort="name">Order Code</th>
+                                        <th class="sort" data-sort="(daily_code, Daily Code)">Daily Code</th>
+                                        <th class="sort" data-sort="(order_code, System Code)">System Code</th>
                                         <th class="sort" data-sort="qr_code">Qr Code</th>
                                         <th class="sort" data-sort="code">Customer</th>
                                         <th class="sort" data-sort="created_by">Total Items</th>
@@ -36,7 +37,8 @@
                                 <tbody class="list form-check-all">
                                     @foreach($orders as $order)
                                     <tr>
-                                        <td class="name"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
+                                        <td class="daily_code">{{$order->daily_code}}</td>
+                                        <td class="order_code"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
                                         <td class="qr_code">
                                             <img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70">
                                         </td>
@@ -63,51 +65,51 @@
                                                 {{-- @if($order->status == 1)
                                                 <div class="edit">
                                                     <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif --}}
-                                                @endif
-                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 1)
-                                                <div class="edit">
-                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif
-                                                @endif
-                                                @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 4)
-                                                <div class="edit">
-                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
-                                                </div>
-                                                @endif
-                                                @endif
-                                                @if($order->status == 0)
-                                                -
-                                                @endif
                                             </div>
-                                        </td>
-                                        <td>
-                                            @if($order->status == 0 && Auth::user()->user_type != 'kitchen')
+                                            @endif --}}
+                                            @endif
+                                            @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                            @if($order->status == 1)
                                             <div class="edit">
-                                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                                <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                                             </div>
-                                            @else
+                                            @endif
+                                            @endif
+                                            @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
+                                            @if($order->status == 4)
+                                            <div class="edit">
+                                                <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
+                                            </div>
+                                            @endif
+                                            @endif
+                                            @if($order->status == 0)
                                             -
                                             @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div id="pagination">
-                                {{ $orders->links() }}
+                        </div>
+                        </td>
+                        <td>
+                            @if($order->status == 0 && Auth::user()->user_type != 'kitchen')
+                            <div class="edit">
+                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
                             </div>
+                            @else
+                            -
+                            @endif
+                        </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                        </table>
+                        <div id="pagination">
+                            {{ $orders->links() }}
                         </div>
                     </div>
-                </div><!-- end card -->
-            </div>
-            <!-- end col -->
+                </div>
+            </div><!-- end card -->
         </div>
         <!-- end col -->
+    </div>
+    <!-- end col -->
     </div>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/pusher.js')}}"></script>

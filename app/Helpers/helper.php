@@ -1,7 +1,7 @@
 <?php
 function dateformat($date)
 {
-    return date('d-m-Y', strtotime($date));
+    return date('d-m-Y h:i:s a', strtotime($date));
 }
 function priceformat($price)
 {

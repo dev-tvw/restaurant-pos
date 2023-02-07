@@ -14,7 +14,7 @@
                                 Invoice
                                 <small class="page-info">
                                     <i class="fa fa-angle-double-right text-80"></i>
-                                    ID: #{{$order->order_code}}
+                                    ID: #{{$order->daily_code}}
                                 </small>
                             </h1>
 
@@ -62,7 +62,7 @@
                                                     Invoice
                                                 </div>
 
-                                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{{$order->order_code}}</div>
+                                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{{$order->daily_code}}</div>
 
                                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Date:</span> {{dateFormat($order->created_at)}}</div>
 

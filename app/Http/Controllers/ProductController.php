@@ -308,13 +308,14 @@ class ProductController extends Controller
         if ($cart) {
             if (count($cart->cartItems)) {
                 $order_code = $this->generateKey();
+                $daily_code = $this->generateDailyCode();
                 $path_qrcode = public_path('/uploads/qrcodes/orders');
                 File::isDirectory($path_qrcode) or File::makeDirectory($path_qrcode, 0777, true, true);
                 file_put_contents($path_qrcode . '/' . $order_code . '.png', base64_decode(\DNS2D::getBarcodePNG($order_code, 'QRCODE', 10, 10)));
-
                 $new_order = Order::create([
                     'cart_id' => $cart->id,
                     'order_code' => $order_code,
+                    'daily_code' => $daily_code,
                     'customer_id' => $cart->customer_id,
                     'item_count' => count($cart->cartItems),
                     'qr_code' => $order_code . '.png',
@@ -339,7 +340,7 @@ class ProductController extends Controller
                 $qr_code_image = asset("uploads/qrcodes/orders/" . $new_order->qr_code);
                 $html = '<tr class="odd">';
                 $html .= '<td class="name sorting_1"><a href="' . route("orders.show", ["order" => $new_order]) . '">' . $new_order->order_code . '</a></td>';
-                $html .= '<td class="qr_code"><img src="'.$qr_code_image.'" width="70"></td>';
+                $html .= '<td class="qr_code"><img src="' . $qr_code_image . '" width="70"></td>';
                 $html .= '<td class="code">' . $new_order->customer->name . '</td>';
                 $html .= '<td class="created_by">' . $new_order->item_count . '</td>';
                 $html .= '<td class="updated_by">' . $new_order->grand_total . '</td>';
@@ -350,7 +351,7 @@ class ProductController extends Controller
                 $html .= '<td class="createdby">' . $new_order->createdby->first_name . ' ' . $new_order->createdby->last_name . '</td>';
                 $html .= '<td><div class="d-flex gap-2">';
                 $html .= '<div class="edit">
-                    <a class="btn btn-sm btn-warning edit-item-btn change-status" href="'.route("changeStatus", ["order" => $new_order, "status" => 2]).'" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
+                    <a class="btn btn-sm btn-warning edit-item-btn change-status" href="' . route("changeStatus", ["order" => $new_order, "status" => 2]) . '" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                 </div>';
                 $html .= '</div></td>';
                 $html .= '<td>';
@@ -392,6 +393,16 @@ class ProductController extends Controller
         } else {
             return $rand;
         }
+    }
+
+    function generateDailyCode()
+    {
+        $daily_code = 1;
+        $last_order = Order::whereDate('created_at', Carbon::today())->latest()->first();
+        if ($last_order) {
+            $daily_code = $last_order->daily_code + 1;
+        }
+        return $daily_code;
     }
 
     function validOrder($key)

@@ -21,7 +21,8 @@
                             <table class="table table-striped" id="datatable" data-toggle="data-table">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="sort" data-sort="name">Order Code</th>
+                                        <th class="sort" data-sort="(daily_code, Daily Code)">Daily Code</th>
+                                        <th class="sort" data-sort="(order_code, System Code)">System Code</th>
                                         <th class="sort" data-sort="qr_code">Qr Code</th>
                                         <th class="sort" data-sort="code">Customer</th>
                                         <th class="sort" data-sort="created_by">Total Items</th>
@@ -37,7 +38,8 @@
                                     @foreach($orders as $order)
                                     <tr>
 
-                                        <td class="name"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
+                                        <td class="daily_code">{{$order->daily_code}}</td>
+                                        <td class="order_code"><a href="{{route('orders.show', ['order' => $order])}}">{{$order->order_code}}</a></td>
                                         <td class="qr_code"><img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70"></td>
                                         <td class="code">
                                             @if($order->customer->email != 'walking@graffiti.com')
