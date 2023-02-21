@@ -6,6 +6,7 @@ use App\Models\Feedback;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class FeedbackController extends Controller
 {
@@ -16,8 +17,8 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedback = Feedback::when(Auth::user()->user_type == 'cashier', function($q){
-            $q->whereHas('order', function($query){
+        $feedback = Feedback::when(Auth::user()->user_type == 'cashier', function ($q) {
+            $q->whereHas('order', function ($query) {
                 $query->where('created_at', Auth::user()->id);
             });
         })->paginate(20);
@@ -96,5 +97,38 @@ class FeedbackController extends Controller
     public function destroy(Feedback $feedback)
     {
         //
+    }
+
+    public function saveFeedback(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'phone' => 'required',
+                'rating' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bad Request'
+            ], 400);
+        }
+        $feedback = Feedback::create([
+            'phone' => $request->phone,
+            'rating' => $request->rating,
+            'feedback' => $request->feedback
+        ]);
+        if (!$feedback) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something wrong at Server'
+            ], 500);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Feedback sent successfully'
+        ], 200);
     }
 }

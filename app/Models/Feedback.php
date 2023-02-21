@@ -10,14 +10,8 @@ class Feedback extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'feedback'
+        'phone', 'feedback', 'rating'
     ];
 
-     /**
-     * Get the order that owns the feedback.
-     */
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'order_id', 'id');
-    }
+    protected $table = 'feedbacks';
 }
