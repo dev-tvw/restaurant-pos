@@ -12,6 +12,7 @@
                 </div>
                 <div class="card-body">
                 
+                    <div class="mb-1">Type: <a href="#" class="ms-3">{{getCustomerTypes()[$customer->type]}}</a></div>
                     <div class="mb-1">Name: <a href="#" class="ms-3">{{$customer->name}}</a></div>
                     <div class="mb-1">Email: <a href="#" class="ms-3">{{$customer->email}}</a></div>
                     <div class="mb-1">Mobile: <a href="#" class="ms-3">{{$customer->mobile}}</a></div>

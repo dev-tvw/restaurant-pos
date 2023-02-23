@@ -17,8 +17,9 @@
                      <thead>
                         <tr>
                            <th>Product</th>
-                           <th>Category</th>
                            <th>Product Name</th>
+                           <th>Product Name (Arabic)</th>
+                           <th>Category</th>
                            <th>Price (IQD)</th>
                            <th>Created At</th>
                            <th>Status</th>
@@ -33,8 +34,9 @@
                                  <img src="{{ asset('uploads/products/'.$product->image) }}" width="40" height="40" data-lightbox="myImg<?php echo $product->id; ?>" />
                               </a>
                            </td>
+                           <td>{{$product->name}}</td>
+                           <td>{{$product->name_ar}}</td>
                            <td>{{$lang == 'en' ? $product->category->name : $product->category->name_ar}}</td>
-                           <td>{{$lang == 'en' ? $product->name : $product->name_ar}}</td>
                            <td>{{priceformat($product->price)}}</td>
                            <td>{{dateformat($product->created_at)}}</td>
                            <td>

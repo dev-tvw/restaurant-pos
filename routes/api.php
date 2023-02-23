@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::controller(FeedbackController::class)->group(function () {
+    Route::get('get-questions', 'getQuestions')->name('feedback.questions');
     Route::post('send-feedback', 'saveFeedback')->name('feedback.save');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {

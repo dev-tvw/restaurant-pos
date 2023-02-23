@@ -38,9 +38,11 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'type' => 'required'
         ]);
         Customer::create([
             'name' => $request->name,
+            'type' => $request->type,
             'mobile' => $request->mobile,
         ]);
         return redirect()->route('pos')->with('success', 'Customer added successfully');
@@ -79,8 +81,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'type' => 'required'
         ]);
         $customer->update([
+            'type' => $request->type,
             'name' => $request->name,
             'mobile' => $request->mobile,
         ]);

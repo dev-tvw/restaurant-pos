@@ -56,6 +56,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'cooking_time' => 'required',
             'price' => 'required',
             'cost' => 'required',
             'name_ar' => 'required',
@@ -63,6 +64,8 @@ class ProductController extends Controller
             'description_ar' => 'nullable|string|max:250',
             'category_id' => 'required',
             'image' => 'required'
+        ], [
+            'cooking_time.required' => 'Cooking Time field is required',
         ]);
         if ($request->file('image')) {
             $file = $request->file('image');
@@ -72,6 +75,7 @@ class ProductController extends Controller
         }
         Product::create([
             'name' => $request->name,
+            'cooking_time' => $request->cooking_time,
             'price' => $request->price,
             'cost' => $request->cost,
             'name_ar' => $request->name_ar,
@@ -121,6 +125,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
+            'cooking_time' => 'required',
             'price' => 'required',
             'cost' => 'required',
             'name' => 'required',
@@ -128,6 +133,8 @@ class ProductController extends Controller
             'description' => 'nullable|string|max:250',
             'description_ar' => 'nullable|string|max:250',
             'category_id' => 'required',
+        ], [
+            'cooking_time.required' => 'Cooking Time field is required',
         ]);
         $filename = $product->image;
         if ($request->file('image')) {
@@ -137,6 +144,7 @@ class ProductController extends Controller
             $data['image'] = $filename;
         }
         $product->update([
+            'cooking_time' => $request->cooking_time,
             'name' => $request->name,
             'price' => $request->price,
             'cost' => $request->cost,

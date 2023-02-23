@@ -42,6 +42,10 @@
                            <input class="form-control" required="" name="image" type="file">
                         </div>
                         <div class="form-group col-md-6">
+                           <label class="form-label" for="fname">Cooking Time (Minutes):</label>
+                           <input class="form-control" placeholder="Cooking Time" name="cooking_time" type="number" min="1">
+                        </div>
+                        <div class="form-group col-md-6">
                            <label class="form-label" for="fname">Description (Max: 250):</label>
                            <input class="form-control" placeholder="Description"name="description" type="text" value="{{old('description')}}">
                         </div>

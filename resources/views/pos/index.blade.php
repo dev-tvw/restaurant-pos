@@ -119,6 +119,18 @@
                                             <div class="new-user-info">
                                                 <div class="row">
                                                     <div class="form-group col-md-12">
+                                                        <label class="form-label" style="display: block;" for="fname">Type: <span class="text-danger">*</span></label>
+                                                        @php
+                                                        $types = getCustomerTypes();
+                                                        @endphp
+                                                        @foreach($types as $key => $value)
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="type" id="{{$key}}" value="{{$key}}">
+                                                            <label class="form-check-label" for="{{$key}}">{{$value}}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="form-group col-md-12">
                                                         <label class="form-label" for="fname">Name: <span class="text-danger">*</span></label>
                                                         <input class="form-control" placeholder="Customer Name" required="" name="name" type="text" value="{{old('name')}}">
                                                     </div>
@@ -129,25 +141,25 @@
                                                     {{-- <div class="form-group col-md-12">
                                                         <label class="form-label" for="fname">Email: </label>
                                                         <input class="form-control" placeholder="Customer Email" name="email" type="text" value="{{old('email')}}">
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">City: </label>
-                                                        <input class="form-control" placeholder="State" name="city" type="text" value="{{old('city')}}">
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label class="form-label" for="fname">Address: </label>
-                                                        <textarea class="form-control" placeholder="Address" name="address" rows="3">{{old('address')}}</textarea>
-                                                    </div> --}}
                                                 </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label" for="fname">City: </label>
+                                                    <input class="form-control" placeholder="State" name="city" type="text" value="{{old('city')}}">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label" for="fname">Address: </label>
+                                                    <textarea class="form-control" placeholder="Address" name="address" rows="3">{{old('address')}}</textarea>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

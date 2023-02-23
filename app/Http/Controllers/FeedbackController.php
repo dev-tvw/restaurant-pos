@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Order;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -129,6 +130,15 @@ class FeedbackController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Feedback sent successfully'
+        ], 200);
+    }
+
+    public function getQuestions(Request $request)
+    {
+        $questions = Question::all();
+        return response()->json([
+            'success' => true,
+            'questions' => $questions
         ], 200);
     }
 }
