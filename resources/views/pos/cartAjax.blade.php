@@ -44,8 +44,11 @@
 </div>
 <div class="box p-3">
     <dl class="row text-sm-right">
-        <!-- <dt class="col-6">Sub total :</dt>
-            <dd class="col-6 text-right">2940 $</dd> -->
+        <dt class="col-6">Sub total :</dt>
+        <dd class="col-6 text-right h4 b">
+            <span>{{priceformat($total)}}</span>
+            IQD
+        </dd>
 
 
         <!-- <dt class="col-6">Product discount :</dt>
@@ -64,8 +67,20 @@
             <dt class="col-6">Tax :</dt>
             <dd class="col-6 text-right">6 $</dd> -->
 
+        <dt class="col-6">Discount(%) :</dt>
+        <dd class="col-6 text-right h4 b">
+            <input type="number" step="0.1" max="100" min="0" class="form-control" id="discount" placeholder="Discount %" />
+        </dd>
         <dt class="col-6">Total :</dt>
         <dd class="col-6 text-right h4 b">
+            {{-- @php
+            $grand_total = $total;
+            if($cart->discount && $cart->discount > 0)
+            {
+            $discounted = ($cart->discount * $total)/100;
+            $grand_total = $total - $discounted;
+            }
+            @endphp --}}
             <span id="total_price">{{priceformat($total)}}</span>
             IQD
         </dd>
@@ -164,4 +179,11 @@
             }
         });
     });
+    $('#discount').bind('keyup mouseup', function() {
+        var per = $(this).val();
+        var total = "{{$total}}";
+        console.log(per, total);
+        var discounted = (per * total) / 100;
+        $('#total_price').text(total - discounted);
+    })
 </script>

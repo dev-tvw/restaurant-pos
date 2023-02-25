@@ -181,7 +181,7 @@ class ProductController extends Controller
         $walking_customer = Customer::where('id', 1)->first();
         $cart = Cart::where('status', '!=', 0)->where('customer_id', 1)->first();
         $products = Product::orderby('created_at', 'desc')->where('active', 1)->paginate(20);
-        $categories = Category::all();
+        $categories = Category::whereHas('products')->get();
         return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
     }
 
@@ -310,7 +310,7 @@ class ProductController extends Controller
         return View::make('pos/cartAjax')->with('cart', [])->with('customer', $customer);
     }
 
-    public function submitOrder($cart_id)
+    public function submitOrder($cart_id, $discount)
     {
         $cart = Cart::where('id', $cart_id)->where('status', '!=', 0)->first();
         if ($cart) {
@@ -329,6 +329,7 @@ class ProductController extends Controller
                     'qr_code' => $order_code . '.png',
                     'created_by' => Auth::user()->id,
                     'updated_by' => Auth::user()->id,
+                    'discount' => $discount,
                     'grand_total' => 0,
                     'status' => 1
                 ]);

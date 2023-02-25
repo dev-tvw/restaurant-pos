@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class ExtraType extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'question'
+        'name'
     ];
 
-    public function ratings()
+    public function extras()
     {
-        return $this->hasMany(FeedbackRating::class);
+        return $this->hasMany(Extra::class, 'extra_type_id', 'id');
     }
 }

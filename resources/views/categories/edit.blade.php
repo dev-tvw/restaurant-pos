@@ -13,7 +13,7 @@
                <div class="card-body">
                   <div class="new-user-info">
                      <div class="row">
-                        <div class="form-group col-md-12">
+                        {{-- <div class="form-group col-md-12">
                            <label class="form-label" for="fname">Parent Category:</label>
                            <select class="form-control" name="parent_category">
                               <option value="">---Select Parent Category---</option>
@@ -21,7 +21,7 @@
                               <option value="{{$cat->id}}" {{$cat->id == $category->category_id ? 'selected' : ''}}>{{$cat->name}}</option>
                               @endforeach
                            </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                            <label class="form-label" for="fname">Name: <span class="text-danger">*</span></label>
                            <input class="form-control" placeholder="Category Name" required="" name="name" type="text" value="{{$category->name}}">

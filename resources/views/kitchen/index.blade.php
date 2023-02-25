@@ -26,7 +26,9 @@
                                         <th class="sort" data-sort="qr_code">Qr Code</th>
                                         <th class="sort" data-sort="code">Customer</th>
                                         <th class="sort" data-sort="created_by">Total Items</th>
+                                        <th class="sort" data-sort="discount">Discount %</th>
                                         <th class="sort" data-sort="updated_by">Grand Total</th>
+                                        <th class="sort" data-sort="payable">Payable</th>
                                         <th class="sort" data-sort="created_at">Status</th>
                                         <th class="sort" data-sort="updated_at">Order Date</th>
                                         <th class="sort" data-sort="createdby">Created by</th>
@@ -36,6 +38,14 @@
                                 </thead>
                                 <tbody class="list form-check-all">
                                     @foreach($orders as $order)
+                                    @php
+                                    $payable = $order->grand_total;
+                                    if($order->discount && $order->discount > 0)
+                                    {
+                                    $discounted = ($order->discount * $order->grand_total)/100;
+                                    $payable = $order->grand_total - $discounted;
+                                    }
+                                    @endphp
                                     <tr>
 
                                         <td class="daily_code">{{$order->daily_code}}</td>
@@ -49,7 +59,9 @@
                                             @endif
                                         </td>
                                         <td class="created_by">{{$order->item_count}}</td>
+                                        <td class="discount">{{$order->discount > 0 ? $order->discount : 0}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
+                                        <td class="payable">{{$payable}}</td>
                                         <td class="created_at"><span class="badge rounded-pill {{$order->status == 1 ? 'bg-warning' : ($order->status == 2 ? 'bg-info' : ($order->status == 3 ? 'bg-danger' : ($order->status == 4 ? 'bg-secondary' : 'bg-success')))}} text-uppercase">{{$order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Cooking' : ($order->status == 3 ? 'Cancelled' : ($order->status == 4 ? 'Ready' : 'Delivered')))}}</span></td>
                                         <td class="updated_at"><span class="badge rounded-pill bg-success text-uppercase">{{dateFormat($order->created_at)}}</span></td>
                                         <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>

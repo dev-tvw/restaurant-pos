@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $assets = ['data-table'];
         $limit = $request->has('limit') && $request->limit ? $request->limit : 10;
-        $categories = Category::paginate($limit);
+        $categories = Category::all();
         return view('categories.index', compact('categories', 'assets'));
     }
 

@@ -4,6 +4,8 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ExtraController;
+use App\Http\Controllers\ExtraTypeController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
@@ -53,7 +55,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
-    Route::get('/submit-order/{cart_id}', [ProductController::class, 'submitOrder'])->name('submitOrder');
+    Route::get('/submit-order/{cart_id}/{discount}', [ProductController::class, 'submitOrder'])->name('submitOrder');
     Route::get('/remove-cart-item/{cart_item_id}', [ProductController::class, 'removeCartItem'])->name('removeCartItem');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
@@ -66,6 +68,8 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('get-category-products/{category_id}', [ProductController::class, 'getCategoryProducts'])->name('getCategoryProducts');
     
 
+    Route::resource('types', ExtraTypeController::class);
+    Route::resource('extras', ExtraController::class);
     Route::resource('questions', QuestionController::class);
     Route::resource('feedbacks', FeedbackController::class);
     Route::resource('customers', CustomerController::class);

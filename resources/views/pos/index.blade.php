@@ -10,20 +10,23 @@
                         <div class="card pr-1 pl-1">
                             <div class="card-header pr-0 pl-0">
                                 <div class="row w-100">
-                                    <div class="col-lg-6 col-12 mt-2">
+                                    <div class="col-lg-12 col-12 mt-2">
                                         <div class="input-group-overlay input-group-merge input-group-flush w-i3">
                                             <input onchange="searchProducts(this.value);" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" id="search" autocomplete="off" type="text" name="search" class="form-control search-bar-input" placeholder="Search by code or name" aria-label="Search here">
                                         </div>
                                         </form>
                                     </div>
-                                    <div class="col-lg-6 col-12 mt-2">
-                                        <div class="input-group form-group header-item w-100">
-                                            <select name="category" id="category" class="form-control js-select2-custom mx-1 select2-hidden-accessible" title="select category" data-select2-id="category" tabindex="-1" aria-hidden="true">
-                                                <option value="0">All categories</option>
-                                                @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="col-lg-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-md-3 p-1">
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="0">All</button>
+                                            </div>
+                                            @foreach($categories as $category)
+                                            <div class="col-md-3 p-1">
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="{{$category->id}}">{{$category->name}}</button>
+                                            </div>
+                                            @endforeach
+
                                         </div>
                                     </div>
                                 </div>
@@ -301,10 +304,15 @@
         }
 
         function submitOrder(cart_id) {
+            var discount = 0;
+            var value_discount = document.getElementById('discount').value;
+            if (value_discount <= 100 && value_discount > 0) {
+                discount = value_discount;
+            }
             console.log(cart_id);
             $('#loading-image').show();
             $.ajax({
-                url: "submit-order/" + cart_id,
+                url: "submit-order/" + cart_id + "/" + discount,
                 type: "GET",
                 success: function(response) {
                     if (response) {
@@ -330,7 +338,6 @@
         }
 
         function searchProducts(search) {
-            console.log(search);
             getProducts(0, search);
         }
         $(document).ready(function() {
@@ -338,9 +345,16 @@
             $('#customer-id').on('change', function() {
                 getCart($(this).val());
             });
-            $('#category').on('change', function() {
-                getProducts($(this).val());
+            $('.category-tag').on('click', function() {
+                $('.category-tag').removeClass('btn-warning');
+                $('.category-tag').addClass('btn-secondary');
+                $(this).addClass('btn-warning');
+                getProducts($(this).attr('data-id'));
             });
+            $('#search').on('keyup', function() {
+                $('.category-tag.btn-warning').addClass('btn-warning');
+                $('.category-tag').removeClass('btn-warning');
+            })
             getProducts(0);
             getCart(1);
             // ajaxRequest($('#customer-id').val(), $(this).attr('product-id'));

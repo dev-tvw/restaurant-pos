@@ -10,8 +10,13 @@ class Feedback extends Model
     use HasFactory;
 
     protected $fillable = [
-        'phone', 'feedback', 'rating'
+        'phone', 'name', 'feedback', 'rating'
     ];
 
     protected $table = 'feedbacks';
+
+    public function ratings()
+    {
+        return $this->hasMany(FeedbackRating::class);
+    }
 }

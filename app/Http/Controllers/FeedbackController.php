@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use App\Models\FeedbackRating;
 use App\Models\Order;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -18,11 +19,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedback = Feedback::when(Auth::user()->user_type == 'cashier', function ($q) {
-            $q->whereHas('order', function ($query) {
-                $query->where('created_at', Auth::user()->id);
-            });
-        })->paginate(20);
+        $feedbacks = Feedback::all();
         return view('feedbacks.index', compact('feedbacks'));
     }
 
@@ -102,11 +99,12 @@ class FeedbackController extends Controller
 
     public function saveFeedback(Request $request)
     {
+        // $payLoad = json_decode(request()->getContent(), true);
         $validator = Validator::make(
             $request->all(),
             [
                 'phone' => 'required',
-                'rating' => 'required',
+                'feedback' => 'required',
             ]
         );
 
@@ -116,12 +114,25 @@ class FeedbackController extends Controller
                 'message' => 'Bad Request'
             ], 400);
         }
+        if (!count($request->rating)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bad Request'
+            ], 400);
+        }
         $feedback = Feedback::create([
             'phone' => $request->phone,
-            'rating' => $request->rating,
             'feedback' => $request->feedback
         ]);
-        if (!$feedback) {
+        if ($feedback) {
+            foreach ($request->rating as $key => $value) {
+                FeedbackRating::create([
+                    'feedback_id' => $feedback->id,
+                    'question_id' => $key,
+                    'rating' => $value
+                ]);
+            }
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Something wrong at Server'

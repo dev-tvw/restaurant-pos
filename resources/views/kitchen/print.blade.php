@@ -117,24 +117,26 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- <div class="row my-2">
+                                                <div class="row my-2">
                                                     <div class="col-7 text-right">
-                                                        VAT (5%)
+                                                        Discount ({{$order->discount ? $order->discount : 0}}%)
                                                     </div>
                                                     <?php 
-                                                        $vat = (5 / 100) * $total_price;
+                                                        $payable = $order->grand_total;
+                                                        if($order->discount && $order->discount > 0)
+                                                        {
+                                                        $discounted = ($order->discount * $order->grand_total)/100;
+                                                        $payable = $order->grand_total - $discounted;
+                                                        }
                                                     ?>
-                                                    <div class="col-5">
-                                                        <span class="text-110 text-secondary-d1">{{$venue->currency_symbol}} {{$vat}}</span>
-                                                    </div>
-                                                </div> --}}
+                                                </div>
 
                                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                                     <div class="col-7 text-right">
                                                         Total Amount
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-150 text-success-d3 opacity-2">IQD {{priceformat($total_price)}}</span>
+                                                        <span class="text-150 text-success-d3 opacity-2">IQD {{priceformat($payable)}}</span>
                                                     </div>
                                                 </div>
                                             </div>

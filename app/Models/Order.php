@@ -17,6 +17,7 @@ class Order extends Model
         'item_count',
         'grand_total',
         'status',
+        'discount',
         'qr_code',
         'created_by',
         'updated_by',
