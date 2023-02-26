@@ -21,10 +21,14 @@
 }
 
 .gradient-main {
-  height: 100%;
-  width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  height: 55%;
+    width: 30%;
+    -o-object-fit: cover;
+    object-fit: cover;
+
+    position: absolute;
+    left: 51%;
+    top: 22%;
 }
 
 .login-bottom {
