@@ -9,6 +9,8 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Extra;
+use App\Models\ExtraType;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -183,6 +185,48 @@ class ProductController extends Controller
         $products = Product::orderby('created_at', 'desc')->where('active', 1)->paginate(20);
         $categories = Category::whereHas('products')->get();
         return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
+    }
+
+    public function addExtra(Request $request)
+    {
+        $cartItem = CartItem::where('id', $request->item_id)->first();
+        $total_price = 0;
+        $extras_price = 0;
+        if ($cartItem) {
+            if (count($cartItem->extras)) {
+                $cartItem->extras()->sync($request->extras);
+            } else {
+                $cartItem->extras()->attach($request->extras);
+            }
+            $cart = $cartItem->cart;
+            foreach ($cart->cartItems as $item) {
+                $total_price = $total_price + ($item->quantity * $item->product->price);
+                if (count($item->extras)) {
+                    foreach ($item->extras as $extra) {
+                        $extras_price += $extra->price;
+                        $total_price = $total_price + $extra->price;
+                    }
+                }
+            }
+            return response()->json(['success' => true, 'message' => 'Updated Successfully', 'total_price' => $total_price, 'extras_price' => $extras_price]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Something went wrong, Please try again', 'total_price' => $total_price]);
+        }
+    }
+
+    public function getExtraSectionAjax($item_id)
+    {
+        $types = ExtraType::whereHas('extras')->get();
+        $extras_selected = [];
+        $extras = Extra::whereHas('cartItems', function ($sq) use ($item_id) {
+            $sq->where('cart_item_id', $item_id);
+        })->get();
+        if ($extras) {
+            foreach ($extras as $extra) {
+                $extras_selected[] = $extra->id;
+            }
+        }
+        return View::make('pos/addExtraAjax')->with('types', $types)->with('extras_selected', $extras_selected);
     }
 
     public function kitchen(Request $request)

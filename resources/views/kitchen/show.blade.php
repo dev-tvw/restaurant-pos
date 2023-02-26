@@ -24,6 +24,7 @@
                             <tbody>
                                 @php
                                 $total_price = 0;
+                                $extra_price = 0;
                                 @endphp
                                 @foreach($order->cart->cartItems as $item)
                                 @php
@@ -41,6 +42,25 @@
                                                 <h5 class="fs-15"><a href="{{route('products.show', ['product' => $item->product])}}" class="link-primary">{{$lang == 'en' ? $item->product->name : $item->product->name_ar}} ({{$lang == 'en' ? $item->product->category->name : $item->product->category->name_ar}})</a></h5>
                                             </div>
                                         </div>
+                                        @if(count($item->extras))
+                                        <div class="extra-section" style="float: right;">
+                                            <h5 class="p-2">Extras: </h5>
+                                            @foreach($item->extras as $value)
+                                            @php
+                                            $extra_price = $extra_price + $value->price;
+                                            $total_price = $total_price + $value->price;
+                                            @endphp
+                                            <div class="d-flex" style="float: right;">
+                                                <div>
+                                                    <b class="p-2">{{$value->name}}</b>
+                                                </div>
+                                                <div>
+                                                    <b class="p-2">IQD {{$value->price}}</b>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        @endif
                                     </td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->quantity}}</td>
@@ -60,15 +80,26 @@
                                         <table class="table table-borderless mb-0">
                                             <tbody>
                                                 <tr>
+                                                    <td>Extras :</td>
+                                                    <td class="text-end">IQD {{priceformat($extra_price)}}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>Sub Total :</td>
-                                                    <td class="text-end">{{$total_price}}</td>
+                                                    <td class="text-end">IQD {{priceformat($total_price)}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Discount :
+                                                    </td>
+                                                    <?php
+                                                    $payable = $total_price;
+                                                    if ($order->discount && $order->discount > 0) {
+                                                        $discounted = ($order->discount * $total_price) / 100;
+                                                        $payable = $total_price - $discounted;
+                                                    }
+                                                    ?>
+                                                    <td class="text-end">{{$order->discount ? $order->discount : 0}}%</td>
                                                 </tr>
                                                 <!-- <tr>
-                                                <td>Discount <span class="text-muted">(Aur Restaurant App15)</span> : :
-                                                </td>
-                                                <td class="text-end">-$53.99</td>
-                                            </tr>
-                                            <tr>
                                                 <td>Shipping Charge :</td>
                                                 <td class="text-end">$65.00</td>
                                             </tr>
@@ -78,7 +109,7 @@
                                             </tr> -->
                                                 <tr class="border-top border-top-dashed">
                                                     <th scope="row">Total :</th>
-                                                    <th class="text-end">{{$total_price}}</th>
+                                                    <th class="text-end">IQD {{priceformat($payable)}}</th>
                                                 </tr>
                                             </tbody>
                                         </table>

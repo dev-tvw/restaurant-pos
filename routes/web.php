@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/storage', function () {
     Artisan::call('storage:link');
@@ -42,16 +42,16 @@ Route::get('/storage', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     // Permission Module
-Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
+    Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
 
-    Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
-    Route::resource('permission',PermissionController::class);
+    Route::get('/role-permission', [RolePermission::class, 'index'])->name('role.permission.list');
+    Route::resource('permission', PermissionController::class);
     Route::resource('role', RoleController::class);
 
     // Dashboard Routes
     Route::get('/change-lang/{locale}', [HomeController::class, 'changeLanguage'])->name('changeLang');
-    
+
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
@@ -59,6 +59,8 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('/remove-cart-item/{cart_item_id}', [ProductController::class, 'removeCartItem'])->name('removeCartItem');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/pos', [ProductController::class, 'pos'])->name('pos');
+    Route::get('/get-add-extra-section/{item_id}', [ProductController::class, 'getExtraSectionAjax'])->name('pos.addExtraAjax');
+    Route::post('/pos/add-extra', [ProductController::class, 'addExtra'])->name('pos.addExtra');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
     Route::get('/all-orders', [ProductController::class, 'allOrders'])->name('orders.all');
     Route::get('/order-detail/{order}', [ProductController::class, 'showOrder'])->name('orders.show');
@@ -66,7 +68,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
     Route::get('orders/print/{order}', [ProductController::class, 'printInvoice'])->name('orders.print');
     Route::get('cashier/notifications/{user_id}', [HomeController::class, 'notificationsAjax'])->name('cashier.tNotifications');
     Route::get('get-category-products/{category_id}', [ProductController::class, 'getCategoryProducts'])->name('getCategoryProducts');
-    
+
 
     Route::resource('types', ExtraTypeController::class);
     Route::resource('extras', ExtraController::class);
@@ -82,7 +84,7 @@ Route::get('/uisheet', [HomeController::class, 'uisheet'])->name('uisheet');
 });
 
 //App Details Page => 'Dashboard'], function() {
-Route::group(['prefix' => 'menu-style'], function() {
+Route::group(['prefix' => 'menu-style'], function () {
     //MenuStyle Page Routs
     Route::get('horizontal', [HomeController::class, 'horizontal'])->name('menu-style.horizontal');
     Route::get('dual-horizontal', [HomeController::class, 'dualhorizontal'])->name('menu-style.dualhorizontal');
@@ -92,7 +94,7 @@ Route::group(['prefix' => 'menu-style'], function() {
 });
 
 //App Details Page => 'special-pages'], function() {
-Route::group(['prefix' => 'special-pages'], function() {
+Route::group(['prefix' => 'special-pages'], function () {
     //Example Page Routs
     Route::get('billing', [HomeController::class, 'billing'])->name('special-pages.billing');
     Route::get('calender', [HomeController::class, 'calender'])->name('special-pages.calender');
@@ -103,20 +105,20 @@ Route::group(['prefix' => 'special-pages'], function() {
 });
 
 //Widget Routs
-Route::group(['prefix' => 'widget'], function() {
+Route::group(['prefix' => 'widget'], function () {
     Route::get('widget-basic', [HomeController::class, 'widgetbasic'])->name('widget.widgetbasic');
     Route::get('widget-chart', [HomeController::class, 'widgetchart'])->name('widget.widgetchart');
     Route::get('widget-card', [HomeController::class, 'widgetcard'])->name('widget.widgetcard');
 });
 
 //Maps Routs
-Route::group(['prefix' => 'maps'], function() {
+Route::group(['prefix' => 'maps'], function () {
     Route::get('google', [HomeController::class, 'google'])->name('maps.google');
     Route::get('vector', [HomeController::class, 'vector'])->name('maps.vector');
 });
 
 //Auth pages Routs
-Route::group(['prefix' => 'auth'], function() {
+Route::group(['prefix' => 'auth'], function () {
     Route::get('signin', [HomeController::class, 'signin'])->name('auth.signin');
     Route::get('signup', [HomeController::class, 'signup'])->name('auth.signup');
     Route::get('confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
@@ -126,7 +128,7 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 //Error Page Route
-Route::group(['prefix' => 'errors'], function() {
+Route::group(['prefix' => 'errors'], function () {
     Route::get('error404', [HomeController::class, 'error404'])->name('errors.error404');
     Route::get('error500', [HomeController::class, 'error500'])->name('errors.error500');
     Route::get('maintenance', [HomeController::class, 'maintenance'])->name('errors.maintenance');
@@ -134,7 +136,7 @@ Route::group(['prefix' => 'errors'], function() {
 
 
 //Forms Pages Routs
-Route::group(['prefix' => 'forms'], function() {
+Route::group(['prefix' => 'forms'], function () {
     Route::get('element', [HomeController::class, 'element'])->name('forms.element');
     Route::get('wizard', [HomeController::class, 'wizard'])->name('forms.wizard');
     Route::get('validation', [HomeController::class, 'validation'])->name('forms.validation');
@@ -142,13 +144,13 @@ Route::group(['prefix' => 'forms'], function() {
 
 
 //Table Page Routs
-Route::group(['prefix' => 'table'], function() {
+Route::group(['prefix' => 'table'], function () {
     Route::get('bootstraptable', [HomeController::class, 'bootstraptable'])->name('table.bootstraptable');
     Route::get('datatable', [HomeController::class, 'datatable'])->name('table.datatable');
 });
 
 //Icons Page Routs
-Route::group(['prefix' => 'icons'], function() {
+Route::group(['prefix' => 'icons'], function () {
     Route::get('solid', [HomeController::class, 'solid'])->name('icons.solid');
     Route::get('outline', [HomeController::class, 'outline'])->name('icons.outline');
     Route::get('dualtone', [HomeController::class, 'dualtone'])->name('icons.dualtone');

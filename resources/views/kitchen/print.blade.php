@@ -1,4 +1,3 @@
-
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -80,15 +79,32 @@
                                             <div class="d-none d-sm-block col-sm-2">Unit Price</div>
                                             <div class="col-2">Amount</div>
                                         </div>
-                                        <?php $total_price  = 0 ?>
-                                    @foreach($order->cart->cartItems as $item)
-                                        <?php 
-                                            $total_price += ($item->quantity * $item->price); 
+                                        <?php $total_price  = 0; $extra_price = 0; ?>
+                                        @foreach($order->cart->cartItems as $item)
+                                        <?php
+                                        $total_price += ($item->quantity * $item->price);
                                         ?>
                                         <div class="text-95 text-secondary-d3">
                                             <div class="row mb-2 mb-sm-0 py-25">
                                                 <div class="d-none d-sm-block col-1">{{$loop->iteration}}</div>
                                                 <div class="col-9 col-sm-5">{{$item->product->name}}
+                                                    @if(count($item->extras))
+                                                    <h6>Extras: </h6>
+                                                    @foreach($item->extras as $value)
+                                                    @php
+                                                    $extra_price = $extra_price + $value->price;
+                                                    $total_price = $total_price + $value->price;
+                                                    @endphp
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <p>* {{$value->name}}</p>
+                                                        </div>
+                                                        <div class="pl-5">
+                                                            <p>IQD {{$value->price}}</p>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                    @endif
                                                     <hr>
                                                 </div>
                                                 <div class="d-none d-sm-block col-2">{{$item->quantity}}</div>
@@ -96,9 +112,9 @@
                                                 <div class="col-2 text-secondary-d2">{{$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                        @endforeach
 
-                                        
+
 
                                         <div class="row border-b-2 brc-default-l2"></div>
 
@@ -108,6 +124,14 @@
                                             </div>
 
                                             <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                                <div class="row my-2">
+                                                    <div class="col-7 text-right">
+                                                        Extras:
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <span class="text-120 text-secondary-d1">IQD {{priceformat($extra_price)}}</span>
+                                                    </div>
+                                                </div>
                                                 <div class="row my-2">
                                                     <div class="col-7 text-right">
                                                         SubTotal
@@ -121,13 +145,12 @@
                                                     <div class="col-7 text-right">
                                                         Discount ({{$order->discount ? $order->discount : 0}}%)
                                                     </div>
-                                                    <?php 
-                                                        $payable = $order->grand_total;
-                                                        if($order->discount && $order->discount > 0)
-                                                        {
-                                                        $discounted = ($order->discount * $order->grand_total)/100;
-                                                        $payable = $order->grand_total - $discounted;
-                                                        }
+                                                    <?php
+                                                    $payable = $total_price;
+                                                    if ($order->discount && $order->discount > 0) {
+                                                        $discounted = ($order->discount * $total_price) / 100;
+                                                        $payable = $total_price - $discounted;
+                                                    }
                                                     ?>
                                                 </div>
 
@@ -158,143 +181,141 @@
         </div>
     </div>
 </div>
-        <style>
-            .text-secondary-d1 {
-                color: #728299 !important;
-            }
+<style>
+    .text-secondary-d1 {
+        color: #728299 !important;
+    }
 
-            .page-header {
-                margin: 0 0 1rem;
-                padding-bottom: 1rem;
-                padding-top: .5rem;
-                border-bottom: 1px dotted #e2e2e2;
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-pack: justify;
-                justify-content: space-between;
-                -ms-flex-align: center;
-                align-items: center;
-            }
+    .page-header {
+        margin: 0 0 1rem;
+        padding-bottom: 1rem;
+        padding-top: .5rem;
+        border-bottom: 1px dotted #e2e2e2;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -ms-flex-align: center;
+        align-items: center;
+    }
 
-            .page-title {
-                padding: 0;
-                margin: 0;
-                font-size: 1.75rem;
-                font-weight: 300;
-            }
+    .page-title {
+        padding: 0;
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 300;
+    }
 
-            .brc-default-l1 {
-                border-color: #dce9f0 !important;
-            }
+    .brc-default-l1 {
+        border-color: #dce9f0 !important;
+    }
 
-            .ml-n1,
-            .mx-n1 {
-                margin-left: -.25rem !important;
-            }
+    .ml-n1,
+    .mx-n1 {
+        margin-left: -.25rem !important;
+    }
 
-            .mr-n1,
-            .mx-n1 {
-                margin-right: -.25rem !important;
-            }
+    .mr-n1,
+    .mx-n1 {
+        margin-right: -.25rem !important;
+    }
 
-            .mb-4,
-            .my-4 {
-                margin-bottom: 1.5rem !important;
-            }
+    .mb-4,
+    .my-4 {
+        margin-bottom: 1.5rem !important;
+    }
 
-            hr {
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                border: 0;
-                border-top: 1px solid rgba(0, 0, 0, .1);
-            }
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, .1);
+    }
 
-            .text-grey-m2 {
-                color: #888a8d !important;
-            }
+    .text-grey-m2 {
+        color: #888a8d !important;
+    }
 
-            .text-success-m2 {
-                color: #86bd68 !important;
-            }
+    .text-success-m2 {
+        color: #86bd68 !important;
+    }
 
-            .font-bolder,
-            .text-600 {
-                font-weight: 600 !important;
-            }
+    .font-bolder,
+    .text-600 {
+        font-weight: 600 !important;
+    }
 
-            .text-110 {
-                font-size: 110% !important;
-            }
+    .text-110 {
+        font-size: 110% !important;
+    }
 
-            .text-blue {
-                color: #478fcc !important;
-            }
+    .text-blue {
+        color: #478fcc !important;
+    }
 
-            .pb-25,
-            .py-25 {
-                padding-bottom: .75rem !important;
-            }
+    .pb-25,
+    .py-25 {
+        padding-bottom: .75rem !important;
+    }
 
-            .pt-25,
-            .py-25 {
-                padding-top: .75rem !important;
-            }
+    .pt-25,
+    .py-25 {
+        padding-top: .75rem !important;
+    }
 
-            .bgc-default-tp1 {
-                background-color: rgba(121, 169, 197, .92) !important;
-            }
+    .bgc-default-tp1 {
+        background-color: rgba(121, 169, 197, .92) !important;
+    }
 
-            .bgc-default-l4,
-            .bgc-h-default-l4:hover {
-                background-color: #f3f8fa !important;
-            }
+    .bgc-default-l4,
+    .bgc-h-default-l4:hover {
+        background-color: #f3f8fa !important;
+    }
 
-            .page-header .page-tools {
-                -ms-flex-item-align: end;
-                align-self: flex-end;
-            }
+    .page-header .page-tools {
+        -ms-flex-item-align: end;
+        align-self: flex-end;
+    }
 
-            .btn-light {
-                color: #757984;
-                background-color: #f5f6f9;
-                border-color: #dddfe4;
-            }
+    .btn-light {
+        color: #757984;
+        background-color: #f5f6f9;
+        border-color: #dddfe4;
+    }
 
-            .w-2 {
-                width: 1rem;
-            }
+    .w-2 {
+        width: 1rem;
+    }
 
-            .text-120 {
-                font-size: 120% !important;
-            }
+    .text-120 {
+        font-size: 120% !important;
+    }
 
-            .text-primary-m1 {
-                color: #4087d4 !important;
-            }
+    .text-primary-m1 {
+        color: #4087d4 !important;
+    }
 
-            .text-danger-m1 {
-                color: #dd4949 !important;
-            }
+    .text-danger-m1 {
+        color: #dd4949 !important;
+    }
 
-            .text-blue-m2 {
-                color: #68a3d5 !important;
-            }
+    .text-blue-m2 {
+        color: #68a3d5 !important;
+    }
 
-            .text-150 {
-                font-size: 150% !important;
-            }
+    .text-150 {
+        font-size: 150% !important;
+    }
 
-            .text-60 {
-                font-size: 60% !important;
-            }
+    .text-60 {
+        font-size: 60% !important;
+    }
 
-            .text-grey-m1 {
-                color: #7b7d81 !important;
-            }
+    .text-grey-m1 {
+        color: #7b7d81 !important;
+    }
 
-            .align-bottom {
-                vertical-align: bottom !important;
-            }
-        </style>
- 
- 
+    .align-bottom {
+        vertical-align: bottom !important;
+    }
+</style>

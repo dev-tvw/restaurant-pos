@@ -17,4 +17,9 @@ class Extra extends Model
     {
         return $this->belongsTo(ExtraType::class, 'extra_type_id', 'id');
     }
+
+    public function cartItems()
+    {
+        return $this->belongsToMany(CartItem::class);
+    }
 }
