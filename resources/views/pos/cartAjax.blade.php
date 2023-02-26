@@ -27,6 +27,7 @@
     $total += $extra_->price;
     }
     }
+    $total = $total + $extras_price;
     @endphp
     <div class="row mb-3">
 
