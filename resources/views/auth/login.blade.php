@@ -83,7 +83,15 @@
             </div>
          </div>
          <div class="col-md-4 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden" style="background-color: #eeb78e !important; border-radius: 0px 0px 0px 120px;">
-            <img src="{{asset('images/auth/graffiti.png')}}" class="img-fluid gradient-main animated-scaleX" alt="images">
+            <img src="{{asset('images/auth/graffiti.png')}}" class="img-fluid gradient-main animated-scaleX" alt="images" style="height: 55%;
+    width: 30%;
+    -o-object-fit: cover;
+    object-fit: cover;
+
+    position: absolute;
+    left: 51%;
+    
+    top: 22%;">
          </div>
       </div>
    </section>
