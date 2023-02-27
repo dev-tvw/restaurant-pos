@@ -19,12 +19,12 @@
     @foreach($cart->cartItems as $item)
     @php
     $total += $item->quantity * $item->price;
-    if(count($item->extras))
+    if(count($cart->extras))
     {
-    foreach($item->extras as $extra_)
+    foreach($cart->extras as $extra_)
     {
-    $extras_price += $extra_->price;
-    $total += $extra_->price;
+    $extras_price += ($extra_->price*$extra_->pivot->quantity);
+    $total += ($extra_->price*$extra_->pivot->quantity);
     }
     }
     $total = $total + $extras_price;
@@ -42,13 +42,6 @@
             {{priceformat($item->quantity * $item->price)}} IQD
         </div>
         <div class="col-md-3">
-            <button type="button" class="add-extra btn btn-sm btn-outline-success" data-bs-toggle="modal" data-id="{{$item->id}}" data-bs-target="#addExtra">
-                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.0001 8.32739V15.6537" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M15.6668 11.9904H8.3335" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6857 2H7.31429C4.04762 2 2 4.31208 2 7.58516V16.4148C2 19.6879 4.0381 22 7.31429 22H16.6857C19.9619 22 22 19.6879 22 16.4148V7.58516C22 4.31208 19.9619 2 16.6857 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-            </button>
             <a class="btn btn-sm btn-outline-danger" onclick="removeCartItem('{{$item->id}}')"><svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                     <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                     <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -61,6 +54,11 @@
 </div>
 <div class="box p-3">
     <dl class="row text-sm-right">
+        @if(isset($cart->id))
+        <button type="button" class="add-extra btn btn-sm btn-outline-success mb-3" data-bs-toggle="modal" data-id="{{$cart->id}}" data-bs-target="#addExtra">
+        <i class="fa fa-plus"></i> Extras
+        </button>
+        @endif
         <dt class="col-6">Extras :</dt>
         <dd class="col-6 text-right h4 b">
             <span id="extra_price">{{priceformat($extras_price)}}</span>
@@ -128,7 +126,7 @@
             </div>
             <form action="{{route('pos.addExtra')}}" enctype="multipart/form-data" method="post" id="addExtraForm" name="add-extra">
                 @csrf
-                <input type="hidden" name="item_id" id="item_id" />
+                <input type="hidden" name="cart_id" id="cart_id" />
                 <div class="modal-body p-0">
                     <div class="row">
                         <div class="col-sm-12">
@@ -241,11 +239,11 @@
                     $('#sub_total').text(response.total_price);
                     $('#total_price').text(response.total_price);
                     $('#extra_price').text(response.extras_price);
-                    toastr.success('Updated Successfully');
+                    toastr.success(response.message);
                     $('#addExtra').modal('hide');
                     // $("#common-div" + " .content").html(response);
                 } else {
-                    toastr.danger('Something went wrong. Please try again');
+                    toastr.error(response.message);
                     $('#addExtra').modal('hide');
                 }
             },
@@ -269,7 +267,7 @@
     $('.add-extra').on('click', function() {
         $("#add-extra-section").html('Loading...');
         console.log($(this).attr('data-id'));
-        $('#item_id').val($(this).attr('data-id'));
+        $('#cart_id').val($(this).attr('data-id'));
         $('#loading-image').show();
         $.ajax({
             url: "get-add-extra-section/" + $(this).attr('data-id'),

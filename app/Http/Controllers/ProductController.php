@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -189,22 +190,38 @@ class ProductController extends Controller
 
     public function addExtra(Request $request)
     {
-        $cartItem = CartItem::where('id', $request->item_id)->first();
         $total_price = 0;
         $extras_price = 0;
-        if ($cartItem) {
-            if (count($cartItem->extras)) {
-                $cartItem->extras()->sync($request->extras);
-            } else {
-                $cartItem->extras()->attach($request->extras);
+        $validator = Validator::make($request->all(), [
+            'extras.*.quantity' => 'required_with:extras.*.extra',
+            'extras.*.extra' => 'required_with:extras.*.quantity',
+        ], [
+            'extras.*.quantity.required_with' => 'Quantity field is required',
+            'extras.*.extra.required_with' => 'Extra field should be selected',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first(), 'total_price' => $total_price]);
+        }
+        $cart = Cart::where('id', $request->cart_id)->first();
+
+        if ($cart) {
+            if (count($cart->extras)) {
+                $cart->extras()->detach();
             }
-            $cart = $cartItem->cart;
+            if (count($request->extras)) {
+                foreach ($request->extras as $extra) {
+                    if (isset($extra['extra'])) {
+                        $cart->extras()->attach($extra['extra'], ['quantity' => $extra['quantity']]);
+                    }
+                }
+            }
             foreach ($cart->cartItems as $item) {
+                $cart = Cart::where('id', $request->cart_id)->first();
                 $total_price = $total_price + ($item->quantity * $item->product->price);
-                if (count($item->extras)) {
-                    foreach ($item->extras as $extra) {
-                        $extras_price += $extra->price;
-                        $total_price = $total_price + $extra->price;
+                if (count($cart->extras)) {
+                    foreach ($cart->extras as $extra) {
+                        $extras_price += ($extra->price * $extra->pivot->quantity);
+                        $total_price = $total_price + ($extra->price * $extra->pivot->quantity);
                     }
                 }
             }
@@ -214,19 +231,19 @@ class ProductController extends Controller
         }
     }
 
-    public function getExtraSectionAjax($item_id)
+    public function getExtraSectionAjax($cart_id)
     {
+        $cart = Cart::whereId($cart_id)->first();
         $types = ExtraType::whereHas('extras')->get();
         $extras_selected = [];
-        $extras = Extra::whereHas('cartItems', function ($sq) use ($item_id) {
-            $sq->where('cart_item_id', $item_id);
-        })->get();
-        if ($extras) {
-            foreach ($extras as $extra) {
+        $extra_array = [];
+        if (count($cart->extras)) {
+            foreach ($cart->extras as $extra) {
+                $extra_array[$extra->id] = $extra->pivot->quantity;
                 $extras_selected[] = $extra->id;
             }
         }
-        return View::make('pos/addExtraAjax')->with('types', $types)->with('extras_selected', $extras_selected);
+        return View::make('pos/addExtraAjax')->with('types', $types)->with('extras_selected', $extras_selected)->with('extra_array', $extra_array);
     }
 
     public function kitchen(Request $request)
@@ -348,6 +365,7 @@ class ProductController extends Controller
         $cart = Cart::where('id', $cart_id)->first();
         if ($cart) {
             $customer = $cart->customer->name;
+            $cart->extras()->detach();
             CartItem::where('cart_id', $cart->id)->delete();
             $cart->delete();
         }

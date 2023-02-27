@@ -79,7 +79,8 @@
                                             <div class="d-none d-sm-block col-sm-2">Unit Price</div>
                                             <div class="col-2">Amount</div>
                                         </div>
-                                        <?php $total_price  = 0; $extra_price = 0; ?>
+                                        <?php $total_price  = 0;
+                                        $extra_price = 0; ?>
                                         @foreach($order->cart->cartItems as $item)
                                         <?php
                                         $total_price += ($item->quantity * $item->price);
@@ -87,32 +88,39 @@
                                         <div class="text-95 text-secondary-d3">
                                             <div class="row mb-2 mb-sm-0 py-25">
                                                 <div class="d-none d-sm-block col-1">{{$loop->iteration}}</div>
-                                                <div class="col-9 col-sm-5">{{$item->product->name}}
-                                                    @if(count($item->extras))
-                                                    <h6>Extras: </h6>
-                                                    @foreach($item->extras as $value)
-                                                    @php
-                                                    $extra_price = $extra_price + $value->price;
-                                                    $total_price = $total_price + $value->price;
-                                                    @endphp
-                                                    <div class="d-flex">
-                                                        <div>
-                                                            <p>* {{$value->name}}</p>
-                                                        </div>
-                                                        <div class="pl-5">
-                                                            <p>IQD {{$value->price}}</p>
-                                                        </div>
-                                                    </div>
-                                                    @endforeach
-                                                    @endif
-                                                    <hr>
-                                                </div>
+                                                <div class="col-9 col-sm-5">{{$item->product->name}}</div>
                                                 <div class="d-none d-sm-block col-2">{{$item->quantity}}</div>
                                                 <div class="d-none d-sm-block col-2 text-95">IQD {{priceformat($item->price)}}</div>
                                                 <div class="col-2 text-secondary-d2">{{$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
                                         @endforeach
+
+                                        @if(count($order->cart->extras))
+                                        <h4 class="mt-2">Extras: </h4>
+                                        <div class="col-8">
+                                            <div class="row text-600 text-white bgc-default-tp1 py-25">
+                                                <div class="d-none d-sm-block col-1 text-center">#</div>
+                                                <div class="col-9 col-sm-5 text-center">Name</div>
+                                                <div class="d-none d-sm-block col-2 col-sm-2 text-center">Qty</div>
+                                                <div class="d-none d-sm-block col-sm-4 text-center">Unit Price</div>
+                                            </div>
+                                            @foreach($order->cart->extras as $value)
+                                            @php
+                                            $extra_price = $extra_price + ($value->price*$value->pivot->quantity);
+                                            $total_price = $total_price + ($value->price*$value->pivot->quantity);
+                                            @endphp
+                                            <div class="text-95 text-secondary-d3">
+                                                <div class="row mb-2 mb-sm-0 py-25">
+                                                    <div class="d-none d-sm-block col-1 text-center">{{$loop->iteration}}</div>
+                                                    <div class="d-none d-sm-block col-5 text-center">{{$value->name}}</div>
+                                                    <div class="col-2 col-sm-2 text-center">{{$value->pivot->quantity}}</div>
+                                                    <div class="d-none d-sm-block col-4 text-center">{{$value->price}}</div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        @endif
 
 
 

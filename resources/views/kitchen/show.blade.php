@@ -42,25 +42,6 @@
                                                 <h5 class="fs-15"><a href="{{route('products.show', ['product' => $item->product])}}" class="link-primary">{{$lang == 'en' ? $item->product->name : $item->product->name_ar}} ({{$lang == 'en' ? $item->product->category->name : $item->product->category->name_ar}})</a></h5>
                                             </div>
                                         </div>
-                                        @if(count($item->extras))
-                                        <div class="extra-section" style="float: right;">
-                                            <h5 class="p-2">Extras: </h5>
-                                            @foreach($item->extras as $value)
-                                            @php
-                                            $extra_price = $extra_price + $value->price;
-                                            $total_price = $total_price + $value->price;
-                                            @endphp
-                                            <div class="d-flex" style="float: right;">
-                                                <div>
-                                                    <b class="p-2">{{$value->name}}</b>
-                                                </div>
-                                                <div>
-                                                    <b class="p-2">IQD {{$value->price}}</b>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        @endif
                                     </td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->quantity}}</td>
@@ -74,13 +55,47 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                <tr>
+                                    <td>
+                                        <table class="table table-stripped caption-top">
+                                            <caption>
+                                                Extras
+                                            </caption>
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if(count($order->cart->extras))
+                                                <div class="extra-section">
+                                                    @foreach($order->cart->extras as $value)
+                                                    @php
+                                                    $extra_price = $extra_price + ($value->price*$value->pivot->quantity);
+                                                    $total_price = $total_price + ($value->price*$value->pivot->quantity);
+                                                    @endphp
+
+                                                    <tr>
+                                                        <td>{{$value->name}}</td>
+                                                        <td>{{$value->pivot->quantity}}</td>
+                                                        <td>IQD {{$value->price}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </div>
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
                                 <tr class="border-top border-top-dashed">
                                     <td colspan="3"></td>
                                     <td colspan="2" class="fw-medium p-0">
                                         <table class="table table-borderless mb-0">
                                             <tbody>
                                                 <tr>
-                                                    <td>Extras :</td>
+                                                    <td>Extras Total :</td>
                                                     <td class="text-end">IQD {{priceformat($extra_price)}}</td>
                                                 </tr>
                                                 <tr>
