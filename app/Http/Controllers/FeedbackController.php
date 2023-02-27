@@ -122,6 +122,7 @@ class FeedbackController extends Controller
         }
         $feedback = Feedback::create([
             'phone' => $request->phone,
+            'name' => $request->name,
             'feedback' => $request->feedback
         ]);
         if ($feedback) {
