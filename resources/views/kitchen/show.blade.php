@@ -42,21 +42,6 @@
                                                 <h5 class="fs-15"><a href="{{route('products.show', ['product' => $item->product])}}" class="link-primary">{{$lang == 'en' ? $item->product->name : $item->product->name_ar}} ({{$lang == 'en' ? $item->product->category->name : $item->product->category->name_ar}})</a></h5>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>{{$item->price}}</td>
-                                    <td>{{$item->quantity}}</td>
-                                    <!-- <td>
-                                    <div class="text-warning fs-15">
-                                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-fill"></i>
-                                    </div>
-                                </td> -->
-                                    <td class="fw-medium text-end">
-                                        {{$item->price * $item->quantity}}
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td>
                                         <table class="table table-stripped caption-top">
                                             <caption>
                                                 Extras
@@ -69,9 +54,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if(count($order->cart->extras))
+                                                @if(count($item->extras))
                                                 <div class="extra-section">
-                                                    @foreach($order->cart->extras as $value)
+                                                    @foreach($item->extras as $value)
                                                     @php
                                                     $extra_price = $extra_price + ($value->price*$value->pivot->quantity);
                                                     $total_price = $total_price + ($value->price*$value->pivot->quantity);
@@ -88,7 +73,18 @@
                                             </tbody>
                                         </table>
                                     </td>
+                                    <td>{{$item->price}}</td>
+                                    <td>{{$item->quantity}}</td>
+                                    <!-- <td>
+                                    <div class="text-warning fs-15">
+                                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-fill"></i>
+                                    </div>
+                                </td> -->
+                                    <td class="fw-medium text-end">
+                                        {{$item->price * $item->quantity}}
+                                    </td>
                                 </tr>
+                                @endforeach
                                 <tr class="border-top border-top-dashed">
                                     <td colspan="3"></td>
                                     <td colspan="2" class="fw-medium p-0">

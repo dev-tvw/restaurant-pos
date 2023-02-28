@@ -202,24 +202,26 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first(), 'total_price' => $total_price]);
         }
-        $cart = Cart::where('id', $request->cart_id)->first();
+        $cartItem = CartItem::where('id', $request->item_id)->first();
 
-        if ($cart) {
-            if (count($cart->extras)) {
-                $cart->extras()->detach();
+        if ($cartItem) {
+            if (count($cartItem->extras)) {
+                $cartItem->extras()->detach();
             }
             if (count($request->extras)) {
                 foreach ($request->extras as $extra) {
                     if (isset($extra['extra'])) {
-                        $cart->extras()->attach($extra['extra'], ['quantity' => $extra['quantity']]);
+                        $cartItem->extras()->attach($extra['extra'], ['quantity' => $extra['quantity']]);
                     }
                 }
             }
+            $cartItem = CartItem::where('id', $request->item_id)->first();
+            $cart = $cartItem->cart;
             foreach ($cart->cartItems as $item) {
                 $cart = Cart::where('id', $request->cart_id)->first();
                 $total_price = $total_price + ($item->quantity * $item->product->price);
-                if (count($cart->extras)) {
-                    foreach ($cart->extras as $extra) {
+                if (count($item->extras)) {
+                    foreach ($item->extras as $extra) {
                         $extras_price += ($extra->price * $extra->pivot->quantity);
                         $total_price = $total_price + ($extra->price * $extra->pivot->quantity);
                     }
@@ -231,14 +233,14 @@ class ProductController extends Controller
         }
     }
 
-    public function getExtraSectionAjax($cart_id)
+    public function getExtraSectionAjax($item_id)
     {
-        $cart = Cart::whereId($cart_id)->first();
+        $cartItem = CartItem::whereId($item_id)->first();
         $types = ExtraType::whereHas('extras')->get();
         $extras_selected = [];
         $extra_array = [];
-        if (count($cart->extras)) {
-            foreach ($cart->extras as $extra) {
+        if (count($cartItem->extras)) {
+            foreach ($cartItem->extras as $extra) {
                 $extra_array[$extra->id] = $extra->pivot->quantity;
                 $extras_selected[] = $extra->id;
             }
@@ -344,6 +346,7 @@ class ProductController extends Controller
     {
         $cartItem = CartItem::where('id', $cart_item_id)->first();
         if ($cartItem) {
+            $cartItem->extras()->detach();
             $cart = $cartItem->cart;
             if (count($cart->cartItems) < 2) {
                 $cart->delete();
@@ -365,8 +368,9 @@ class ProductController extends Controller
         $cart = Cart::where('id', $cart_id)->first();
         if ($cart) {
             $customer = $cart->customer->name;
-            $cart->extras()->detach();
-            CartItem::where('cart_id', $cart->id)->delete();
+            $cartItem = CartItem::where('cart_id', $cart->id)->first();
+            $cartItem->extras()->detach();
+            $cartItem->delete();
             $cart->delete();
         }
         return View::make('pos/cartAjax')->with('cart', [])->with('customer', $customer);

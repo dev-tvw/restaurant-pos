@@ -31,6 +31,6 @@ class CartItem extends Model
 
     public function extras()
     {
-        return $this->belongsToMany(Extra::class);
+        return $this->belongsToMany(Extra::class)->withPivot('quantity');
     }
 }
