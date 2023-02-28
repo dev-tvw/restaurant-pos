@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -40,12 +41,25 @@ class CustomerController extends Controller
             'name' => 'required',
             'type' => 'required'
         ]);
-        Customer::create([
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'type' => 'required',
+        ], [
+            'name.required' => 'Name field is required',
+            'type.required' => 'Type should be selected',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        }
+        $customer = Customer::create([
             'name' => $request->name,
             'type' => $request->type,
             'mobile' => $request->mobile,
         ]);
-        return redirect()->route('pos')->with('success', 'Customer added successfully');
+        if (!$customer) {
+            return response()->json(['success' => false, 'message' => 'Something went wrong, Please try again.']);
+        }
+        return response()->json(['success' => true, 'message' => 'Customer added successfully', 'customer' => $customer]);
     }
 
     /**

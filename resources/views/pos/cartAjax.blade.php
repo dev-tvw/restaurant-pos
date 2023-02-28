@@ -224,7 +224,7 @@
     </div>
 </div>
 </div>
-<script src="{{asset('js/jquery.js')}}"></script>
+<!-- <script src="{{asset('js/jquery.js')}}"></script> -->
 <script>
     $('#addExtraForm').on('submit', function(e) {
         e.preventDefault();

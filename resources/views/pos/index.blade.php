@@ -107,7 +107,7 @@
                         <h5 class="modal-title" id="addCustomerLabel">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{route('customers.store')}}" enctype="multipart/form-data" method="post" name="add-customer">
+                    <form action="{{route('customers.store')}}" enctype="multipart/form-data" method="post" name="add-customer" id="addCustomerForm">
                         @csrf
                         <div class="modal-body">
                             <div class="row">
@@ -168,8 +168,36 @@
             </div>
         </div>
     </main>
-    <script src="{{asset('js/jquery.js')}}"></script>
+    <!-- <script src="{{asset('js/jquery.js')}}"></script> -->
     <script type="text/javascript">
+        $('#addCustomerForm').on('submit', function(e) {
+            e.preventDefault();
+            var formdata = $(this).serialize();
+            $.ajax({
+                url: "{{route('customers.store')}}",
+                type: "POST",
+                data: formdata,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        getCart(response.customer.id);
+                        $('#customer-id').append(new Option(response.customer.name, response.customer.id));
+                        $('#customer-id').val(response.customer.id)
+                        $('#current_customer').text(response.customer.name);
+                        $('#addCustomer').modal('hide');
+                        // $("#common-div" + " .content").html(response);
+                    } else {
+                        toastr.error(response.message);
+                        $('#addCustomer').modal('hide');
+                    }
+                },
+                error: function(response) {}
+            });
+        });
+
         function getProducts(category_id, search = '') {
             $('#loading-image').show();
             $.ajax({
