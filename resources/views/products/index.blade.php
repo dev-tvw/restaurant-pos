@@ -37,7 +37,7 @@
                            <td>{{$product->name}}</td>
                            <td>{{$product->name_ar}}</td>
                            <td>{{$lang == 'en' ? $product->category->name : $product->category->name_ar}}</td>
-                           <td>{{priceformat($product->price)}}</td>
+                           <td>{{priceformat(floatval($product->price))}}</td>
                            <td>{{dateformat($product->created_at)}}</td>
                            <td>
                               <label class="text-{{$product->active ? 'success' : 'danger'}}">{{$product->active ? 'Active' : 'Inactive'}}</label>
