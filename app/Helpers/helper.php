@@ -10,9 +10,17 @@ function getCustomerTypes()
         'take_away' => 'Take Away'
     ];
 }
+function getCustomerType($key)
+{
+    $types =  [
+        'dine_in' => 'Dine In',
+        'take_away' => 'Take Away'
+    ];
+    return $types[$key];
+}
 function priceformat($price)
 {
-    return number_format($price);
+    return number_format(floatval($price));
 }
 function removeSession($session)
 {
