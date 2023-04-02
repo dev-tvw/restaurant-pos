@@ -170,6 +170,14 @@
     </main>
     <!-- <script src="{{asset('js/jquery.js')}}"></script> -->
     <script type="text/javascript">
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            var myurl = $(this).attr('href');
+            // var page = $(this).attr('href').split('page=')[1];
+            getProductsAjax(myurl);
+        });
         $('#addCustomerForm').on('submit', function(e) {
             e.preventDefault();
             var formdata = $(this).serialize();
@@ -205,6 +213,29 @@
                 type: "GET",
                 data: {
                     search: search,
+                },
+                success: function(response) {
+                    if (response) {
+                        // $('.success').text(response.success);
+                        $("#products-section").html(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+                complete: function() {
+                    $('#loading-image').hide();
+                }
+            });
+        }
+
+        function getProductsAjax(url) {
+            $('#loading-image').show();
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: {
+                    // search: search,
                 },
                 success: function(response) {
                     if (response) {
