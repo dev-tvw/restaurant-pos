@@ -1,3 +1,6 @@
+@php
+$lang = App::getLocale();
+@endphp
 <div class="card-body" id="items">
     <div class="row mt-2 mb-3 style-i3">
         @if(count($products))
@@ -14,7 +17,7 @@
                 <!-- <img src="{{asset('uploads/products/'.$product->image)}}" class="card-img-top" alt="Waterfall" /> -->
                 <a style="cursor: pointer;" onclick="addToCart('{{$product->id}}')" class="c-one-sp">
                     <div class="card-body text-center">
-                        <h5 class="card-title">{{$product->name}}</h5>
+                        <h5 class="card-title">{{$lang == 'en' ? $product->name : $product->name_ar}}</h5>
                         <p class="card-text">
 
                             Code: {{$product->id}}
