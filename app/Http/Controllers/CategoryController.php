@@ -139,6 +139,7 @@ class CategoryController extends Controller
         foreach ($items as $item) {
             if (count($item->extras))
                 $item->extras()->detach();
+            $item->delete();
         }
         Order::whereHas('cart.cartItems.product', function ($cq) use ($category) {
             $cq->whereCategoryId($category->id);
