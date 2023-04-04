@@ -43,10 +43,10 @@
                                  @method('DELETE')
                                  <button style="margin-right: 10px;" type="submit" class="btn btn-sm btn-{{$category->status ? 'warning' : 'success'}}" onclick="return confirm('Are you sure?')"><i class="fa {{$category->status ? 'fa-times' : 'fa-check'}}"></i></button>
                               </form>
-                              <form action="{{ route('categories.delete', ['category' => $category->id]) }}" method="POST">
+                              {{-- <form action="{{ route('categories.delete', ['category' => $category->id]) }}" method="POST">
                                  @csrf
                                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></button>
-                              </form>
+                              </form> --}}
                            </td>
                         </tr>
                         @endforeach

@@ -133,6 +133,7 @@ class CategoryController extends Controller
 
     public function deleteCategory(Category $category)
     {
+        return redirect()->back();
         $items = CartItem::whereHas('product', function ($qq) use ($category) {
             $qq->whereCategoryId($category->id);
         })->get();
