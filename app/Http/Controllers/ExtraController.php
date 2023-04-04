@@ -104,6 +104,8 @@ class ExtraController extends Controller
      */
     public function destroy(Extra $extra)
     {
-        //
+        $extra->status = $extra->status ? 0 : 1;
+        $extra->save();
+        return redirect()->back()->with('success', 'Status changed successfully');
     }
 }

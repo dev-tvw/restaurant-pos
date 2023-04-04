@@ -489,4 +489,34 @@ class ProductController extends Controller
             return true;
         }
     }
+
+    public function assembly(Request $request)
+    {
+        // $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {
+        //     $query->where('created_by', Auth::user()->id);
+        // })->orderby('created_at', 'desc')->paginate(20);
+        $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
+            $query->where('created_by', Auth::user()->id);
+        })->orderby('created_at', 'desc')->paginate(12);
+        // if ($request->ajax()) {
+        //     return view('kitchen.ajaxAssembly', compact('orders'));
+        // }
+        return view('kitchen.assembly', compact('orders'));
+    }
+
+    public function startOrder($id)
+    {
+        $order = Order::whereId($id)->update([
+            'status' => 2
+        ]);
+        return response()->json(['success' => true]);
+    }
+
+    public function endOrder($id)
+    {
+        $order = Order::whereId($id)->update([
+            'status' => 4
+        ]);
+        return response()->json(['success' => true]);
+    }
 }

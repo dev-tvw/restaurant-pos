@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Language;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -122,6 +125,21 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->status = $category->status ? 0 : 1;
+        $category->save();
+        return redirect()->back()->with('success', 'Status changed successfully');
+    }
+
+    public function deleteCategory(Category $category)
+    {
+        Order::whereHas('cart.cartItems.product', function ($cq) use ($category) {
+            $cq->whereCategoryId($category->id);
+        })->delete();
+        Cart::whereHas('cartItems.product', function ($cq) use ($category) {
+            $cq->whereCategoryId($category->id);
+        })->delete();
+        Product::whereCategoryId($category->id)->delete();
+        Category::whereId($category->id)->delete();
+        return redirect()->back()->with('success', 'Category and all data related to this category is deleted');
     }
 }

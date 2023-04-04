@@ -48,10 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/role-permission', [RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('permission', PermissionController::class);
     Route::resource('role', RoleController::class);
-
+    Route::post('/delete-category/{category}', [CategoryController::class, 'deleteCategory'])->name('categories.delete');
     // Dashboard Routes
     Route::get('/change-lang/{locale}', [HomeController::class, 'changeLanguage'])->name('changeLang');
 
+    Route::get('/start-order/{id}', [ProductController::class, 'startOrder'])->name('startOrder');
+    Route::get('/end-order/{id}', [ProductController::class, 'endOrder'])->name('endOrder');
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
@@ -62,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-add-extra-section/{item_id}', [ProductController::class, 'getExtraSectionAjax'])->name('pos.addExtraAjax');
     Route::post('/pos/add-extra', [ProductController::class, 'addExtra'])->name('pos.addExtra');
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
+    Route::get('/assembly', [ProductController::class, 'assembly'])->name('assembly');
     Route::get('/all-orders', [ProductController::class, 'allOrders'])->name('orders.all');
     Route::get('/order-detail/{order}', [ProductController::class, 'showOrder'])->name('orders.show');
     Route::get('/change-status/{order}/{status}', [ProductController::class, 'changeStatus'])->name('changeStatus');

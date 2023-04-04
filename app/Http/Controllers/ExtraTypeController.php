@@ -93,6 +93,8 @@ class ExtraTypeController extends Controller
      */
     public function destroy(ExtraType $type)
     {
-        //
+        $type->status = $type->status ? 0 : 1;
+        $type->save();
+        return redirect()->back()->with('success', 'Status changed successfully');
     }
 }
