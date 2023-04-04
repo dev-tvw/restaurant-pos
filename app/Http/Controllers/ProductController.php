@@ -271,7 +271,10 @@ class ProductController extends Controller
         $products = Product::when($category_id, function ($q) use ($category_id) {
             $q->where('category_id', $category_id);
         })->when($request->search, function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->search . '%')->orWhere('price', $request->search);
+            $query->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('price', $request->search)
+            ->orWhere('name_ar', 'like', '%' . $request->search . '%')
+            ->orWhere('id', $request->search);
         })->where('active', 1)->orderby('created_at', 'desc')->paginate(20);
         return View::make('pos.productsAjax')->with('products', $products);
     }
