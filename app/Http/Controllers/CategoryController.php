@@ -133,7 +133,7 @@ class CategoryController extends Controller
 
     public function deleteCategory(Category $category)
     {
-        $items = CartItem::whreeHas('product', function ($qq) use ($category) {
+        $items = CartItem::whereHas('product', function ($qq) use ($category) {
             $qq->whereCategoryId($category->id);
         })->get();
         foreach ($items as $item) {
