@@ -22,8 +22,8 @@ class Extra extends Model
     {
         return $this->belongsToMany(CartItem::class)->withPivot('quantity');
     }
-    public function carts()
-    {
-        return $this->belongsToMany(Cart::class)->withPivot('quantity');
-    }
+    // public function carts()
+    // {
+    //     return $this->belongsToMany(Cart::class)->withPivot('quantity');
+    // }
 }

@@ -34,8 +34,8 @@ class Cart extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function extras()
-    {
-        return $this->belongsToMany(Extra::class)->withPivot('quantity');
-    }
+    // public function extras()
+    // {
+    //     return $this->belongsToMany(Extra::class)->withPivot('quantity');
+    // }
 }

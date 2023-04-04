@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Order;
@@ -132,6 +133,12 @@ class CategoryController extends Controller
 
     public function deleteCategory(Category $category)
     {
+        $items = CartItem::whreeHas('product', function ($qq) use ($category) {
+            $qq->whereCategoryId($category->id);
+        })->get();
+        foreach ($items as $item) {
+            $item->extras->detach();
+        }
         Order::whereHas('cart.cartItems.product', function ($cq) use ($category) {
             $cq->whereCategoryId($category->id);
         })->delete();
