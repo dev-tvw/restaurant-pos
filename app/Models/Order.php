@@ -19,6 +19,7 @@ class Order extends Model
         'status',
         'discount',
         'qr_code',
+        'start_at',
         'created_by',
         'updated_by',
         'created_at',

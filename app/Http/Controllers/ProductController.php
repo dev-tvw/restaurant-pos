@@ -272,9 +272,9 @@ class ProductController extends Controller
             $q->where('category_id', $category_id);
         })->when($request->search, function ($query) use ($request) {
             $query->where('name', 'like', '%' . $request->search . '%')
-            ->orWhere('price', $request->search)
-            ->orWhere('name_ar', 'like', '%' . $request->search . '%')
-            ->orWhere('id', $request->search);
+                ->orWhere('price', $request->search)
+                ->orWhere('name_ar', 'like', '%' . $request->search . '%')
+                ->orWhere('id', $request->search);
         })->where('active', 1)->orderby('created_at', 'desc')->paginate(20);
         return View::make('pos.productsAjax')->with('products', $products);
     }
@@ -510,7 +510,8 @@ class ProductController extends Controller
     public function startOrder($id)
     {
         $order = Order::whereId($id)->update([
-            'status' => 2
+            'status' => 2,
+            'start_at' => now()
         ]);
         return response()->json(['success' => true]);
     }

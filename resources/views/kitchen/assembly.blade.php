@@ -25,7 +25,10 @@
         @foreach($orders as $order)
         <div class="col-md-3 card-{{$order->id}}">
             <div class="card">
-                <div class="card-header bg-my-default" id="bg-my-{{$order->id}}" style="padding: 10px;">
+                @php
+                $bg_color = $order->status == 1 ? 'bg-my-default' : 'bg-my-success';
+                @endphp
+                <div class="card-header {{$bg_color}}" id="bg-my-{{$order->id}}" style="padding: 10px;">
                     <div class="left float-start text-start">
                         <p class="mb-0">#{{$order->daily_code}}</p>
                         <p class="mb-0 Timer">{{date('H:i:s', strtotime($order->created_at))}}</p>
@@ -53,8 +56,11 @@
                         </p>
                         @endforeach
                     </div>
-                    <button class="btn btn-info start" id="start-{{$order->id}}" data-id="{{$order->id}}">Start</button>
-                    <button class="btn btn-success done" id="done-{{$order->id}}" data-id="{{$order->id}}" style="display: none;">Done</button>
+                    @php
+                    $none = "style=display:none;";
+                    @endphp
+                    <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button>
+                    <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
                 </div>
             </div>
         </div>
