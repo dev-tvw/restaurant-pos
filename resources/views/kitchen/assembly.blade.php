@@ -99,7 +99,11 @@
                 $('#loading-image').show();
                 $.ajax({
                     url: "start-order/" + id,
-                    type: "GET",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "id": id
+                    },
                     success: function(response) {
                         if (response.success) {
                             $('#bg-my-' + id).removeClass('bg-my-default');
@@ -124,7 +128,11 @@
                 $('#loading-image').show();
                 $.ajax({
                     url: "end-order/" + id,
-                    type: "GET",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "id": id
+                    },
                     success: function(response) {
                         if (response.success) {
                             $('.card-' + id).remove();

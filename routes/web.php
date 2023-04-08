@@ -52,8 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Dashboard Routes
     Route::get('/change-lang/{locale}', [HomeController::class, 'changeLanguage'])->name('changeLang');
 
-    Route::get('/start-order/{id}', [ProductController::class, 'startOrder'])->name('startOrder');
-    Route::get('/end-order/{id}', [ProductController::class, 'endOrder'])->name('endOrder');
+    Route::post('/start-order/{id}', [ProductController::class, 'startOrder'])->name('startOrder');
+    Route::post('/end-order/{id}', [ProductController::class, 'endOrder'])->name('endOrder');
     Route::get('/add-to-customer-cart/{customer_id}/{product_id}/{quantity}/{type}', [ProductController::class, 'submitCart'])->name('submitCart');
     Route::get('/get-cart/{customer_id}', [ProductController::class, 'getCart'])->name('getCart');
     Route::get('/remove-cart/{cart_id}', [ProductController::class, 'removeCart'])->name('removeCart');
