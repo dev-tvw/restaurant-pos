@@ -1,4 +1,19 @@
 <x-app-layout :assets="$assets ?? []">
+<style>
+        .rating {
+            display: inline-block;
+        }
+
+        .fa-star {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .filled {
+            color: gold;
+        }
+    </style>
+
     @php
     $lang = App::getLocale();
     @endphp
@@ -45,7 +60,17 @@
                                                 @foreach($feedback->ratings as $rating)
                                                 <tr>
                                                     <td>{{$rating->question->question}}</td>
-                                                    <td>{{$rating->rating}}</td>
+                                                    <td>
+                                                        <div class="rating">
+                                                            @for($i=1; $i<=5; $i++)
+                                                                @if($i <= $rating->rating)
+                                                                    <i class="fas fa-star filled"></i>
+                                                                @else
+                                                                    <i class="far fa-star"></i>
+                                                                @endif
+                                                            @endfor
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
