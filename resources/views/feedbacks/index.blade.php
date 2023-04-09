@@ -18,7 +18,9 @@
                                     <th>Phone</th>
                                     <th>Name</th>
                                     <th>Feedback</th>
-                                    <th>Rating</th>
+                                    @if(Auth::user()->user_type == 'admin')
+                                        <th>Rating</th>
+                                    @endif
                                     <th>Created At</th>
                                 </tr>
                             </thead>
@@ -28,6 +30,7 @@
                                     <td>{{$feedback->phone}}</td>
                                     <td>{{$feedback->name ? $feedback->name : '-'}}</td>
                                     <td>{{$feedback->feedback}}</td>
+                                    @if(Auth::user()->user_type == 'admin')
                                     <td>
                                         @if(count($feedback->ratings))
                                         <table class="table table-striped">
@@ -37,6 +40,7 @@
                                                     <th>Rating</th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
                                                 @foreach($feedback->ratings as $rating)
                                                 <tr>
@@ -50,6 +54,7 @@
                                         -
                                         @endif
                                     </td>
+                                    @endif
                                     <td>{{dateformat($feedback->created_at)}}</td>
                                 </tr>
                                 @endforeach
