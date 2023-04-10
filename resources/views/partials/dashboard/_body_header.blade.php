@@ -44,9 +44,10 @@
               <div class=" p-0 ">
                 <ul class="list-group list-group-flush">
                   @if($locale == 'en')
-                  <li class="iq-sub-card list-group-item"><a class="p-0" href="{{route('changeLang', ['locale' => 'ar'])}}"><img src="{{asset('images/Flag/ar.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Arabic</a></li>
+
+                  <a class="p-0" href="{{route('changeLang', ['locale' => 'ar'])}}"><li class="iq-sub-card list-group-item"><img src="{{asset('images/Flag/ar.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Arabic</li></a>
                   @else
-                  <li class="iq-sub-card list-group-item"><a class="p-0" href="{{route('changeLang', ['locale' => 'en'])}}"><img src="{{asset('images/Flag/en.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />English</a></li>
+                  <a class="p-0" href="{{route('changeLang', ['locale' => 'en'])}}"><li class="iq-sub-card list-group-item"><img src="{{asset('images/Flag/en.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />English</li></a>
                   @endif
                   <!-- <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="{{asset('images/Flag/flag-04.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;"/>Italian</a></li>
                   <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="{{asset('images/Flag/flag-02.png')}}" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;"/>French</a></li>
@@ -96,6 +97,7 @@
 <script src="{{asset('js/pusher.js')}}"></script>
 <script src="{{asset('toaster/toastr.min.js')}}"></script>
 <script type="text/javascript">
+
   function getNotifications() {
     var user_id = {{auth()->user()->id}};
     $('#loading-image').show();

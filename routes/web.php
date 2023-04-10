@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/delete-category/{category}', [CategoryController::class, 'deleteCategory'])->name('categories.delete');
     // Dashboard Routes
     Route::get('/change-lang/{locale}', [HomeController::class, 'changeLanguage'])->name('changeLang');
+    Route::any('/print/orders/count', [ProductController::class, 'countInvoice'])->name('orders.count');
+
 
     Route::post('/start-order/{id}', [ProductController::class, 'startOrder'])->name('startOrder');
     Route::post('/end-order/{id}', [ProductController::class, 'endOrder'])->name('endOrder');

@@ -1,4 +1,10 @@
 <x-app-layout :assets="$assets ?? []">
+    <style>
+        .header-container {
+             display: flex;
+            justify-content: space-between;
+        }
+    </style>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -12,7 +18,16 @@
                         </div>
                         <p></p>
                     </div>
-                    <h4 class="card-title mb-0">Today's Orders</h4>
+                    <div class="header-container">
+                        <h4 class="card-title mb-0">Today's Orders</h4>
+                        @if(Auth::user()->user_type == 'admin')
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Choose Cachier
+                            </button>
+                        @elseif(Auth::user()->user_type == 'cashier')
+                            <a href="#" class="btn btn-primary btnprn">Print Preview</a>
+                        @endif
+                    </div>
                 </div><!-- end card header -->
 
                 <div class="card-body">
@@ -115,17 +130,51 @@
                             {{ $orders->links() }}
                         </div>
                     </div>
-                </div>
-            </div><!-- end card -->
-        </div>
+                    </div>
+                </div><!-- end card -->
+                @if(Auth::user()->user_type == 'admin')
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Print Count of Invoice</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{ route('orders.count') }}" method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="cashier_name">Cashier Name</label>
+                                        <select name="cashier_name" id="cashier_name" class="form-control">
+                                            @foreach ($cashiers as $cashier)
+                                                <option value="{{ $cashier->id }}">{{ $cashier->username }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btnprn">Print</button>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         <!-- end col -->
-    </div>
     <!-- end col -->
     </div>
+
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/pusher.js')}}"></script>
     <script src="{{asset('js/swal.js')}}"></script>
     <script>
+        if({{ Auth::user()->user_type == 'cashier' }}){
+            $('.btnprn').click(function(){
+           window.open('/print/orders/count').print();
+           return false;
+        });
+        }
+
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
         var pusher = new Pusher('51cb53c9aaa81cbf8a97', {

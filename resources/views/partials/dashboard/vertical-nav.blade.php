@@ -267,6 +267,7 @@
                 </a>
             </li>
     @endif
+    @if(Auth::user()->user_type == 'admin')
         <li class="nav-item">
             <a class="nav-link {{activeRoute(route('feedbacks.index'))}}" aria-current="page" href="{{route('feedbacks.index')}}">
                 <i class="icon">
@@ -278,6 +279,7 @@
                 <span class="item-name">Feedbacks</span>
             </a>
         </li>
+    @endif
     {{-- <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#horizontal-menu" role="button" aria-expanded="false" aria-controls="horizontal-menu">
             <i class="icon">

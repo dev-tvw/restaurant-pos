@@ -9,7 +9,6 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Customer;
-use App\Models\Extra;
 use App\Models\ExtraType;
 use App\Models\Order;
 use App\Models\Product;
@@ -254,7 +253,8 @@ class ProductController extends Controller
             $query->where('created_by', Auth::user()->id);
         })->orderby('created_at', 'desc')->paginate(20);
         Auth::user()->unreadNotifications->markAsRead();
-        return view('kitchen.index', compact('orders'));
+        $cashiers = User::query()->where('user_type', 'cashier')->get();
+        return view('kitchen.index', compact('orders', 'cashiers'));
     }
 
     public function allOrders(Request $request)
@@ -292,10 +292,11 @@ class ProductController extends Controller
         }
         $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product_id)->first();
         if ($cartItem) {
-            if ($type == 'add')
+            if ($type == 'add') {
                 $cartItem->quantity += $quantity;
-            else
+            } else {
                 $cartItem->quantity = $quantity;
+            }
             $cartItem->save();
         } else {
             $cartItem = CartItem::create([
@@ -462,7 +463,7 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Status has been updated successfully');
     }
 
-    function generateKey()
+    public function generateKey()
     {
         $rand = strtoupper(substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6));
         // $rand = random_int(100000, 999999);
@@ -473,7 +474,7 @@ class ProductController extends Controller
         }
     }
 
-    function generateDailyCode()
+    public function generateDailyCode()
     {
         $daily_code = 1;
         $last_order = Order::whereDate('created_at', Carbon::today())->latest()->first();
@@ -483,7 +484,7 @@ class ProductController extends Controller
         return $daily_code;
     }
 
-    function validOrder($key)
+    public function validOrder($key)
     {
         $rand = Order::where('order_code', $key)->first();
         if ($rand) {
@@ -498,9 +499,16 @@ class ProductController extends Controller
         // $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {
         //     $query->where('created_by', Auth::user()->id);
         // })->orderby('created_at', 'desc')->paginate(20);
-        $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
-            $query->where('created_by', Auth::user()->id);
-        })->orderby('created_at', 'desc')->paginate(12);
+        if(Auth::user()->user_type == 'admin') {
+            $orders = Order::query()->where('status', '!=', 4)
+                                    ->orderby('created_at', 'desc')
+                                    ->paginate(12);
+        } else {
+            $orders = Order::query()->where('created_by', Auth::id())
+                                    ->where('status', '!=', 4)
+                                    ->orderby('created_at', 'desc')
+                                    ->paginate(12);
+        }
         // if ($request->ajax()) {
         //     return view('kitchen.ajaxAssembly', compact('orders'));
         // }
@@ -522,5 +530,32 @@ class ProductController extends Controller
             'status' => 4
         ]);
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * countInvoice
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function countInvoice(Request $request)
+    {
+        if(auth()->user()->user_type == 'admin') {
+            $cashier_id = $request->input('cashier_name');
+            // $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {})->orderby('created_at', 'desc')->get();
+            $cashier = User::find($cashier_id);
+            $orders = $cashier->orders()->whereDate('created_at', Carbon::today())->get();
+            $count = count($orders);
+            return view('kitchen.print_count_order', ['cashier' => $cashier,'orders' => $orders, 'count' => $count ]);
+        } elseif(auth()->user()->user_type == 'cashier') {
+            // $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {})->orderby('created_at', 'desc')->get();
+            $cashier = User::find(auth()->user()->id);
+            $orders = $cashier->orders()->whereDate('created_at', Carbon::today())->orderby('created_at', 'desc')->get();
+            $count = count($orders);
+
+            return view('kitchen.print_count_order', ['cashier' => $cashier,'orders' => $orders, 'count' => $count ]);
+        } else {
+            return;
+        }
     }
 }
