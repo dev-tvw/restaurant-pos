@@ -383,8 +383,11 @@ class ProductController extends Controller
     public function submitOrder($cart_id, $discount)
     {
         $cart = Cart::where('id', $cart_id)->where('status', '!=', 0)->first();
+
         if ($cart) {
             if (count($cart->cartItems)) {
+                $products_ids = CartItem::query()->where('cart_id', $cart_id)->pluck('product_id');
+                $cooking_time = Product::query()->whereIn('id', $products_ids)->sum('cooking_time');
                 $order_code = $this->generateKey();
                 $daily_code = $this->generateDailyCode();
                 $path_qrcode = public_path('/uploads/qrcodes/orders');
@@ -401,8 +404,9 @@ class ProductController extends Controller
                     'updated_by' => Auth::user()->id,
                     'discount' => $discount,
                     'grand_total' => 0,
-                    'status' => 1
-                ]);
+                    'status' => 1,
+                    'cooking_time' => (int)$cooking_time
+                 ]);
                 $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
                     $grand = 0;
                     $profit = 0;
