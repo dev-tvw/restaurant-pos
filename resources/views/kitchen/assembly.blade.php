@@ -31,6 +31,20 @@
                 <div class="card">
                     @php
                     $bg_color = $order->status == 1 ? 'bg-my-default' : 'bg-my-success';
+
+                    if($order->start_at && in_array($order->status,[2,4])){
+
+                        $start_at = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->start_at);
+
+                        $end_start_order = $start_at->addMinutes($order->cooking_time);
+
+                        $date_now = \Carbon\Carbon::now();
+
+                        if($date_now >= $end_start_order){
+                            $bg_color = 'bg-my-danger';
+                        }
+                    }
+
                     @endphp
                     <div class="card-header {{$bg_color}}" id="bg-my-{{$order->id}}" style="padding: 10px;">
                         <div class="left float-start text-start">
@@ -40,7 +54,11 @@
                         <div class="right float-end text-end">
                             <p class="mb-0">{{$order->createdby->username}}</p>
                             <!-- <p class="mb-0" id="count-down-{{$order->id}}">5</p> -->
-                            <span class="countdown" data-time="{{ $order->cooking_time }}">00m 00s</span>
+                            @if ($order->status == 2)
+                                <span class="countdown" data-time="{{ $order->cooking_time }}">00m 00s</span>
+                            @elseif($order->status == 1)
+                                <span>{{ $order->cooking_time }} minutes</span>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">
@@ -70,7 +88,7 @@
                         @endphp
                         <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button>
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
-                        <button class="btn btn-info">print</button>
+                        <a href="orders/print/{{$order->id}}" class="btn btn-info">print</a>
                     </div>
                 </div>
             </div>
@@ -88,6 +106,7 @@
 
 
             $(".start").click(function() {
+
                 var id = $(this).attr('data-id');
                 $(this).hide();
                 $('#loading-image').show();
