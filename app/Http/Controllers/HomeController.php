@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
-
 class HomeController extends Controller
 {
     /*
@@ -31,6 +30,8 @@ class HomeController extends Controller
             return redirect()->route('kitchen');
         } elseif (Auth::user()->user_type == 'cashier') {
             return redirect()->route('pos');
+        } elseif(Auth::user()->user_type == 'agency') {
+            return redirect()->route('orders.all_discount_zero');
         } else {
             $latest_products = Product::whereDate('created_at', '>=', Carbon::now()->subDays(7))->orderby('id', 'desc')->paginate(10);
             $latest_orders = Order::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);

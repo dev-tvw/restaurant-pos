@@ -562,4 +562,25 @@ class ProductController extends Controller
             return;
         }
     }
+
+
+    /**
+     * get_all_orders_with_discount_zero
+     *
+     * @return void
+     */
+    public function get_all_orders_with_discount_zero()
+    {
+        $orders = Order::query()->where('discount', 0)->orderby('created_at', 'desc')->paginate(20);
+        Auth::user()->unreadNotifications->markAsRead();
+        return view('kitchen.all_orders_discount_zero', compact('orders'));
+    }
+
+    public function kitchen_discount_zero(Request $request)
+    {
+        $orders = Order::whereDate('created_at', Carbon::today())->orderby('created_at', 'desc')->paginate(20);
+        Auth::user()->unreadNotifications->markAsRead();
+        $cashiers = User::query()->where('user_type', 'cashier')->get();
+        return view('kitchen.index_discount_zero', compact('orders', 'cashiers'));
+    }
 }
