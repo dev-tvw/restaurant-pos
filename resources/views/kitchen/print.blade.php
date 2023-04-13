@@ -17,7 +17,7 @@
                                 </small>
                             </h1>
 
-                            <div class="page-tools">
+                            <div class="page-tools noprint">
                                 <div class="action-buttons">
                                     <a class="btn bg-white btn-light mx-1px text-95" href="javascript:window.print();" data-title="Print">
                                         <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
@@ -57,13 +57,13 @@
                                         <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
                                             <hr class="d-sm-none" />
                                             <div class="text-grey-m2">
-                                                <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                                <div class="mt-1 text-125" style="font-weight: 700;color:black">
                                                     Invoice
                                                 </div>
 
-                                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{{$order->daily_code}}</div>
+                                                <div class="my-2" style="font-weight: 700;color:black"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{{$order->daily_code}}</div>
 
-                                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Date:</span> {{dateFormat($order->created_at)}}</div>
+                                                <div class="my-2" style="font-weight: 700;color:black"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Date:</span> {{dateFormat($order->created_at)}}</div>
 
                                                 <!-- <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div> -->
                                             </div>
@@ -73,11 +73,11 @@
 
                                     <div class="mt-4">
                                         <div class="row text-600 text-white bgc-default-tp1 py-25">
-                                            <div class="d-none d-sm-block col-1">#</div>
-                                            <div class="col-9 col-sm-5">Description</div>
-                                            <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
-                                            <div class="d-none d-sm-block col-sm-2">Unit Price</div>
-                                            <div class="col-2">Amount</div>
+                                            <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black">#</div>
+                                            <div class="col-9 col-sm-5" style="font-weight: 700;color:black">Description</div>
+                                            <div class="d-none d-sm-block col-4 col-sm-2" style="font-weight: 700;color:black">Qty</div>
+                                            <div class="d-none d-sm-block col-sm-2" style="font-weight: 700;color:black">Unit Price</div>
+                                            <div class="col-2" style="font-weight: 700;color:black">Amount</div>
                                         </div>
                                         <?php $total_price  = 0;
                                         $extra_price = 0; ?>
@@ -87,18 +87,18 @@
                                         ?>
                                         <div class="text-95 text-secondary-d3">
                                             <div class="row mb-2 mb-sm-0 py-25">
-                                                <div class="d-none d-sm-block col-1">{{$loop->iteration}}</div>
-                                                <div class="col-9 col-sm-5">{{$item->product->name}}
-                                                    <h4 class="mt-2">Extras: </h4>
+                                                <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black">{{$loop->iteration}}</div>
+                                                <div class="col-9 col-sm-5" style="font-weight: 700;color:black">{{$item->product->name}}
+                                                    <h4 class="mt-2" style="font-weight: 700;color:black">Extras: </h4>
 
                                                     <div class="row">
                                                         @if(count($item->extras))
                                                         <div class="col-12">
                                                             <div style="background-color: gray;" class="row text-600 text-white bgc-inner-tp1 py-25">
-                                                                <div class="d-none d-sm-block col-1 text-center">#</div>
-                                                                <div class="col-9 col-sm-5 text-center">Name</div>
-                                                                <div class="d-none d-sm-block col-2 col-sm-2 text-center">Qty</div>
-                                                                <div class="d-none d-sm-block col-sm-4 text-center">Unit Price</div>
+                                                                <div class="d-none d-sm-block col-1 text-center" style="font-weight: 700;color:black">#</div>
+                                                                <div class="col-9 col-sm-5 text-center" style="font-weight: 700;color:black">Name</div>
+                                                                <div class="d-none d-sm-block col-2 col-sm-2 text-center" style="font-weight: 700;color:black">Qty</div>
+                                                                <div class="d-none d-sm-block col-sm-4 text-center" style="font-weight: 700;color:black">Unit Price</div>
                                                             </div>
                                                             @foreach($item->extras as $value)
                                                             @php
@@ -107,10 +107,10 @@
                                                             @endphp
                                                             <div class="text-95 text-secondary-d3">
                                                                 <div class="row mb-2 mb-sm-0 py-25">
-                                                                    <div class="d-none d-sm-block col-1 text-center">{{$loop->iteration}}</div>
-                                                                    <div class="d-none d-sm-block col-5 text-center">{{$value->name}}</div>
-                                                                    <div class="col-2 col-sm-2 text-center">{{$value->pivot->quantity}}</div>
-                                                                    <div class="d-none d-sm-block col-4 text-center">{{$value->price}}</div>
+                                                                    <div class="d-none d-sm-block col-1 text-center" style="font-weight: 700;color:black">{{$loop->iteration}}</div>
+                                                                    <div class="d-none d-sm-block col-5 text-center" style="font-weight: 700;color:black">{{$value->name}}</div>
+                                                                    <div class="col-2 col-sm-2 text-center" style="font-weight: 700;color:black">{{$value->pivot->quantity}}</div>
+                                                                    <div class="d-none d-sm-block col-4 text-center" style="font-weight: 700;color:black">{{$value->price}}</div>
                                                                 </div>
                                                             </div>
                                                             @endforeach
@@ -118,9 +118,9 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="d-none d-sm-block col-2">{{$item->quantity}}</div>
-                                                <div class="d-none d-sm-block col-2 text-95">IQD {{priceformat($item->price)}}</div>
-                                                <div class="col-2 text-secondary-d2">{{$item->price * $item->quantity}}</div>
+                                                <div class="d-none d-sm-block col-2" style="font-weight: 700;color:black">{{$item->quantity}}</div>
+                                                <div class="d-none d-sm-block col-2 text-95" style="font-weight: 700;color:black">IQD {{priceformat($item->price)}}</div>
+                                                <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black">{{$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
                                         @endforeach
@@ -140,37 +140,37 @@
                                                         Extras:
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-120 text-secondary-d1">IQD {{priceformat($extra_price)}}</span>
+                                                        <span class="text-120 text-secondary-d1" style="font-weight: 700;color:black">IQD {{priceformat($extra_price)}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row my-2">
-                                                    <div class="col-7 text-right">
+                                                    <div class="col-7 text-right" style="font-weight: 700;color:black">
                                                         SubTotal
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-120 text-secondary-d1">IQD {{priceformat($total_price)}}</span>
+                                                        <span class="text-120 text-secondary-d1" style="font-weight: 700;color:black">IQD {{priceformat($total_price)}}</span>
                                                     </div>
                                                 </div>
 
                                                 <div class="row my-2">
-                                                    <div class="col-7 text-right">
+                                                    <div class="col-7 text-right" style="font-weight: 700;color:black">
                                                         Discount ({{$order->discount ? $order->discount : 0}}%)
                                                     </div>
                                                     <?php
                                                     $payable = $total_price;
-                                                    if ($order->discount && $order->discount > 0) {
-                                                        $discounted = ($order->discount * $total_price) / 100;
-                                                        $payable = $total_price - $discounted;
-                                                    }
-                                                    ?>
+                                        if ($order->discount && $order->discount > 0) {
+                                            $discounted = ($order->discount * $total_price) / 100;
+                                            $payable = $total_price - $discounted;
+                                        }
+                                        ?>
                                                 </div>
 
                                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
-                                                    <div class="col-7 text-right">
+                                                    <div class="col-7 text-right" style="font-weight: 700;color:black">
                                                         Total Amount
                                                     </div>
                                                     <div class="col-5">
-                                                        <span class="text-150 text-success-d3 opacity-2">IQD {{priceformat($payable)}}</span>
+                                                        <span class="text-150 text-success-d3 opacity-2" style="font-weight: 700;color:black">IQD {{priceformat($payable)}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,7 +179,9 @@
                                         <hr />
 
                                         <div>
-                                            <span class="text-secondary-d1 text-105">Thank you for your visit</span>
+                                            <span class="text-secondary-d1 text-105" style="font-weight: 700;color:black">Thank you for your visit</span>
+                                            <span class="float-right text-secondary-d1 text-105" style="font-weight: 700;color:black;text-align: center;">By Altatweertech</span>
+
                                             <!-- <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a> -->
                                         </div>
                                     </div>
@@ -193,6 +195,14 @@
     </div>
 </div>
 <style>
+    @media print {
+        .noprint {
+            visibility: hidden;
+        }
+        .show_text {
+            visibility: visible;
+        }
+    }
     .text-secondary-d1 {
         color: #728299 !important;
     }

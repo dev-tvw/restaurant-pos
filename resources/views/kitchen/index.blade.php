@@ -25,7 +25,7 @@
                             Choose Cachier
                             </button>
                         @elseif(Auth::user()->user_type == 'cashier')
-                            <a href="#" class="btn btn-primary btnprn">Print Preview</a>
+                            <a href=href="/print/orders/count" class="btn btn-primary btnprn" target="_blank">Print Preview</a>
                         @endif
                     </div>
                 </div><!-- end card header -->
@@ -168,12 +168,12 @@
     <script src="{{asset('js/pusher.js')}}"></script>
     <script src="{{asset('js/swal.js')}}"></script>
     <script>
-        if({{ Auth::user()->user_type == 'cashier' }}){
-            $('.btnprn').click(function(){
-           window.open('/print/orders/count').print();
-           return false;
-        });
-        }
+        // if({{ Auth::user()->user_type == 'cashier' }}){
+        //     $('.btnprn').click(function(){
+        //    window.open('/print/orders/count').print();
+        //    return false;
+        // });
+        // }
 
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;

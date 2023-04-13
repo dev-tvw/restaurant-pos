@@ -88,7 +88,7 @@
                         @endphp
                         <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button>
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
-                        <a href="orders/print/{{$order->id}}" class="btn btn-info">print</a>
+                        <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a>
                     </div>
                 </div>
             </div>
