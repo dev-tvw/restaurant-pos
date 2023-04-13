@@ -179,9 +179,9 @@ class ProductController extends Controller
 
     public function pos(Request $request)
     {
-        $customers = Customer::where('id', '>', 1)->orderby('created_at', 'desc')->get();
-        $walking_customer = Customer::where('id', 1)->first();
-        $cart = Cart::where('status', '!=', 0)->where('customer_id', 1)->first();
+        $customers = Customer::where('id', '>', 23)->orderby('created_at', 'desc')->get();
+        $walking_customer = Customer::where('id', 23)->first();
+        $cart = Cart::where('status', '!=', 0)->where('customer_id', 23)->first();
         $products = Product::orderby('created_at', 'desc')->where('active', 1)->paginate(20);
         $categories = Category::whereHas('products')->get();
         return view('pos.index', compact('customers', 'cart', 'categories', 'products', 'walking_customer'));
