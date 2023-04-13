@@ -503,16 +503,11 @@ class ProductController extends Controller
         // $orders = Order::whereDate('created_at', Carbon::today())->when(Auth::user()->user_type == 'cashier', function ($query) {
         //     $query->where('created_by', Auth::user()->id);
         // })->orderby('created_at', 'desc')->paginate(20);
-        if(Auth::user()->user_type == 'admin') {
-            $orders = Order::query()->where('status', '!=', 4)
-                                    ->orderby('created_at', 'desc')
-                                    ->paginate(12);
-        } else {
-            $orders = Order::query()->where('created_by', Auth::id())
-                                    ->where('status', '!=', 4)
-                                    ->orderby('created_at', 'desc')
-                                    ->paginate(12);
-        }
+
+        $orders = Order::query()->where('status', '!=', 4)
+                                ->orderby('created_at', 'desc')
+                                ->paginate(12);
+
         // if ($request->ajax()) {
         //     return view('kitchen.ajaxAssembly', compact('orders'));
         // }
