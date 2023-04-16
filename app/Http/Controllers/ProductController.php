@@ -235,7 +235,7 @@ class ProductController extends Controller
     public function getExtraSectionAjax($item_id)
     {
         $cartItem = CartItem::whereId($item_id)->first();
-        $types = ExtraType::whereHas('extras')->get();
+        $types = ExtraType::whereHas('extras')->where('status', true)->get();
         $extras_selected = [];
         $extra_array = [];
         if (count($cartItem->extras)) {
