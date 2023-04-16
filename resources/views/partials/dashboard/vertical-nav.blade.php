@@ -51,7 +51,7 @@
         </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#Modifiers-menu" role="button" aria-expanded="false" aria-controls="questions-menu">
+        <a class="nav-link" data-bs-toggle="collapse" href="#extras-menu" role="button" aria-expanded="false" aria-controls="questions-menu">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4" d="M10.0833 15.958H3.50777C2.67555 15.958 2 16.6217 2 17.4393C2 18.2559 2.67555 18.9207 3.50777 18.9207H10.0833C10.9155 18.9207 11.5911 18.2559 11.5911 17.4393C11.5911 16.6217 10.9155 15.958 10.0833 15.958Z" fill="currentColor"></path>

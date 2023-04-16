@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Add New Extra</h4>
+                            <h4 class="card-title">Add New Modifier</h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -30,7 +30,7 @@
                                     <input class="form-control" placeholder="Extra Price" required="" name="price" type="text" value="{{old('price')}}">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Add Extra</button>
+                                <button type="submit" class="btn btn-primary">Add Modifier</button>
                             </div>
                         </div>
                     </div>

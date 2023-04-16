@@ -7,7 +7,7 @@
          <div class="card">
             <div class="card-header d-flex justify-content-between">
                <div class="header-title">
-                  <h4 class="card-title">Extra Types Listing</h4>
+                  <h4 class="card-title">Modifier Types Listing</h4>
                </div>
                <a href="{{route('types.create')}}" class="btn btn-info" style="float: right;"><i class="fa fa-plus"></i> Add New Type</a>
             </div>

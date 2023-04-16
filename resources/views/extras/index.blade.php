@@ -7,9 +7,9 @@
          <div class="card">
             <div class="card-header d-flex justify-content-between">
                <div class="header-title">
-                  <h4 class="card-title">Extras Listing</h4>
+                  <h4 class="card-title">Modifier Listing</h4>
                </div>
-               <a href="{{route('extras.create')}}" class="btn btn-info" style="float: right;"><i class="fa fa-plus"></i> Add New Extra</a>
+               <a href="{{route('extras.create')}}" class="btn btn-info" style="float: right;"><i class="fa fa-plus"></i> Add New Modifier</a>
             </div>
             <div class="card-body">
                <div class="table-responsive">
