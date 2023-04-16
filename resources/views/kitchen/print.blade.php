@@ -9,7 +9,7 @@
 
                     <div class="container p-0">
                         <div class="page-header text-blue-d2">
-                            <h1 class="page-title text-secondary-d1">
+                            <h1 class="page-title" style="font-weight: 700;color:black;font-size: xx-large;">
                                 Invoice
                                 <small class="page-info">
                                     <i class="fa fa-angle-double-right text-80"></i>
@@ -38,7 +38,7 @@
                                         <div class="col-12">
                                             <div class="text-center text-150">
                                                 <!-- <i class="fa fa-book fa-2x text-success-m2 mr-1"></i> -->
-                                                <span class="text-default-d3" style="font-weight: 700;color:black;">Graffiti Invoice</span>
+                                                <span style="font-weight: 700;color:black;font-size: xx-large;">Graffiti Invoice</span>
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="text-grey-m2 mt-3">
-                                                <img src="{{ URL::asset('images/logo.png') }}" alt="" height="50">
+                                                <img src="{{ URL::asset('images/logo.png') }}" alt="" height="100">
                                             </div>
                                         </div>
                                         <!-- /.col -->
@@ -89,12 +89,10 @@
                                             <div class="row mb-2 mb-sm-0 py-25">
                                                 <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black;font-size: xx-large;">{{$loop->iteration}}</div>
                                                 <div class="col-9 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->product->name}}
-                                                    <h4 class="mt-2" style="font-weight: 700;color:black;font-size: xx-large;">Extras: </h4>
-
                                                     <div class="row">
                                                         @if(count($item->extras))
                                                         <div class="col-12">
-                                                            <div style="background-color: gray;" class="row text-600 text-white bgc-inner-tp1 py-25">
+                                                            <div style="border: black solid 1px;" class="row text-600 text-white bgc-inner-tp1 py-25">
                                                                 <div class="d-none d-sm-block col-1 text-center" style="font-weight: 700;color:black;font-size: xx-large;">#</div>
                                                                 <div class="col-9 col-sm-5 text-center" style="font-weight: 700;color:black;font-size: xx-large;">Name</div>
                                                                 <div class="d-none d-sm-block col-2 col-sm-2 text-center" style="font-weight: 700;color:black;font-size: xx-large;">Qty</div>
@@ -179,8 +177,8 @@
                                         <hr />
 
                                         <div>
-                                            <span class="text-secondary-d1 text-105" style="font-weight: 700;color:black;font-size: xx-large;">Thank you for your visit</span>
-                                            <span class="float-right text-secondary-d1 text-105" style="font-weight: 700;color:black;text-align: center;font-size: xx-large;">By Altatweertech</span>
+                                            <span class="text-105" style="font-weight: 700;color:black;font-size: xx-large;">Thank you for your visit</span>
+                                            <span class="text-105 float-right" style="font-weight: 700;color:black;text-align: center;font-size: xx-large;">By Altatweertech</span>
 
                                             <!-- <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a> -->
                                         </div>
