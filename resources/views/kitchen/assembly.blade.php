@@ -69,7 +69,7 @@
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/ طعام جاهز فالداخل</h6>
                             @endif
                             @foreach($order->cart->cartItems as $item)
-                            <p class="card-text {{$item}}"><b>{{$item->quantity}} x {{$item->product->name}} - {{$item->product->name_ar}}</b>
+                            <p class="{{$item}}" style="color:black"><b>{{$item->quantity}} x {{$item->product->name}} - {{$item->product->name_ar}}</b>
                                 @if($item->extras)
                                 @php $extra_text = ""; @endphp
                                 @foreach($item->extras as $extra)
