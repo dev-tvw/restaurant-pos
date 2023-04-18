@@ -74,7 +74,7 @@
                                 @php $extra_text = ""; @endphp
                                 @foreach($item->extras as $extra)
                                 @php
-                                $extra_text .= $extra->pivot->quantity . ' x ' . $extra->name . ', ';
+                                $extra_text = $extra->pivot->quantity . ' x ' . $extra->name . ', ';
                                 @endphp
                                 <br><sub style="color:#BA544C; font-weight: bold;">{{$extra_text}}</sub>
                                 @endforeach
