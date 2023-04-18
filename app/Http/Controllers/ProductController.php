@@ -193,10 +193,10 @@ class ProductController extends Controller
         $extras_price = 0;
         $validator = Validator::make($request->all(), [
             'extras.*.quantity' => 'required_with:extras.*.extra',
-            'extras.*.extra' => 'required_with:extras.*.quantity',
+            //'extras.*.extra' => 'required_with:extras.*.quantity',
         ], [
             'extras.*.quantity.required_with' => 'Quantity field is required',
-            'extras.*.extra.required_with' => 'Extra field should be selected',
+            //'extras.*.extra.required_with' => 'Extra field should be selected',
         ]);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first(), 'total_price' => $total_price]);
@@ -210,7 +210,7 @@ class ProductController extends Controller
             if (count($request->extras)) {
                 foreach ($request->extras as $extra) {
                     if (isset($extra['extra'])) {
-                        $cartItem->extras()->attach($extra['extra'], ['quantity' => $extra['quantity']]);
+                        $cartItem->extras()->attach($extra['extra'], ['quantity' => $extra['quantity'] ?? 1]);
                     }
                 }
             }
