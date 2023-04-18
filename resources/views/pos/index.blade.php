@@ -1,5 +1,10 @@
 <x-app-layout :assets="$assets ?? []">
-
+<style>
+    .modal-content{
+        width: 130%  !important;
+        margin-left: -10%;"
+    }
+</style>
     <main id="content" role="main" class="main pointer-event">
 
 
@@ -96,7 +101,7 @@
 
         <div class="modal fade" id="quick-view" tabindex="-1">
             <div class="modal-dialog">
-                <div class="modal-content" id="quick-view-modal">
+                <div class="modal-content" id="quick-view-modal" >
                 </div>
             </div>
         </div>
