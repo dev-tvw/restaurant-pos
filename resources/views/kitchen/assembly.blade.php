@@ -64,9 +64,9 @@
                     <div class="card-body">
                         <div class="card-body-section mb-3">
                             @if(getCustomerType($order->customer->type) == 'take_away')
-                            <h6 class="card-title">{{getCustomerType($order->customer->type)}}/طعام جاهز للاسال</h6>
+                            <h6 class="card-title">{{getCustomerType($order->customer->type)}}/طلب خارجي </h6>
                             @else
-                            <h6 class="card-title">{{getCustomerType($order->customer->type)}}/ طعام جاهز فالداخل</h6>
+                            <h6 class="card-title">{{getCustomerType($order->customer->type)}}/ طلب في الصاله</h6>
                             @endif
                             @foreach($order->cart->cartItems as $item)
                             <p class="{{$item}}" style="color:black"><b>{{$item->quantity}} x {{$item->product->name}} - {{$item->product->name_ar}}</b>
@@ -76,7 +76,7 @@
                                 @php
                                 $extra_text .= $extra->pivot->quantity . ' x ' . $extra->name . ', ';
                                 @endphp
-                                <br><sub>{{$extra_text}}</sub>
+                                <br><sub style="color:#BA544C; font-weight: bold;">{{$extra_text}}</sub>
                                 @endforeach
                                 @endif
 
