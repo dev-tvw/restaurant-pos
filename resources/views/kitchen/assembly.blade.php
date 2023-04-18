@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="card-body-scroll-section mb-3">
+                        <div class="card-body-section mb-3">
                             @if(getCustomerType($order->customer->type) == 'take_away')
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/طعام جاهز للاسال</h6>
                             @else
@@ -93,7 +93,7 @@
                 </div>
             </div>
             @endforeach
-        {{ $orders->links() }}
+        {{-- {{ $orders->links() }} --}}
         @else
         <h2 class="text-center text-white">Not found any Assembly</h2>
         @endif

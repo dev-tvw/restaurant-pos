@@ -505,8 +505,9 @@ class ProductController extends Controller
         // })->orderby('created_at', 'desc')->paginate(20);
 
         $orders = Order::query()->where('status', '!=', 4)
-                                ->orderby('created_at', 'desc')
-                                ->paginate(12);
+                                ->orderby('created_at', 'ASC')
+                                // ->paginate(12);
+                                ->get();
 
         // if ($request->ajax()) {
         //     return view('kitchen.ajaxAssembly', compact('orders'));
