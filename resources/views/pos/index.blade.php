@@ -377,6 +377,7 @@
                 discount = value_discount;
             }
             $('#loading-image').show();
+            console.log(cart_id);
             $.ajax({
                 url: "submit-order/" + cart_id + "/" + discount,
                 type: "GET",
@@ -387,7 +388,7 @@
                     }
                     var message = 'Order submitted successfully';
                     toastr.success(message);
-                    invoicePrint(response.order_id);
+                    //invoicePrint(response.order_id);
                     // invoicePrint(42);
                     // alert(response.orders);
                     // Swal.fire({
@@ -406,7 +407,7 @@
             });
         }
 
-        
+
     function invoicePrint(order)
     {
       var divToPrint=document.getElementById('DivIdToPrint');
@@ -420,7 +421,7 @@
                 newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
                 newWin.document.close();
             }
-        }) 
+        })
     }
 
         function searchProducts(search) {
