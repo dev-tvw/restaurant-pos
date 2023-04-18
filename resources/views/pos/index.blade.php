@@ -173,6 +173,9 @@
             </div>
         </div>
     </main>
+
+    <div id='DivIdToPrint'>
+    </div>
     <!-- <script src="{{asset('js/jquery.js')}}"></script> -->
     <script type="text/javascript">
         $(document).on('click', '.pagination a', function(event) {
@@ -373,7 +376,6 @@
             if (value_discount <= 100 && value_discount > 0) {
                 discount = value_discount;
             }
-            console.log(cart_id);
             $('#loading-image').show();
             $.ajax({
                 url: "submit-order/" + cart_id + "/" + discount,
@@ -385,6 +387,9 @@
                     }
                     var message = 'Order submitted successfully';
                     toastr.success(message);
+                    invoicePrint(response.order_id);
+                    // invoicePrint(42);
+                    // alert(response.orders);
                     // Swal.fire({
                     //     icon: 'success',
                     //     title: 'Done',
@@ -400,6 +405,23 @@
                 }
             });
         }
+
+        
+    function invoicePrint(order)
+    {
+      var divToPrint=document.getElementById('DivIdToPrint');
+        $.ajax({
+            url:"{{ url('orders/print') }}"+'/'+order,
+            method:"get",
+            success:function(data)
+            {
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
+                newWin.document.close();
+            }
+        }) 
+    }
 
         function searchProducts(search) {
             getProducts(0, search);
