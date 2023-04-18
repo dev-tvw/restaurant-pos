@@ -100,7 +100,7 @@
     </div>
     <script>
         setTimeout(function() {
-        window.location.href = "{{ route('assembly') }}"; }, 20000); // 5 seconds
+        window.location.href = "{{ route('assembly') }}"; }, 10000); // 10 seconds
         // var start = new Date;
         // setInterval(function() {
         //      $('.Timer').text((new Date - start) / 1000 + " Seconds");
