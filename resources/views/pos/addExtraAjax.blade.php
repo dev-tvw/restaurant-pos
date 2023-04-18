@@ -12,7 +12,7 @@
                <br>
             <div class="col-lg-4">
                     <div class="quantity pl-5">
-                        <input class="form-control" value="{{in_array($extra->id, $extras_selected) ? $extra_array[$extra->id] : '1'}}" placeholder="Quantity" type="number" min="1" name="extras[{{$extra->id}}][quantity]" />
+                        <input class="form-control" value="{{in_array($extra->id, $extras_selected) ? $extra_array[$extra->id] : ''}}" placeholder="Quantity" type="number" min="1" name="extras[{{$extra->id}}][quantity]" />
                     </div>
             </div>
     </div>
