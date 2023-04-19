@@ -18,7 +18,7 @@
 
     @foreach($cart->cartItems as $item)
     @php
-    $total += $item->quantity * $item->price;
+    $total += $item->quantity * (int)$item->price;
     if(count($item->extras))
     {
     foreach($item->extras as $extra_)
@@ -39,7 +39,7 @@
             <input type="number" product-id="{{$item->product->id}}" id="quantity" data-key="0" class="quantity style-two-cart qty-width w-100" value="{{$item->quantity}}" min="1">
         </div>
         <div class="col-md-3">
-            {{priceformat($item->quantity * $item->price)}} IQD
+            {{priceformat($item->quantity * (int)$item->price)}} IQD
         </div>
         <div class="col-md-3 p-0">
             <div class="action-btns d-flex">
