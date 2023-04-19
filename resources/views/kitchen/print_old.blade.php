@@ -3,14 +3,14 @@
 <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<div class="container">
+<div class="container" style="max-width:1300px;">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
 
                     <div class="container p-0">
-                        <div class="page-header text-blue-d2">
+                        {{-- <div class="page-header text-blue-d2">
                             <h1 class="page-title" style="font-weight: 700;color:black;font-size: xx-large;">
                                 Invoice
                                 <small class="page-info">
@@ -31,24 +31,64 @@
                     </a> -->
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+                        {{-- <div class="col-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center text-150">
+                                        <!-- <i class="fa fa-book fa-2x text-success-m2 mr-1"></i> -->
+                                        <span style="font-weight: 700;color:black;font-size: xx-large;">Graffiti Burger Basra</span><br>
 
-                        <div class="container px-0">
+                                        <span style="font-weight: 700;color:black;font-size: xx-large;">بصره - مناوي باشا / Basra - Manawi Basha</span><br>
+
+                                        <span style="font-weight: 700;color:black;font-size: xx-large;">07814444945 / 07714444945</span><br>
+                                    </div>
+                                </div>
+                                <hr class="row brc-default-l1 mx-n1 mb-4" />
+                                <span style="font-weight: 800;color:black;font-size: 40px;text-align: center">Welcome</span><br>
+                                <span style="font-weight: 800;color:black;font-size: 50px;text-align: center;">Order #{{$order->daily_code}}</span><br>
+                                <span style="font-weight: 800;color:black;text-align: center;font-size: 30px;">Date & Time : {{dateFormat($order->created_at)}}  {{  $order->customer->name }}</span><br>
+
+                            </div>
+                         
+                            </div> --}}
+                        <div class="container" style="max-width:1300px;">
                             <div class="row mt-4">
-                                <div class="col-12 col-lg-12">
-                                    <div class="row">
+                                <div class="col-lg-12">
+                                    <div class=" col-lg-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-center text-150">
+                                                    <!-- <i class="fa fa-book fa-2x text-success-m2 mr-1"></i> -->
+                                                    <span style="font-weight: 700;color:black;font-size: xx-large;">Graffiti Burger Basra</span><br>
+            
+                                                    <span style="font-weight: 700;color:black;font-size: xx-large;">بصره - مناوي باشا / Basra - Manawi Basha</span><br>
+            
+                                                    <span style="font-weight: 700;color:black;font-size: xx-large;">07814444945 / 07714444945</span><br>
+                                                </div>
+                                            </div>
+                                            <hr class="row brc-default-l1 mx-n1 mb-4" />
+                                            {{-- <span style="font-weight: 800;color:black;font-size: 40px;text-align: center">Welcome</span><br> --}}
+                                            <span style="font-weight: 800;color:black;font-size: 50px;text-align: center;">Order #{{$order->daily_code}}</span><br>
+                                            <span style="font-weight: 800;color:black;text-align: center;font-size: 30px;">Date & Time : {{dateFormat($order->created_at)}}</span><br>
+                                            <span style="font-weight: 800;color:black;text-align: center;font-size: 30px;">Customer Name :  {{  $order->customer->name }}</span><br>
+            
+                                        </div>
+                                     
+                                        </div>
+                                    {{-- <div class="row">
                                         <div class="col-12">
                                             <div class="text-center text-150">
                                                 <!-- <i class="fa fa-book fa-2x text-success-m2 mr-1"></i> -->
                                                 <span style="font-weight: 700;color:black;font-size: xx-large;">Graffiti Invoice</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <!-- .row -->
 
                                     <hr class="row brc-default-l1 mx-n1 mb-4" />
 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-sm-6">
                                             <div class="text-grey-m2 mt-3">
                                                 <img src="{{ URL::asset('images/logo.png') }}" alt="" height="100">
@@ -71,7 +111,7 @@
                                             </div>
                                         </div>
                                         <!-- /.col -->
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mt-4">
                                         <div class="row text-600 text-white bgc-default-tp1 py-25">
@@ -90,7 +130,7 @@
                                         <div class="text-95 text-secondary-d3">
                                             <div class="row mb-2 mb-sm-0 py-25">
                                                 <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black;font-size: xx-large;">{{$loop->iteration}}</div>
-                                                <div class="col-9 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->product->name}}
+                                                <div class="col-lg-7 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->product->name}}
                                                     <div class="row">
                                                         @if(count($item->extras))
                                                         <div class="col-12">
@@ -120,12 +160,11 @@
                                                 </div>
                                                 <div class="d-none d-sm-block col-2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->quantity}}</div>
                                                 <div class="d-none d-sm-block col-2 text-95" style="font-weight: 700;color:black;font-size: xx-large;">IQD {{priceformat($item->price)}}</div>
-                                                <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->price * $item->quantity}}</div>
+                                                {{-- <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->price * $item->quantity}}</div> --}}
                                             </div>
                                         </div>
+                                        <hr style=" margin-top: 3rem;border-top: 10px solid black; ">
                                         @endforeach
-
-
 
                                         <div class="row border-b-2 brc-default-l2"></div>
 
