@@ -93,7 +93,8 @@
                         @endphp
                         {{-- <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button> --}}
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
-                        <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a>
+                        <!-- <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a> -->
+                        <button class="btn btn-info print-btn" data-order-id="{{ $order->id }}">print</button>
                     </div>
                 </div>
             </div>
@@ -102,6 +103,7 @@
         @else
         <h2 class="text-center text-white">Not found any Assembly</h2>
         @endif
+        <div id="print-container" style="display:none;"></div>
     </div>
     <script>
         setTimeout(function() {
@@ -111,7 +113,22 @@
         //      $('.Timer').text((new Date - start) / 1000 + " Seconds");
         //  }, 1000);
 
+        $(".print-btn").click(function() {
+                   var orderId = $(this).data('order-id');
+                    $.ajax({
+                            url: "orders/print/" + orderId,
+                            type: "GET",
+                            success: function(response) {
+                                var restorepage = document.body.innerHTML;
+	                            var printcontent = response;
+	                            document.body.innerHTML = printcontent;
+	                            window.print();
+	                            document.body.innerHTML = restorepage;
+                                location.reload();
+                            },
 
+                        });
+                    });
             $(".start").click(function() {
 
                 var id = $(this).attr('data-id');

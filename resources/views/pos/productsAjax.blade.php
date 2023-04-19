@@ -38,6 +38,3 @@ $lang = App::getLocale();
         @endif
     </div>
 </div>
-<div class="card-footer">
-    {{ $products->links() }}
-</div>
