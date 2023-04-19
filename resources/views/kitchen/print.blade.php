@@ -29,12 +29,12 @@
                                     </div>
                                     <hr style="border-top: 3px solid;color:black">
                                     <div class="mt-4">
-                                        <div class="row text-600 text-white bgc-default-tp1 text-center">
+                                        <div class="row mb-2 mb-sm-0 text-center">
                                             <!-- <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black;font-size: xx-large;">#</div> -->
-                                            <div class="col-9 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">item</div>
-                                            <div class="d-none d-sm-block col-4 col-sm-2" style="font-weight: 700;color:black;font-size: xx-large;">Qty</div>
+                                            <div class="col-2 col-sm-4" style="font-weight: 700;color:black;font-size: xx-large;">item</div>
+                                            <div class="d-none d-sm-block col-4 col-sm-4" style="font-weight: 700;color:black;font-size: xx-large;">Qty</div>
                                             <!-- <div class="d-none d-sm-block col-sm-2" style="font-weight: 700;color:black;font-size: xx-large;">Price</div> -->
-                                            <div class="col-2" style="font-weight: 700;color:black;font-size: xx-large;">Amount</div>
+                                            <div class="col-sm-4" style="font-weight: 700;color:black;font-size: xx-large;">Amount</div>
 
                                         </div>
                                         <hr style="border-top: 3px solid;color:black">
@@ -47,10 +47,10 @@
                                         <div class="text-95 text-secondary-d3 text-center">
                                             <div class="row mb-2 mb-sm-0">
                                                 <!-- <div class="d-none d-sm-block col-1" style="font-weight: 700;color:black;font-size: xx-large;">{{$loop->iteration}}</div> -->
-                                                <div class="col-9 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">{{app()->getLocale() == 'en' ? $item->product->name : $item->product->name_ar }}
+                                                <div class="col-3 col-sm-4" style="font-weight: 700;color:black;font-size: xx-large;">{{app()->getLocale() == 'en' ? $item->product->name : $item->product->name_ar }}
                                                     <div class="row">
                                                         @if(count($item->extras))
-                                                        <div class="col-12">
+                                                        <div class="col-10 offset-2">
                                                             <span>Extras of items:</span>
                                                             <div style="border-bottom: black solid 1px;" class="row text-600 text-white bgc-inner-tp1 text-center">
                                                                 <!-- <div class="d-none d-sm-block col-1 text-center" style="font-weight: 700;color:black;font-size: x-large;">#</div> -->
@@ -76,9 +76,9 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="d-none d-sm-block col-2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->quantity}}</div>
+                                                <div class="d-none d-sm-block col-sm-4" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->quantity}}</div>
                                                 <!-- <div class="d-none d-sm-block col-2 text-95" style="font-weight: 700;color:black;font-size: xx-large;">IQD {{priceformat((int)$item->price)}}</div> -->
-                                                <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{(int)$item->price * $item->quantity}}</div>
+                                                <div class="col-sm-4 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{(int)$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
                                         <hr>
