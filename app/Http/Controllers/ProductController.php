@@ -199,9 +199,9 @@ class ProductController extends Controller
             'extras.*.quantity.required_with' => 'Quantity field is required',
             //'extras.*.extra.required_with' => 'Extra field should be selected',
         ]);
-        // if ($validator->fails()) {
-        //     return response()->json(['success' => false, 'message' => $validator->errors()->first(), 'total_price' => $total_price]);
-        // }
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first(), 'total_price' => $total_price]);
+        }
         $cartItem = CartItem::where('id', $request->item_id)->first();
 
         if ($cartItem) {
