@@ -174,7 +174,7 @@ class ProductController extends Controller
 
     public function printInvoice(Order $order)
     {
-        return view('kitchen.print', ['order' => $order]);
+        return view('kitchen.print_old', ['order' => $order]);
     }
 
     public function pos(Request $request)
