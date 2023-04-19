@@ -63,7 +63,12 @@
                     </div>
                     <div class="card-body">
                         <div class="card-body-section mb-3">
-                            @if(getCustomerType($order->customer->type) == 'take_away')
+                            @php
+                                // dd($order->customer->type);
+                            @endphp
+                            {{-- @if(getCustomerType($order->customer->type) == 'take_away') --}}
+                            @if($order->customer->type == 'take_away')
+                           
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/طلب خارجي </h6>
                             @else
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/ طلب في الصاله</h6>
@@ -101,8 +106,8 @@
         <div id="print-container" style="display:none;"></div>
     </div>
     <script>
-        setTimeout(function() {
-        window.location.href = "{{ route('assembly') }}"; }, 10000); // 10 seconds
+        // setTimeout(function() {
+        // window.location.href = "{{ route('assembly') }}"; }, 10000); // 10 seconds
         // var start = new Date;
         // setInterval(function() {
         //      $('.Timer').text((new Date - start) / 1000 + " Seconds");
