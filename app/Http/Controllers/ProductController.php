@@ -412,7 +412,7 @@ class ProductController extends Controller
                 $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
                     $grand = 0;
                     $profit = 0;
-                    $grand += $cartItem->product->price * $cartItem->quantity;
+                    $grand += (int)$cartItem->product->price * $cartItem->quantity;
                     $profit += $cartItem->product->cost * $cartItem->quantity;
                     $new_order->grand_total += $grand;
                     $new_order->profit += ($grand - $profit);

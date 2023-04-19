@@ -91,7 +91,7 @@
                         @php
                         $none = "style=display:none;";
                         @endphp
-                        <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button>
+                        {{-- <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button> --}}
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
                         <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a>
                     </div>
@@ -104,8 +104,8 @@
         @endif
     </div>
     <script>
-        // setTimeout(function() {
-        // window.location.href = "{{ route('assembly') }}"; }, 10000); // 10 seconds
+        setTimeout(function() {
+        window.location.href = "{{ route('assembly') }}"; }, 20000); // 10 seconds
         // var start = new Date;
         // setInterval(function() {
         //      $('.Timer').text((new Date - start) / 1000 + " Seconds");
