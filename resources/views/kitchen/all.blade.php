@@ -96,8 +96,9 @@
                         <td>
                             @if(Auth::user()->user_type != 'kitchen')
                             <div class="edit">
-                                <!-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> -->
-                                <button class="btn btn-sm btn-primary edit-item-btn print-btn" data-order-id="{{ $order->id }}"><i class="fa fa-print" aria-hidden="true"></i></button>
+                             {{-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> --}}
+                             {{-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> --}}
+                                <button class="btn btn-sm btn-primary edit-item-btn print-btn" onclick="invoicePrint({{ $order->id }})"><i class="fa fa-print" aria-hidden="true"></i></button>
                             </div>
                             @else
                             -
@@ -118,6 +119,8 @@
         <div id="print-container" style="display:none;"></div>
     </div>
     <!-- end col -->
+    </div>
+    <div id='DivIdToPrint'>
     </div>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/pusher.js')}}"></script>
@@ -172,5 +175,27 @@
                     }
                 });
         });
+
+        function invoicePrint(order)
+    {
+      var divToPrint=document.getElementById('DivIdToPrint');
+        $.ajax({
+            url:"{{ url('orders/print') }}"+'/'+order,
+            method:"get",
+            success:function(data)
+            {
+                // var restorepage = document.body.innerHTML;
+	            // var printcontent = data;
+	            // document.body.innerHTML = printcontent;
+	            // window.print();
+	            // document.body.innerHTML = restorepage;
+                // location.reload();
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
+                newWin.document.close();
+            }
+        })
+    }
     </script>
 </x-app-layout>

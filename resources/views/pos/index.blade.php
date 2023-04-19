@@ -411,22 +411,22 @@
 
     function invoicePrint(order)
     {
-      //var divToPrint=document.getElementById('DivIdToPrint');
+      var divToPrint=document.getElementById('DivIdToPrint');
         $.ajax({
             url:"{{ url('orders/print') }}"+'/'+order,
             method:"get",
             success:function(data)
             {
-                var restorepage = document.body.innerHTML;
-	            var printcontent = data;
-	            document.body.innerHTML = printcontent;
-	            window.print();
-	            document.body.innerHTML = restorepage;
-                location.reload();
-                // var newWin=window.open('','Print-Window');
-                // newWin.document.open();
-                // newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
-                // newWin.document.close();
+                // var restorepage = document.body.innerHTML;
+	            // var printcontent = data;
+	            // document.body.innerHTML = printcontent;
+	            // window.print();
+	            // document.body.innerHTML = restorepage;
+                // location.reload();
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
+                newWin.document.close();
             }
         })
     }
