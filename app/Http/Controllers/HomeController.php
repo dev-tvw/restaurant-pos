@@ -35,8 +35,8 @@ class HomeController extends Controller
         } else {
             $latest_products = Product::whereDate('created_at', '>=', Carbon::now()->subDays(7))->orderby('id', 'desc')->paginate(10);
             $latest_orders = Order::whereDate('created_at', '>=', Carbon::now()->subDays(0))->orderby('id', 'desc')->paginate(10);
-            $total_orders = Order::where('status', 0)->count();
-            $total_earning = Order::where('status', 0)->sum('grand_total');
+            $total_orders = Order::where('status', 4)->whereDate('created_at', Carbon::today())->count();
+            $total_earning = Order::where('status', 4)->whereDate('created_at', Carbon::today())->sum('grand_total');
             $total_customers = Customer::count();
             $total_products = Product::count();
             $assets = ['chart', 'animation'];
