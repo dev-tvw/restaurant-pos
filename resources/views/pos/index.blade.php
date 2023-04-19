@@ -389,8 +389,6 @@
                     var message = 'Order submitted successfully';
                     toastr.success(message);
                     invoicePrint(response.order_id);
-                    // invoicePrint(42);
-                    // alert(response.orders);
                     // Swal.fire({
                     //     icon: 'success',
                     //     title: 'Done',

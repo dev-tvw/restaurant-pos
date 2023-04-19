@@ -42,7 +42,7 @@
                                         $extra_price = 0; ?>
                                         @foreach($order->cart->cartItems as $item)
                                         <?php
-                                        $total_price += ($item->quantity * $item->price);
+                                        $total_price += ($item->quantity * (int)$item->price);
                                         ?>
                                         <div class="text-95 text-secondary-d3">
                                             <div class="row mb-2 mb-sm-0 py-25">
@@ -77,8 +77,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-none d-sm-block col-2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->quantity}}</div>
-                                                <div class="d-none d-sm-block col-2 text-95" style="font-weight: 700;color:black;font-size: xx-large;">IQD {{priceformat($item->price)}}</div>
-                                                <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{$item->price * $item->quantity}}</div>
+                                                <div class="d-none d-sm-block col-2 text-95" style="font-weight: 700;color:black;font-size: xx-large;">IQD {{priceformat((int)$item->price)}}</div>
+                                                <div class="col-2 text-secondary-d2" style="font-weight: 700;color:black;font-size: xx-large;">{{(int)$item->price * $item->quantity}}</div>
                                             </div>
                                         </div>
                                         <hr>
