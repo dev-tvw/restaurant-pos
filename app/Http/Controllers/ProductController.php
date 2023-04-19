@@ -189,6 +189,7 @@ class ProductController extends Controller
 
     public function addExtra(Request $request)
     {
+        // dd
         $total_price = 0;
         $extras_price = 0;
         $validator = Validator::make($request->all(), [
@@ -234,6 +235,7 @@ class ProductController extends Controller
 
     public function getExtraSectionAjax($item_id)
     {
+        //dd
         $cartItem = CartItem::whereId($item_id)->first();
         $types = ExtraType::whereHas('extras')->where('status', true)->get();
         $extras_selected = [];
@@ -444,7 +446,7 @@ class ProductController extends Controller
                 // $orders = $new_order->id;
                 $data = ['message' => 'You have new Order', 'order' => $new_order, 'html' => $html, 'notifiable_id' => $kitchen_user->id ];
                 event(new NerOrderEvent(json_encode($data)));
-                //return response()->json(['order_id' => $new_order->id]);
+                return response()->json(['order_id' => $new_order->id]);
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);

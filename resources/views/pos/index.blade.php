@@ -2,7 +2,7 @@
 <style>
     .modal-content{
         width: 130%  !important;
-        margin-left: -10%;"
+        margin-left: -10%"
     }
 </style>
     <main id="content" role="main" class="main pointer-event">
@@ -388,7 +388,7 @@
                     }
                     var message = 'Order submitted successfully';
                     toastr.success(message);
-                    //invoicePrint(response.order_id);
+                    invoicePrint(response.order_id);
                     // invoicePrint(42);
                     // alert(response.orders);
                     // Swal.fire({
