@@ -389,7 +389,8 @@ class ProductController extends Controller
         if ($cart) {
             if (count($cart->cartItems)) {
                 $products_ids = CartItem::query()->where('cart_id', $cart_id)->pluck('product_id');
-                $cooking_time = Product::query()->whereIn('id', $products_ids)->sum('cooking_time');
+                $cookings_times = Product::query()->whereIn('id', $products_ids)->pluck('cooking_time')->toArray();
+                $cookie_max = max($cookings_times);
                 $order_code = $this->generateKey();
                 $daily_code = $this->generateDailyCode();
                 $path_qrcode = public_path('/uploads/qrcodes/orders');
@@ -407,7 +408,7 @@ class ProductController extends Controller
                     'discount' => $discount,
                     'grand_total' => 0,
                     'status' => 1,
-                    'cooking_time' => (int)$cooking_time
+                    'cooking_time' => (int)$cookie_max,
                  ]);
                 $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
                     $grand = 0;
