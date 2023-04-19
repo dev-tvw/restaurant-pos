@@ -277,7 +277,7 @@ class ProductController extends Controller
                 ->orWhere('price', $request->search)
                 ->orWhere('name_ar', 'like', '%' . $request->search . '%')
                 ->orWhere('id', $request->search);
-        })->where('active', 1)->orderby('created_at', 'desc')->paginate(20);
+        })->where('active', 1)->orderby('created_at', 'desc')->get();
         return View::make('pos.productsAjax')->with('products', $products);
     }
 
