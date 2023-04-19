@@ -89,9 +89,10 @@
                             @endforeach
                         </div>
                         @php
-                        $none = "style=display:none;";
+                        $none = "style=display:show;";
                         @endphp
                         {{-- <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button> --}}
+                        {{-- <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button> --}}
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
                         <!-- <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a> -->
                         <button class="btn btn-info print-btn" data-order-id="{{ $order->id }}">print</button>
