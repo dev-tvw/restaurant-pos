@@ -119,7 +119,7 @@
                                             <div class="col-9 col-sm-5" style="font-weight: 700;color:black;font-size: xx-large;">Description</div>
                                             <div class="d-none d-sm-block col-4 col-sm-2" style="font-weight: 700;color:black;font-size: xx-large;">Qty</div>
                                             <div class="d-none d-sm-block col-sm-2" style="font-weight: 700;color:black;font-size: xx-large;">Unit Price</div>
-                                            <div class="col-2" style="font-weight: 700;color:black;font-size: xx-large;">Amount</div>
+                                            <div class="col-lg-2" style="font-weight: 700;color:black;font-size: x-large;">Amount</div>
                                         </div>
                                         <?php $total_price  = 0;
                                         $extra_price = 0; ?>
