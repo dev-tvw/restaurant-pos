@@ -52,13 +52,7 @@
                                         <td class="qr_code">
                                             <img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70">
                                         </td>
-                                        <td class="code">
-                                            @if($order->customer->email != 'walking@graffiti.com')
-                                            <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}<a>
-                                                    @else
-                                                    {{$order->customer->name}}
-                                                    @endif
-                                        </td>
+
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="created_by">{{$order->discount > 0 ? $order->discount : 0}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
@@ -102,7 +96,8 @@
                         <td>
                             @if(Auth::user()->user_type != 'kitchen')
                             <div class="edit">
-                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                <!-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> -->
+                                <button class="btn btn-sm btn-primary edit-item-btn print-btn" data-order-id="{{ $order->id }}"><i class="fa fa-print" aria-hidden="true"></i></button>
                             </div>
                             @else
                             -
@@ -120,6 +115,7 @@
             </div><!-- end card -->
         </div>
         <!-- end col -->
+        <div id="print-container" style="display:none;"></div>
     </div>
     <!-- end col -->
     </div>
@@ -127,6 +123,25 @@
     <script src="{{asset('js/pusher.js')}}"></script>
     <script src="{{asset('js/swal.js')}}"></script>
     <script>
+        $(document).ready(function() {
+            $(".print-btn").click(function() {
+                   var orderId = $(this).data('order-id');
+                    $.ajax({
+                            url: "orders/print/" + orderId,
+                            type: "GET",
+                            success: function(response) {
+                                var restorepage = document.body.innerHTML;
+	                            var printcontent = response;
+	                            document.body.innerHTML = printcontent;
+	                            window.print();
+	                            document.body.innerHTML = restorepage;
+                                location.reload();
+                            },
+
+                        });
+                    });
+        });
+
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
         var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
