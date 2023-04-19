@@ -1,3 +1,6 @@
+@php
+    $lang = App::getLocale();
+@endphp
 <x-app-layout :assets="$assets ?? []">
 <style>
     .modal-content{
@@ -24,11 +27,11 @@
                                     <div class="col-lg-12 col-12 mt-2">
                                         <div class="row">
                                             <div class="col-md-3 p-1">
-                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="0">All</button>
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="0">{{ $lang == 'en' ? 'All':'الكل' }}</button>
                                             </div>
                                             @foreach($categories as $category)
                                             <div class="col-md-3 p-1">
-                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="{{$category->id}}">{{$category->name}}</button>
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="{{$category->id}}">{{$lang == 'en' ?$category->name:$category->name_ar}}</button>
                                             </div>
                                             @endforeach
 
