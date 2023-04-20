@@ -40,9 +40,9 @@
             </div>
             <hr class="row brc-default-l1 mx-n1 mb-4" />
             {{-- <span style="font-weight: 800;color:black;font-size: 40px;text-align: center">Welcome</span><br> --}}
-            <span style="font-weight: bold;color:black;font-size: xx-large;text-align: center;margin-left: 33%;">Order #{{$order->daily_code}}</span><br>
-            <span style="font-weight: bold;color:black;text-align: center;font-size: 15px;margin-left: 17%;">Date & Time : {{dateFormat($order->created_at)}}</span><br>
-            <span style="font-weight: bold;color:black;text-align: center;font-size: 15px;margin-left: 19%;">Customer Name :  {{  $order->customer->name }}</span><br>
+            <span style="font-weight: bold;color:black;font-size: xx-large;text-align: center;margin-left: 33%;"> {{ $lang == 'en' ? "Order" : "طلب" }}  #{{$order->daily_code}}</span><br>
+            <span style="font-weight: bold;color:black;text-align: center;font-size: 15px;margin-left: 12%;"> Date & Time   : {{dateFormat($order->created_at)}}</span><br>
+            <span style="font-weight: bold;color:black;text-align: center;font-size: 15px;margin-left: 15%;"> {{ $lang == 'en' ? "Customer Name" : "اسم الزبون" }} :  {{  $order->customer->name }}</span><br>
 
         </div>
      
@@ -51,10 +51,10 @@
       <thead>
         <tr>
           <th style="width: 5px;">#</th>
-          <th>Description</th>
-          <th>Qty</th>
+          <th>{{ $lang == 'en' ? "Description" : "وصف" }}</th>
+          <th>{{ $lang == 'en' ? "Qty" : "الكمية" }}</th>
           {{-- <th>Unit Price</th> --}}
-          <th>Amount</th>
+          <th>{{ $lang == 'en' ? "Amount" : "كمية" }}</th>
         </tr>
       </thead>
       <tbody>
@@ -79,7 +79,7 @@
                     $total_price = $total_price + ($value->price*$value->pivot->quantity);
                     @endphp
                     <tr>
-                        <td>{{"Ex -".$loop->iteration}}</td>
+                        <td>{{"Ex".$loop->iteration}}</td>
                         <td style="font-size:16px;">{{$value->name}}</td>
                         <td>{{$value->pivot->quantity}}</td>
                         {{-- <td style="font-size:15px;"> {{$value->price}}</td> --}}
@@ -98,28 +98,21 @@
             }
         ?>
             <tr>
-                <td ></td>
-                <td class="total">Extras</td>
+                <td colspan="2" class="total">{{ $lang == 'en' ? "Extras" : "إضافات" }}</td>
                 <td colspan="3">IQD {{priceformat($extra_price)}}</td>
             </tr>
             <tr>
-              <td ></td>
-
-                <td  class="total">SubTotal</td>
+                <td  colspan="2" class="total">{{ $lang == 'en' ? "SubTotal" : "المجموع الفرعي" }}</td>
                 <td colspan="3">IQD {{priceformat($total_price)}}</td>
             </tr>
 
             <tr>
-              <td ></td>
-
-                <td class="total">Discount</td>
+                <td colspan="2"class="total">{{ $lang == 'en' ? "Discount" : "تخفيض" }}</td>
                 <td colspan="3"> ({{$order->discount ? $order->discount : 0}}%)</td>
             </tr>  
 
             <tr>
-              <td ></td>
-
-                <td  class="total">  Total Amount</td>
+                <td  colspan="2" class="total"> {{ $lang == 'en' ? "Total Amount" : "المبلغ الإجمالي" }} </td>
                 <td colspan="3">IQD {{priceformat($payable)}}</td>
             </tr> 
       </tbody>
@@ -128,7 +121,7 @@
       <div>
         <div class="row">
           <div class="col-lg-6">
-            <span>Thank you for your visit</span>
+            <span>{{ $lang == 'en' ? "Thank you for your visit" : "شكرا على الزيارة" }}</span>
           </div>
           <div class="col-lg-6">
             <span>By Altatweertech</span>
