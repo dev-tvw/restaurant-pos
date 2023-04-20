@@ -50,7 +50,7 @@
     <table>
       <thead>
         <tr>
-          <th>#</th>
+          <th style="width: 5px;">#</th>
           <th>Description</th>
           <th>Qty</th>
           {{-- <th>Unit Price</th> --}}
@@ -98,20 +98,27 @@
             }
         ?>
             <tr>
+                <td ></td>
                 <td class="total">Extras</td>
                 <td colspan="3">IQD {{priceformat($extra_price)}}</td>
             </tr>
             <tr>
+              <td ></td>
+
                 <td  class="total">SubTotal</td>
                 <td colspan="3">IQD {{priceformat($total_price)}}</td>
             </tr>
 
             <tr>
+              <td ></td>
+
                 <td class="total">Discount</td>
                 <td colspan="3"> ({{$order->discount ? $order->discount : 0}}%)</td>
             </tr>  
 
             <tr>
+              <td ></td>
+
                 <td  class="total">  Total Amount</td>
                 <td colspan="3">IQD {{priceformat($payable)}}</td>
             </tr> 
