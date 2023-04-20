@@ -264,7 +264,7 @@
             </i>
         </a>
         <ul class="sub-nav collapse" id="orders-menu" data-bs-parent="#sidebar">
-            <li class="nav-item ">
+            {{-- <li class="nav-item ">
                 <a class="nav-link {{activeRoute(route('kitchen_discount_zero'))}}" href="{{route('kitchen_discount_zero')}}">
                   <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -276,7 +276,7 @@
                   <i class="sidenav-mini-icon"> H </i>
                   <span class="item-name"> Today Orders </span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item ">
                 <a class="nav-link {{activeRoute(route('orders.all_discount_zero'))}}" href="{{route('orders.all_discount_zero')}}">
                   <i class="icon">

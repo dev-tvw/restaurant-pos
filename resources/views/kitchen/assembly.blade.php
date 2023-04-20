@@ -63,7 +63,12 @@
                     </div>
                     <div class="card-body">
                         <div class="card-body-section mb-3">
-                            @if(getCustomerType($order->customer->type) == 'take_away')
+                            @php
+                                // dd($order->customer->type);
+                            @endphp
+                            {{-- @if(getCustomerType($order->customer->type) == 'take_away') --}}
+                            @if($order->customer->type == 'take_away')
+                           
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/طلب خارجي </h6>
                             @else
                             <h6 class="card-title">{{getCustomerType($order->customer->type)}}/ طلب في الصاله</h6>
@@ -84,11 +89,13 @@
                             @endforeach
                         </div>
                         @php
-                        $none = "style=display:none;";
+                        $none = "style=display:show;";
                         @endphp
-                        <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button>
+                        {{-- <button class="btn btn-info start" id="start-{{$order->id}}" {{$order->status == 1 ? '' : $none}} data-id="{{$order->id}}">Start</button> --}}
+                        {{-- <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button> --}}
                         <button class="btn btn-success done" id="done-{{$order->id}}" {{$order->status == 2 ? '' : $none}} data-id="{{$order->id}}">Done</button>
-                        <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a>
+                        <!-- <a target="_blank" href="{{route('orders.print', ['order' => $order])}}" class="btn btn-info">print</a> -->
+                        <button class="btn btn-info print-btn" data-order-id="{{ $order->id }}">print</button>
                     </div>
                 </div>
             </div>
@@ -97,16 +104,32 @@
         @else
         <h2 class="text-center text-white">Not found any Assembly</h2>
         @endif
+        <div id="print-container" style="display:none;"></div>
     </div>
     <script>
         setTimeout(function() {
-        window.location.href = "{{ route('assembly') }}"; }, 10000); // 10 seconds
+        window.location.href = "{{ route('assembly') }}"; }, 40000); // 10 seconds
         // var start = new Date;
         // setInterval(function() {
         //      $('.Timer').text((new Date - start) / 1000 + " Seconds");
         //  }, 1000);
 
+        $(".print-btn").click(function() {
+                   var orderId = $(this).data('order-id');
+                    $.ajax({
+                            url: "orders/print/" + orderId,
+                            type: "GET",
+                            success: function(response) {
+                                var restorepage = document.body.innerHTML;
+	                            var printcontent = response;
+	                            document.body.innerHTML = printcontent;
+	                            window.print();
+	                            document.body.innerHTML = restorepage;
+                                location.reload();
+                            },
 
+                        });
+                    });
             $(".start").click(function() {
 
                 var id = $(this).attr('data-id');

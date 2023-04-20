@@ -68,8 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/kitchen', [ProductController::class, 'kitchen'])->name('kitchen');
     Route::get('/assembly', [ProductController::class, 'assembly'])->name('assembly');
     Route::get('/all-orders', [ProductController::class, 'allOrders'])->name('orders.all');
-    Route::get('/kitchen_discount_zero', [ProductController::class, 'kitchen_discount_zero'])->name('kitchen_discount_zero');
-    Route::get('/all-orders-discount-zero', [ProductController::class, 'get_all_orders_with_discount_zero'])->name('orders.all_discount_zero');
+    // Route::get('/kitchen_agency', [ProductController::class, 'kitchen_discount_zero'])->name('kitchen_discount_zero');
+    Route::get('/all-orders-agency-report', [ProductController::class, 'get_all_orders_with_discount_zero'])->name('orders.all_discount_zero');
     Route::get('/order-detail/{order}', [ProductController::class, 'showOrder'])->name('orders.show');
     Route::get('/change-status/{order}/{status}', [ProductController::class, 'changeStatus'])->name('changeStatus');
     Route::get('orders/print/{order}', [ProductController::class, 'printInvoice'])->name('orders.print');

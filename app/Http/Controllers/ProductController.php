@@ -237,7 +237,9 @@ class ProductController extends Controller
     {
         //dd
         $cartItem = CartItem::whereId($item_id)->first();
-        $types = ExtraType::whereHas('extras')->where('status', true)->get();
+        $types = ExtraType::whereHas('extras', function ($q) {
+            $q->where('status', true);
+        })->where('status', true)->get();
         $extras_selected = [];
         $extra_array = [];
         if (count($cartItem->extras)) {
@@ -263,7 +265,16 @@ class ProductController extends Controller
     {
         $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
             $query->where('created_by', Auth::user()->id);
-        })->orderby('created_at', 'desc')->paginate(20);
+        })->orderby('created_at', 'desc')
+        ->when(request('to'),function($q){
+            $from_date = request('from'). '00:00:01';
+            $to_date = request('to'). '23:59:59';
+            $fm = date('Y-m-d H:i:s', strtotime($from_date));
+            $t = date('Y-m-d H:i:s', strtotime($to_date));
+            $q->whereBetween('created_at', [$fm, $t]);
+        })
+        ->paginate(20)
+        ->appends(request()->query());
         Auth::user()->unreadNotifications->markAsRead();
         return view('kitchen.all', compact('orders'));
     }
@@ -277,7 +288,7 @@ class ProductController extends Controller
                 ->orWhere('price', $request->search)
                 ->orWhere('name_ar', 'like', '%' . $request->search . '%')
                 ->orWhere('id', $request->search);
-        })->where('active', 1)->orderby('created_at', 'desc')->paginate(20);
+        })->where('active', 1)->orderby('created_at', 'desc')->get();
         return View::make('pos.productsAjax')->with('products', $products);
     }
 
@@ -389,7 +400,8 @@ class ProductController extends Controller
         if ($cart) {
             if (count($cart->cartItems)) {
                 $products_ids = CartItem::query()->where('cart_id', $cart_id)->pluck('product_id');
-                $cooking_time = Product::query()->whereIn('id', $products_ids)->sum('cooking_time');
+                $cookings_times = Product::query()->whereIn('id', $products_ids)->pluck('cooking_time')->toArray();
+                $cookie_max = max($cookings_times);
                 $order_code = $this->generateKey();
                 $daily_code = $this->generateDailyCode();
                 $path_qrcode = public_path('/uploads/qrcodes/orders');
@@ -407,12 +419,12 @@ class ProductController extends Controller
                     'discount' => $discount,
                     'grand_total' => 0,
                     'status' => 1,
-                    'cooking_time' => (int)$cooking_time
+                    'cooking_time' => (int)$cookie_max,
                  ]);
                 $cart->cartItems->each(function ($cartItem, $key) use ($new_order) {
                     $grand = 0;
                     $profit = 0;
-                    $grand += $cartItem->product->price * $cartItem->quantity;
+                    $grand += (int)$cartItem->product->price * $cartItem->quantity;
                     $profit += $cartItem->product->cost * $cartItem->quantity;
                     $new_order->grand_total += $grand;
                     $new_order->profit += ($grand - $profit);
@@ -445,7 +457,7 @@ class ProductController extends Controller
                 $html .= '</tr>';
                 // $orders = $new_order->id;
                 $data = ['message' => 'You have new Order', 'order' => $new_order, 'html' => $html, 'notifiable_id' => $kitchen_user->id ];
-                event(new NerOrderEvent(json_encode($data)));
+                // event(new NerOrderEvent(json_encode($data)));
                 return response()->json(['order_id' => $new_order->id]);
                 return View::make('pos/cartAjax')->with('cart', [])->with('customer', $cart->customer->name);
             } else {

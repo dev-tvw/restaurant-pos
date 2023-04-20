@@ -1,3 +1,6 @@
+@php
+    $lang = App::getLocale();
+@endphp
 <x-app-layout :assets="$assets ?? []">
 <style>
     .modal-content{
@@ -24,11 +27,11 @@
                                     <div class="col-lg-12 col-12 mt-2">
                                         <div class="row">
                                             <div class="col-md-3 p-1">
-                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="0">All</button>
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="0">{{ $lang == 'en' ? 'All':'الكل' }}</button>
                                             </div>
                                             @foreach($categories as $category)
                                             <div class="col-md-3 p-1">
-                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="{{$category->id}}">{{$category->name}}</button>
+                                                <button class="btn btn-secondary category-tag w-100 mb-1" data-id="{{$category->id}}">{{$lang == 'en' ?$category->name:$category->name_ar}}</button>
                                             </div>
                                             @endforeach
 
@@ -290,11 +293,11 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
-                    var message = 'Cart Item added to Cart';
-                    if (type != 'add') {
-                        message = 'Cart updated successfully';
-                    }
-                    toastr.info(message);
+                    // var message = 'Cart Item added to Cart';
+                    // if (type != 'add') {
+                    //     message = 'Cart updated successfully';
+                    // }
+                    // toastr.info(message);
                     // Swal.fire({
                     //     icon: 'success',
                     //     title: 'Done',
@@ -389,8 +392,6 @@
                     var message = 'Order submitted successfully';
                     toastr.success(message);
                     invoicePrint(response.order_id);
-                    // invoicePrint(42);
-                    // alert(response.orders);
                     // Swal.fire({
                     //     icon: 'success',
                     //     title: 'Done',
@@ -416,6 +417,12 @@
             method:"get",
             success:function(data)
             {
+                // var restorepage = document.body.innerHTML;
+	            // var printcontent = data;
+	            // document.body.innerHTML = printcontent;
+	            // window.print();
+	            // document.body.innerHTML = restorepage;
+                // location.reload();
                 var newWin=window.open('','Print-Window');
                 newWin.document.open();
                 newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');

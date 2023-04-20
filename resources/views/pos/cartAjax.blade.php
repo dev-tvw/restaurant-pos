@@ -1,3 +1,6 @@
+@php
+    $lang = App::getLocale();
+@endphp
 <div class="row mt-2">
     <div class="form-group col-12 mb-0">
         <label class="input-label text-capitalize border p-1">Current customer : <span class="style-i4 mb-0 p-1" id="current_customer">{{$customer}}</span></label>
@@ -18,7 +21,7 @@
 
     @foreach($cart->cartItems as $item)
     @php
-    $total += $item->quantity * $item->price;
+    $total += $item->quantity * (int)$item->price;
     if(count($item->extras))
     {
     foreach($item->extras as $extra_)
@@ -33,13 +36,13 @@
 
         <div class="col-md-3">
             <img class="w-100 avatar avatar-sm mr-1" src="{{asset('uploads/products/'.$item->product->image)}}" alt="">
-            <h6 class="text-hover-primary mb-0" style="padding-top: 5px;font-size: 14px;">{{$item->product->name}}</h6>
+            <h6 class="text-hover-primary mb-0" style="padding-top: 5px;font-size: 14px;">{{ $lang == 'en' ? $item->product->name:$item->product->name_ar }}</h6>
         </div>
         <div class="col-md-3">
             <input type="number" product-id="{{$item->product->id}}" id="quantity" data-key="0" class="quantity style-two-cart qty-width w-100" value="{{$item->quantity}}" min="1">
         </div>
         <div class="col-md-3">
-            {{priceformat($item->quantity * $item->price)}} IQD
+            {{priceformat($item->quantity * (int)$item->price)}} IQD
         </div>
         <div class="col-md-3 p-0">
             <div class="action-btns d-flex">

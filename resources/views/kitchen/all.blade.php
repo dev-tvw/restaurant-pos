@@ -13,6 +13,27 @@
                         <p></p>
                     </div>
                     <h4 class="card-title mb-0">Listing of all Orders</h4>
+                    
+                    <form action="{{ route('orders.all') }}" method="get">
+                        <div class="row mt-3">
+
+                          <div class="col-sm-4 col-lg-4">
+                           <input type="date" name="from" class="form-control" 
+                           value="{{ Request::get('from') }}" required>
+                          </div>
+
+                          <div class="col-sm-4 col-lg-4">
+                           <input type="date" name="to" class="form-control" 
+                           value="{{ Request::get('to') }}" required>
+                          </div>
+
+                          
+                          <div class="col-sm-4 col-lg-4">
+                           <button type="submit" class="btn btn-primary">search</button>
+                           </div>
+
+                        </div>
+                      </form>
                 </div><!-- end card header -->
 
                 <div class="card-body">
@@ -52,13 +73,8 @@
                                         <td class="qr_code">
                                             <img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70">
                                         </td>
-                                        <td class="code">
-                                            @if($order->customer->email != 'walking@graffiti.com')
-                                            <a href="{{route('customers.show', ['customer' => $order->customer])}}">{{$order->customer->name}}<a>
-                                                    @else
-                                                    {{$order->customer->name}}
-                                                    @endif
-                                        </td>
+
+                                        <td class="code">{{$order->customer->name}}</td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="created_by">{{$order->discount > 0 ? $order->discount : 0}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
@@ -68,41 +84,46 @@
                                         <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 2)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    <a class="btn btn-sm btn-warning edit-item-btn " data-title="Are you sure to complete this order?"><i class="fa fa-kitchen-set" aria-hidden="true"></i> </a>
+                                                </div>
+                                                    {{-- @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                                    @if($order->status == 2)
+                                                    <div class="edit">
+                                                        <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    </div>
+                                                    @endif --}}
+                                                    {{-- @if($order->status == 1)
+                                                    <div class="edit">
+                                                        <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
+                                                </div>
+                                                @endif --}}
+                                                {{-- @endif
+                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                                @if($order->status == 1)
+                                                <div class="edit">
+                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                                                 </div>
                                                 @endif
-                                                {{-- @if($order->status == 1)
+                                                @endif
+                                                @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
+                                                @if($order->status == 4)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
+                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
+                                                </div>
+                                                @endif
+                                                @endif
+                                                @if($order->status == 0)
+                                                -
+                                                @endif --}}
                                             </div>
-                                            @endif --}}
-                                            @endif
-                                            @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                            @if($order->status == 1)
-                                            <div class="edit">
-                                                <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
-                                            </div>
-                                            @endif
-                                            @endif
-                                            @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
-                                            @if($order->status == 4)
-                                            <div class="edit">
-                                                <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
-                                            </div>
-                                            @endif
-                                            @endif
-                                            @if($order->status == 0)
-                                            -
-                                            @endif
-                        </div>
-                        </td>
+                                        </td>
                         <td>
                             @if(Auth::user()->user_type != 'kitchen')
                             <div class="edit">
-                                <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+                             {{-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> --}}
+                             {{-- <a class="btn btn-sm btn-primary edit-item-btn" target="_blank" href="{{route('orders.print', ['order' => $order])}}"><i class="fa fa-print" aria-hidden="true"></i></a> --}}
+                                <button class="btn btn-sm btn-primary edit-item-btn print-btn" onclick="invoicePrint({{ $order->id }})"><i class="fa fa-print" aria-hidden="true"></i></button>
                             </div>
                             @else
                             -
@@ -120,13 +141,35 @@
             </div><!-- end card -->
         </div>
         <!-- end col -->
+        <div id="print-container" style="display:none;"></div>
     </div>
     <!-- end col -->
+    </div>
+    <div id='DivIdToPrint'>
     </div>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/pusher.js')}}"></script>
     <script src="{{asset('js/swal.js')}}"></script>
     <script>
+        $(document).ready(function() {
+            $(".print-btn").click(function() {
+                   var orderId = $(this).data('order-id');
+                    $.ajax({
+                            url: "orders/print/" + orderId,
+                            type: "GET",
+                            success: function(response) {
+                                var restorepage = document.body.innerHTML;
+	                            var printcontent = response;
+	                            document.body.innerHTML = printcontent;
+	                            window.print();
+	                            document.body.innerHTML = restorepage;
+                                location.reload();
+                            },
+
+                        });
+                    });
+        });
+
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
         var pusher = new Pusher('51cb53c9aaa81cbf8a97', {
@@ -157,5 +200,27 @@
                     }
                 });
         });
+
+        function invoicePrint(order)
+    {
+      var divToPrint=document.getElementById('DivIdToPrint');
+        $.ajax({
+            url:"{{ url('orders/print') }}"+'/'+order,
+            method:"get",
+            success:function(data)
+            {
+                // var restorepage = document.body.innerHTML;
+	            // var printcontent = data;
+	            // document.body.innerHTML = printcontent;
+	            // window.print();
+	            // document.body.innerHTML = restorepage;
+                // location.reload();
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><body onload="window.print()">'+data+'</body></html>');
+                newWin.document.close();
+            }
+        })
+    }
     </script>
 </x-app-layout>
