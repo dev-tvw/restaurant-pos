@@ -13,6 +13,27 @@
                         <p></p>
                     </div>
                     <h4 class="card-title mb-0">Listing of all Orders</h4>
+                    
+                    <form action="{{ route('orders.all') }}" method="get">
+                        <div class="row mt-3">
+
+                          <div class="col-sm-4 col-lg-4">
+                           <input type="date" name="from" class="form-control" 
+                           value="{{ Request::get('from') }}" required>
+                          </div>
+
+                          <div class="col-sm-4 col-lg-4">
+                           <input type="date" name="to" class="form-control" 
+                           value="{{ Request::get('to') }}" required>
+                          </div>
+
+                          
+                          <div class="col-sm-4 col-lg-4">
+                           <button type="submit" class="btn btn-primary">search</button>
+                           </div>
+
+                        </div>
+                      </form>
                 </div><!-- end card header -->
 
                 <div class="card-body">
@@ -53,6 +74,7 @@
                                             <img src="{{asset('uploads/qrcodes/orders/'.$order->qr_code)}}" width="70">
                                         </td>
 
+                                        <td class="code">{{$order->customer->name}}</td>
                                         <td class="created_by">{{$order->item_count}}</td>
                                         <td class="created_by">{{$order->discount > 0 ? $order->discount : 0}}</td>
                                         <td class="updated_by">{{$order->grand_total}}</td>
@@ -62,37 +84,40 @@
                                         <td class="createdby">{{$order->createdby->first_name . ' ' . $order->createdby->last_name}}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                                @if($order->status == 2)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    <a class="btn btn-sm btn-warning edit-item-btn " data-title="Are you sure to complete this order?"><i class="fa fa-kitchen-set" aria-hidden="true"></i> </a>
+                                                </div>
+                                                    {{-- @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                                    @if($order->status == 2)
+                                                    <div class="edit">
+                                                        <a class="btn btn-sm btn-info edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 4])}}" data-title="Are you sure to complete this order?"><i class="fa-solid fa-check"></i></a>
+                                                    </div>
+                                                    @endif --}}
+                                                    {{-- @if($order->status == 1)
+                                                    <div class="edit">
+                                                        <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
+                                                </div>
+                                                @endif --}}
+                                                {{-- @endif
+                                                @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
+                                                @if($order->status == 1)
+                                                <div class="edit">
+                                                    <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
                                                 </div>
                                                 @endif
-                                                {{-- @if($order->status == 1)
+                                                @endif
+                                                @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
+                                                @if($order->status == 4)
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-danger edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 3])}}" data-title="Are you sure to cancel this order?"><i class="fa fa-times" aria-hidden="true"></i> </a>
+                                                    <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
+                                                </div>
+                                                @endif
+                                                @endif
+                                                @if($order->status == 0)
+                                                -
+                                                @endif --}}
                                             </div>
-                                            @endif --}}
-                                            @endif
-                                            @if(Auth::user()->user_type == 'kitchen' || Auth::user()->user_type == 'admin')
-                                            @if($order->status == 1)
-                                            <div class="edit">
-                                                <a class="btn btn-sm btn-warning edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 2])}}" data-title="Are you sure to cook this order?"><i class=" fa fa-kitchen-set" aria-hidden="true"></i> </a>
-                                            </div>
-                                            @endif
-                                            @endif
-                                            @if(Auth::user()->user_type == 'cashier' || Auth::user()->user_type == 'admin')
-                                            @if($order->status == 4)
-                                            <div class="edit">
-                                                <a class="btn btn-sm btn-success edit-item-btn change-status" data-url="{{route('changeStatus', ['order' => $order, 'status' => 0])}}" data-title="Are you sure to complete this order?"><i class="fa fa-truck" aria-hidden="true"></i> </a>
-                                            </div>
-                                            @endif
-                                            @endif
-                                            @if($order->status == 0)
-                                            -
-                                            @endif
-                        </div>
-                        </td>
+                                        </td>
                         <td>
                             @if(Auth::user()->user_type != 'kitchen')
                             <div class="edit">

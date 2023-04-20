@@ -30,15 +30,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-center text-150">
-                    <!-- <i class="fa fa-book fa-2x text-success-m2 mr-1"></i> -->
-                    <img src="{{ url('images/logo.png') }}" alt="" style="width:100px;height:100px;
-                    margin-bottom: 20px;"><br>
-                    {{-- <img src="{{ url('public/images/logo.png') }}" alt=""><br> --}}
-                    <span style="font-weight: 700;color:black;">Graffiti Burger Basra</span><br>
+                    <img src="{{ url('images/logo.png') }}" alt="" style="width:100px;height:100px; margin-bottom: 20px;"><br>
+                    <span style="font-weight: bold;color:black;font-size: 20px;">Graffiti Burger Basra</span><br>
 
-                    <span style="font-weight: 700;color:black;">بصره - مناوي باشا / Basra - Manawi Basha</span><br>
+                    <span style="font-weight: bold;color:black;font-size: 15px;">بصره - مناوي باشا / Basra - Manawi Basha</span><br>
 
-                    <span style="font-weight: 700;color:black;">07814444945 / 07714444945</span><br>
+                    <span style="font-weight: bold;color:black;font-size: 20px;">07814444945 / 07714444945</span><br>
                 </div>
             </div>
             <hr class="row brc-default-l1 mx-n1 mb-4" />
@@ -70,7 +67,7 @@
             ?>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td style="font-size:17px;">{{ $lang == 'en' ? $item->product->name:$item->product->name_ar }}</td>
+                    <td style="font-size:16px;">{{ $lang == 'en' ? $item->product->name:$item->product->name_ar }}</td>
                     <td>{{$item->quantity}}</td>
                     {{-- <td style="font-size:15px;"> {{priceformat($item->price)}}</td> --}}
                     <td style="font-size:15px;">{{ $item->quantity * (int)$item->price }}</td>
@@ -83,7 +80,7 @@
                     @endphp
                     <tr>
                         <td>{{"Ex -".$loop->iteration}}</td>
-                        <td style="font-size:17px;">{{$value->name}}</td>
+                        <td style="font-size:16px;">{{$value->name}}</td>
                         <td>{{$value->pivot->quantity}}</td>
                         {{-- <td style="font-size:15px;"> {{$value->price}}</td> --}}
                         <td style="font-size:15px;">{{ $value->pivot->quantity * (int)$value->price }}</td>
@@ -131,10 +128,6 @@
           </div>
         </div>
       </div>
-        {{-- <span class="text-105" style="font-weight: 200;color:black;font-size: x-large;">Thank you for your visit</span>
-        <span class="text-105 float-right" style="font-weight: 200;color:black;text-align: center;font-size: x-large;">By Altatweertech</span> --}}
-
-        <!-- <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a> -->
     </div>
   </body>
 </html>

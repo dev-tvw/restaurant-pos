@@ -263,7 +263,15 @@ class ProductController extends Controller
     {
         $orders = Order::when(Auth::user()->user_type == 'cashier', function ($query) {
             $query->where('created_by', Auth::user()->id);
-        })->orderby('created_at', 'desc')->paginate(20);
+        })->orderby('created_at', 'desc')
+        ->when(request('to'),function($q){
+            $from_date = request('from'). '00:00:01';
+            $to_date = request('to'). '23:59:59';
+            $fm = date('Y-m-d H:i:s', strtotime($from_date));
+            $t = date('Y-m-d H:i:s', strtotime($to_date));
+            $q->whereBetween('created_at', [$fm, $t]);
+        })
+        ->paginate(20);
         Auth::user()->unreadNotifications->markAsRead();
         return view('kitchen.all', compact('orders'));
     }
