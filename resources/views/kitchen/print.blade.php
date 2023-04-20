@@ -95,6 +95,9 @@
             if ($order->discount && $order->discount > 0) {
             $discounted = ($order->discount * $total_price) / 100;
             $payable = $total_price - $discounted;
+                if ($payable % 250 !== 0) {
+                 $totalAmount = ceil($payable / 250) * 250;
+          }  
             }
         ?>
             <tr>
@@ -113,7 +116,7 @@
 
             <tr>
                 <td  colspan="2" class="total"> {{ $lang == 'en' ? "Total Amount" : "المبلغ الإجمالي" }} </td>
-                <td colspan="2">IQD {{priceformat($payable)}}</td>
+                <td colspan="2">IQD {{priceformat($totalAmount)}}</td>
             </tr> 
       </tbody>
     </table>
