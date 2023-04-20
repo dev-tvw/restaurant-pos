@@ -274,6 +274,7 @@
         }  
 
 
+        $('#discount').val(per);
         $('#total_price').text(totalAmount);
     });
     $('.add-extra').on('click', function() {

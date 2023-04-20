@@ -106,6 +106,9 @@
                                                     if ($order->discount && $order->discount > 0) {
                                                         $discounted = ($order->discount * $total_price) / 100;
                                                         $payable = $total_price - $discounted;
+                                                        if ($payable % 250 !== 0) {
+                                                            $payable = ceil($payable / 250) * 250;
+                                                        }  
                                                     }
                                                     ?>
                                                     <td class="text-end">{{$order->discount ? $order->discount : 0}}%</td>

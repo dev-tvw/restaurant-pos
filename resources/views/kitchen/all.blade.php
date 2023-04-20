@@ -65,6 +65,9 @@
                                     {
                                     $discounted = ($order->discount * $order->grand_total)/100;
                                     $payable = $order->grand_total - $discounted;
+                                     if ($payable % 250 !== 0) {
+                                        $payable = ceil($payable / 250) * 250;
+                                     }  
                                     }
                                     @endphp
                                     <tr>
