@@ -99,21 +99,21 @@
         ?>
             <tr>
                 <td colspan="2" class="total">{{ $lang == 'en' ? "Extras" : "إضافات" }}</td>
-                <td colspan="3">IQD {{priceformat($extra_price)}}</td>
+                <td colspan="2">IQD {{priceformat($extra_price)}}</td>
             </tr>
             <tr>
                 <td  colspan="2" class="total">{{ $lang == 'en' ? "SubTotal" : "المجموع الفرعي" }}</td>
-                <td colspan="3">IQD {{priceformat($total_price)}}</td>
+                <td colspan="2">IQD {{priceformat($total_price)}}</td>
             </tr>
 
             <tr>
                 <td colspan="2"class="total">{{ $lang == 'en' ? "Discount" : "تخفيض" }}</td>
-                <td colspan="3"> ({{$order->discount ? $order->discount : 0}}%)</td>
+                <td colspan="2"> ({{$order->discount ? $order->discount : 0}}%)</td>
             </tr>  
 
             <tr>
                 <td  colspan="2" class="total"> {{ $lang == 'en' ? "Total Amount" : "المبلغ الإجمالي" }} </td>
-                <td colspan="3">IQD {{priceformat($payable)}}</td>
+                <td colspan="2">IQD {{priceformat($payable)}}</td>
             </tr> 
       </tbody>
     </table>
