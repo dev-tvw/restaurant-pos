@@ -237,7 +237,9 @@ class ProductController extends Controller
     {
         //dd
         $cartItem = CartItem::whereId($item_id)->first();
-        $types = ExtraType::whereHas('extras')->where('status', true)->get();
+        $types = ExtraType::whereHas('extras', function ($q) {
+            $q->where('status', true);
+        })->where('status', true)->get();
         $extras_selected = [];
         $extra_array = [];
         if (count($cartItem->extras)) {
