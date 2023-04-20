@@ -267,7 +267,14 @@
         var total = "{{$total}}";
         console.log(per, total);
         var discounted = (per * total) / 100;
-        $('#total_price').text(total - discounted);
+        var totalAmount = total - discounted;
+
+        if (totalAmount % 250 !== 0) {
+         totalAmount = Math.ceil(totalAmount / 250) * 250;
+        }  
+
+
+        $('#total_price').text(totalAmount);
     });
     $('.add-extra').on('click', function() {
         $("#add-extra-section").html('Loading...');
