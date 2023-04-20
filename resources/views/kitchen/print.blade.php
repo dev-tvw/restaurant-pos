@@ -67,7 +67,7 @@
             ?>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td style="font-size:12px;">{{ $lang == 'en' ? $item->product->name:$item->product->name_ar }}</td>
+                    <td style="font-size:13px;">{{ $lang == 'en' ? $item->product->name:$item->product->name_ar }}</td>
                     <td>{{$item->quantity}}</td>
                     <td style="font-size:15px;"> {{priceformat($item->price)}}</td>
                     <td style="font-size:15px;">{{ $item->quantity * (int)$item->price }}</td>
