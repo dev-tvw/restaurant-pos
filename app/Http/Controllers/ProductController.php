@@ -273,7 +273,8 @@ class ProductController extends Controller
             $t = date('Y-m-d H:i:s', strtotime($to_date));
             $q->whereBetween('created_at', [$fm, $t]);
         })
-        ->paginate(20);
+        ->paginate(20)
+        ->appends(request()->query());
         Auth::user()->unreadNotifications->markAsRead();
         return view('kitchen.all', compact('orders'));
     }
