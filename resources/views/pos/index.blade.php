@@ -293,11 +293,11 @@
                         // $('.success').text(response.success);
                         $("#common-div" + " .content").html(response);
                     }
-                    var message = 'Cart Item added to Cart';
-                    if (type != 'add') {
-                        message = 'Cart updated successfully';
-                    }
-                    toastr.info(message);
+                    // var message = 'Cart Item added to Cart';
+                    // if (type != 'add') {
+                    //     message = 'Cart updated successfully';
+                    // }
+                    // toastr.info(message);
                     // Swal.fire({
                     //     icon: 'success',
                     //     title: 'Done',
